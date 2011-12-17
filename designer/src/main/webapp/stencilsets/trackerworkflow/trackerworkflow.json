@@ -195,7 +195,7 @@
 					"refToView":"",
 					"length":"",
 					"wrapLines":false
-				}				
+				}
 			]
 		},
 		{
@@ -212,7 +212,7 @@
 				"trackerrulecondition",
 				"trackerruletransition"
 			],
-			"properties": [			
+			"properties": [
 				{
 					"id":"title",
 					"type":"String",
@@ -310,7 +310,7 @@
 					"refToView":"",
 					"length":"",
 					"wrapLines":true
-				}															
+				}
 			]
 		},
 		{
@@ -327,7 +327,7 @@
 				"trackerrulecondition",
 				"trackerrulestatus"
 			],
-			"properties": [			
+			"properties": [
 				{
 					"id":"title",
 					"type":"String",
@@ -425,7 +425,7 @@
 					"refToView":"",
 					"length":"",
 					"wrapLines":true
-				}															
+				}
 			]
 		},
 		{
@@ -442,7 +442,7 @@
 				"trackerruleaction",
 				"trackerrulestatus"
 			],
-			"properties": [			
+			"properties": [
 				{
 					"id":"title",
 					"type":"String",
@@ -546,7 +546,7 @@
 					"refToView":"",
 					"length":"",
 					"wrapLines":true
-				}															
+				}
 			]
 		},
 		{
@@ -667,7 +667,7 @@
 					"refToView":"",
 					"length":"",
 					"wrapLines":true
-				}															
+				}
 			]
 		},
 		{
@@ -684,7 +684,7 @@
 				"trackerruleaction",
 				"trackerrulestatus"
 			],
-			"properties": [			
+			"properties": [
 				{
 					"id":"title",
 					"type":"String",
@@ -788,7 +788,7 @@
 					"refToView":"",
 					"length":"",
 					"wrapLines":true
-				}															
+				}
 			]
 		},
  		{
@@ -816,7 +816,7 @@
 					"refToView":"text",
 					"length":"",
 					"wrapLines":false
-				}					
+				}
 			]
 		},
  		{
@@ -831,7 +831,7 @@
 				"transition",
 				"fromtoall"
 			],
-			"properties": [	
+			"properties": [
 				{
 					"id":"title",
 					"type":"String",
@@ -844,9 +844,9 @@
 					"refToView":"text",
 					"length":"",
 					"wrapLines":false
-				}						
-			]			
-		},		
+				}
+			]
+		},
 		{
 			"type": "node",
 			"id":"Place",
@@ -855,12 +855,12 @@
 			"description":"A tracker status.",
 			"view":"node.place.svg",
 			"icon":"new_place.png",
-			"intersectionType":"ellipse",			
+			"intersectionType":"ellipse",
 			"roles": [
 				"place",
 				"fromtoall"
 			],
-			"properties": [			
+			"properties": [
 				{
 					"id":"title",
 					"type":"String",
@@ -872,7 +872,7 @@
 					"optional":true,
 					"refToView":"text",
 					"length":""
-				}							
+				}
 			]
 		},
 		{
@@ -883,11 +883,11 @@
 			"description":"A mark.",
 			"view":"node.mark.svg",
 			"icon":"new_mark.png",
-			"intersectionType":"ellipse",			
+			"intersectionType":"ellipse",
 			"roles": [
 				"mark"
 			],
-			"properties": [		
+			"properties": [
 				{
 					"id":"text",
 					"type":"String",
@@ -914,7 +914,7 @@
 				"text_node",
 				"fromtoall"
 			],
-			"properties": [		
+			"properties": [
 				{
 					"id":"label",
 					"type":"String",
@@ -940,7 +940,7 @@
 			"roles": [
 				"fromtoall"
 			],
-			"properties": [					
+			"properties": [
 				{
 					"id":"label",
 					"type":"String",
@@ -952,7 +952,7 @@
 					"optional":true,
 					"refToView":"text",
 					"length":""
-				}								
+				}
 			]
 		},
 		{
@@ -966,7 +966,7 @@
 			"roles": [
 				"fromtoall"
 			],
-			"properties": [					
+			"properties": [
 				{
 					"id":"label",
 					"type":"String",
@@ -1019,7 +1019,7 @@
 				}
 			]
 		},
-	],	
+	],
 	"rules": {
 		"cardinalityRules": [
 			{
@@ -1075,9 +1075,9 @@
 					{
 						"from":"text_node",
 						"to":["mark"]
-					},	
-				]				
-			}	
+					},
+				]
+			}
 		],
 		"containmentRules": [
 			{
@@ -1090,7 +1090,7 @@
 				"role":"place",
 				"contains": [
 					"mark"
-				]	
+				]
 			},
 		]
 	}

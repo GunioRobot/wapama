@@ -51,23 +51,23 @@ WAPAMA.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 		if(!property) {
 			throw "WAPAMA.Core.StencilSet.ComplexPropertyItem(construct): Parameter property is not defined.";
 		}
-		
+
 		this._jsonItem = jsonItem;
 		this._namespace = namespace;
 		this._property = property;
 		this._items = new Hash();
-		
+
 		//init all values
 		if(!jsonItem.name) {
 			throw "WAPAMA.Core.StencilSet.ComplexPropertyItem(construct): Name is not defined.";
 		}
-		
+
 		if(!jsonItem.type) {
 			throw "WAPAMA.Core.StencilSet.ComplexPropertyItem(construct): Type is not defined.";
 		} else {
 			jsonItem.type = jsonItem.type.toLowerCase();
 		}
-		
+
 		if(jsonItem.type === WAPAMA.CONFIG.TYPE_CHOICE) {
 			if(jsonItem.items && jsonItem.items instanceof Array) {
 				jsonItem.items.each((function(item) {
@@ -144,31 +144,31 @@ WAPAMA.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 	name: function() {
 		return WAPAMA.Core.StencilSet.getTranslation(this._jsonItem, "name");
 	},
-	
+
 	id: function() {
 		return this._jsonItem.id;
 	},
-	
+
 	type: function() {
 		return this._jsonItem.type;
 	},
-	
+
 	optional: function() {
 		return this._jsonItem.optional;
 	},
-	
+
 	width: function() {
 		return this._jsonItem.width;
 	},
-	
+
 	value: function() {
 		return this._jsonItem.value;
 	},
-	
+
 	items: function() {
 		return this._items.values();
 	},
-	
+
 	disable: function() {
 		return this._jsonItem.disable;
 	}

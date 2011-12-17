@@ -227,7 +227,7 @@
 			"description":"A channel is used for communication purposes between at least two active system components.",
 			"view":"node.channel.svg",
 			"icon":"node.channel.png",
-			"intersectionType":"ellipse",			
+			"intersectionType":"ellipse",
 			"roles": [
 				"from_passive",
 				"to_passive",
@@ -573,7 +573,7 @@
             "properties": [
             ]
         },
-	],	
+	],
 	"rules": {
 		"connectionRules": [
 			{
@@ -588,7 +588,7 @@
 						"to":["to_active"]
 					}
 				]
-			},	
+			},
 			{
 				"role":"WriteAccess",
 				"connects": [
@@ -601,7 +601,7 @@
 						"to":["to_active"]
 					}
 				]
-			},	
+			},
 			{
 				"role":"ReadAccess",
 				"connects": [
@@ -614,7 +614,7 @@
 						"to":["to_active"]
 					}
 				]
-			},	
+			},
 			{
 				"role":"ModifyingAccess",
 				"connects": [

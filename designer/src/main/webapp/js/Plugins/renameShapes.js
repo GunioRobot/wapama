@@ -21,32 +21,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  **/
-if (!WAPAMA.Plugins) 
+if (!WAPAMA.Plugins)
     WAPAMA.Plugins = new Object();
 
 
 WAPAMA.Plugins.RenameShapes = Clazz.extend({
 
     facade: undefined,
-    
+
     construct: function(facade){
-    
+
         this.facade = facade;
-      	
+
 		this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_DBLCLICK, this.actOnDBLClick.bind(this));
         this.facade.offer({
 		 keyCodes: [{
 				keyCode: 113, // F2-Key
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.renamePerF2.bind(this)
          });
-		
-		
-		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEDOWN, this.hide.bind(this), true ) 
+
+
+		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEDOWN, this.hide.bind(this), true )
     },
-	
+
 	/**
 	 * This method handles the "F2" key down event. The selected shape are looked
 	 * up and the editing of title/name of it gets started.
@@ -55,41 +55,41 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 		var selectedShapes = this.facade.getSelection();
 		this.actOnDBLClick(undefined, selectedShapes.first());
 	},
-	
+
 	getEditableProperties: function getEditableProperties(shape) {
 	    // Get all properties which where at least one ref to view is set
-		var props = shape.getStencil().properties().findAll(function(item){ 
-			return (item.refToView() 
+		var props = shape.getStencil().properties().findAll(function(item){
+			return (item.refToView()
 					&&  item.refToView().length > 0
-					&&	item.directlyEditable()); 
+					&&	item.directlyEditable());
 		});
-		
+
 		// from these, get all properties where write access are and the type is String
 	    return props.findAll(function(item){ return !item.readonly() &&  item.type() == WAPAMA.CONFIG.TYPE_STRING });
 	},
-	
+
 	getPropertyForLabel: function getPropertyForLabel(properties, shape, label) {
 	    return properties.find(function(item){ return item.refToView().any(function(toView){ return label.id == shape.id + toView })});
 	},
-	
+
 	actOnDBLClick: function actOnDBLClick(evt, shape){
 		if( !(shape instanceof WAPAMA.Core.Shape) ){ return }
-		
+
 		// Destroys the old input, if there is one
 		this.destroy();
 
 		var props = this.getEditableProperties(shape);
-		
+
 		// Get all ref ids
 		var allRefToViews	= props.collect(function(prop){ return prop.refToView() }).flatten().compact();
 		// Get all labels from the shape with the ref ids
 		var labels			= shape.getLabels().findAll(function(label){ return allRefToViews.any(function(toView){ return label.id.endsWith(toView) }); })
-		
+
 		// If there are no referenced labels --> return
-		if( labels.length == 0 ){ return } 
-		
+		if( labels.length == 0 ){ return }
+
 		// Define the nearest label
-		var nearestLabel 	= labels.length == 1 ? labels[0] : null;	
+		var nearestLabel 	= labels.length == 1 ? labels[0] : null;
 		if( !nearestLabel ){
 		    nearestLabel = labels.find(function(label){ return label.node == evt.target || label.node == evt.target.parentNode })
 	        if( !nearestLabel ){
@@ -102,25 +102,25 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 
 			        var diff = labels.collect(function(label){
 
-						        var center 	= this.getCenterPosition( label.node ); 
+						        var center 	= this.getCenterPosition( label.node );
 						        var len 	= Math.sqrt( Math.pow(center.x - evtCoord.x, 2) + Math.pow(center.y - evtCoord.y, 2));
-						        return {diff: len, label: label} 
+						        return {diff: len, label: label}
 					        }.bind(this));
-			
-			        diff.sort(function(a, b){ return a.diff > b.diff })	
-			
+
+			        diff.sort(function(a, b){ return a.diff > b.diff })
+
 			        nearestLabel = 	diff[0].label;
                 } else {
 
 			        var diff = labels.collect(function(label){
 
-						        var center 	= this.getDifferenceCenterForNode( label.node ); 
+						        var center 	= this.getDifferenceCenterForNode( label.node );
 						        var len 	= Math.sqrt( Math.pow(center.x - evtCoord.x, 2) + Math.pow(center.y - evtCoord.y, 2));
-						        return {diff: len, label: label} 
+						        return {diff: len, label: label}
 					        }.bind(this));
-			
-			        diff.sort(function(a, b){ return a.diff > b.diff })	
-			
+
+			        diff.sort(function(a, b){ return a.diff > b.diff })
+
 			        nearestLabel = 	diff[0].label;
                 }
             }
@@ -131,11 +131,11 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 
         this.showTextField(shape, prop, nearestLabel);
 	},
-	
+
 	showTextField: function showTextField(shape, prop, label) {
 		// Set all particular config values
 		var htmlCont 	= this.facade.getCanvas().getHTMLContainer().id;
-	    
+
 	    // Get the center position from the nearest label
 		var width;
 		if(!(shape instanceof WAPAMA.Core.Node)) {
@@ -160,13 +160,13 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 								x			: (center.x < 10) ? 10 : center.x,
 								y			: center.y,
 								width		: Math.max(100, width),
-								allowBlank	: prop.optional(), 
+								allowBlank	: prop.optional(),
 								maxLength	: prop.length(),
 								emptyText	: prop.title(),
                                 listeners   : {specialkey: this._specialKeyPressed.bind(this)}
 							};
-		
-		// Depending on the property, generate 
+
+		// Depending on the property, generate
 		// ether an TextArea or TextField
 		if(prop.wrapLines()) {
 			config.y 		-= 30;
@@ -175,20 +175,20 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 			config.y -= 16;
 		}
         this.shownTextField = WAPAMA.UI.createShapeNameText(config);
-		
+
 		//focus
 		WAPAMA.UI.setFocus(this.shownTextField);
-		
+
 		// Define event handler
 		//	Blur 	-> Destroy
-		//	Change 	-> Set new values					
+		//	Change 	-> Set new values
 		WAPAMA.UI.addListner(this.shownTextField, 'blur', this.destroy.bind(this));
 		WAPAMA.UI.addListner(this.shownTextField, 'change', function(node, value){
 			var currentEl 	= shape;
-			var oldValue	= currentEl.properties[propId]; 
+			var oldValue	= currentEl.properties[propId];
 			var newValue	= value;
 			var facade		= this.facade;
-			
+
 			if (oldValue != newValue) {
 				// Implement the specific command for property change
 				var commandClass = WAPAMA.Core.Command.extend({
@@ -216,7 +216,7 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 				})
 				// Instanciated the class
 				var command = new commandClass();
-				
+
 				// Execute the command
 				this.facade.executeCommands([command]);
 			}
@@ -225,7 +225,7 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 		// Diable the keydown in the editor (that when hitting the delete button, the shapes not get deleted)
 		this.facade.disableEvent(WAPAMA.CONFIG.EVENT_KEYDOWN);
 	},
-    
+
     _specialKeyPressed: function _specialKeyPressed(field, e) {
         // Enter or Ctrl+Enter pressed
         var keyCode = e.getKey();
@@ -236,20 +236,20 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
             field.fireEvent("blur");
         }
     },
-	
+
 	getCenterPosition: function(svgNode){
-		
+
 		var center 		= {x: 0, y:0 };
 		// transformation to the coordinate origin of the canvas
 		var trans 		= svgNode.getTransformToElement(this.facade.getCanvas().rootNode.lastChild);
 		var scale 		= this.facade.getCanvas().rootNode.lastChild.getScreenCTM();
 		var transLocal 	= svgNode.getTransformToElement(svgNode.parentNode);
 		var bounds = undefined;
-		
+
 		center.x 	= trans.e - transLocal.e;
 		center.y 	= trans.f - transLocal.f;
-		
-		
+
+
 		try {
 			bounds = svgNode.getBBox();
 		} catch (e) {}
@@ -264,17 +264,17 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
 				height: 0
 			};
 		}
-		
+
 		center.x += bounds.x;
 		center.y += bounds.y;
-		
+
 		center.x += bounds.width/2;
 		center.y += bounds.height/2;
-		
+
 		center.x *= scale.a;
-		center.y *= scale.d;		
+		center.y *= scale.d;
 		return center;
-		
+
 	},
 
 	getDifferenceCenterForNode: function getDifferenceCenterForNode(svgNode){
@@ -284,18 +284,18 @@ WAPAMA.Plugins.RenameShapes = Clazz.extend({
         center.y = center.y + 10;
         return center;
     },
-	
+
 	hide: function(e){
 		if (this.shownTextField && (!e || !this.shownTextField.el || e.target !== this.shownTextField.el.dom)) {
 			this.shownTextField.onBlur();
 		}
 	},
-	
+
 	destroy: function(e){
 		if( this.shownTextField ){
-			this.shownTextField.destroy(); 
-			delete this.shownTextField; 
-			
+			this.shownTextField.destroy();
+			delete this.shownTextField;
+
 			this.facade.enableEvent(WAPAMA.CONFIG.EVENT_KEYDOWN);
 		}
 	}

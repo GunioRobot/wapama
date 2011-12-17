@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * A service to access the registered plugins and find plugins.
- * 
+ *
  * @author Antoine Toulme
  *
  */
@@ -38,7 +38,7 @@ public interface IDiagramPluginService {
      * @return a unmodifiable collection of the registered plugins.
      */
     public Collection<IDiagramPlugin> getRegisteredPlugins(HttpServletRequest request);
-    
+
     /**
      * @param request the context in which the plugin is requested
      * @param name the name of the plugin to find

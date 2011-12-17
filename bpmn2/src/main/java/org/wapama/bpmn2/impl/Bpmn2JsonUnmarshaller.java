@@ -83,16 +83,16 @@ import org.wapama.bpmn2.BpmnMarshallerHelper;
 
 /**
  * @author Antoine Toulme
- * 
+ *
  *         an unmarshaller to transform JSON into BPMN 2.0 elements.
- * 
+ *
  */
 public class Bpmn2JsonUnmarshaller {
 
     // a list of the objects created, kept in memory with their original id for
     // fast lookup.
     private Map<Object, String> _objMap = new HashMap<Object, String>();
-    
+
     private Map<String, Object> _idMap = new HashMap<String, Object>();
 
     // the collection of outgoing ids.
@@ -104,7 +104,7 @@ public class Bpmn2JsonUnmarshaller {
     private List<BpmnMarshallerHelper> _helpers;
 
     private Resource _currentResource;
-    
+
     public Bpmn2JsonUnmarshaller() {
         _helpers = new ArrayList<BpmnMarshallerHelper>();
         // load the helpers to place them in field
@@ -120,7 +120,7 @@ public class Bpmn2JsonUnmarshaller {
                 }
             } catch (InvalidSyntaxException e) {
             }
-            
+
         }
     }
 
@@ -273,7 +273,7 @@ public class Bpmn2JsonUnmarshaller {
                     if (child instanceof ScriptTask) {
                         task = Bpmn2Factory.eINSTANCE.createGlobalScriptTask();
                         ((GlobalScriptTask) task).setScript(((ScriptTask) child).getScript());
-                        ((GlobalScriptTask) task).setScriptLanguage(((ScriptTask) child).getScriptFormat()); 
+                        ((GlobalScriptTask) task).setScriptLanguage(((ScriptTask) child).getScriptFormat());
                         // TODO scriptLanguage missing on scriptTask
                     } else if (child instanceof UserTask) {
                         task = Bpmn2Factory.eINSTANCE.createGlobalUserTask();
@@ -311,10 +311,10 @@ public class Bpmn2JsonUnmarshaller {
                             container.getFlowElements().add((SequenceFlow) child);
                             continue;
                         }
-                        
+
                     }
-                    if (child instanceof Task || child instanceof SequenceFlow 
-                            || child instanceof Gateway || child instanceof Event 
+                    if (child instanceof Task || child instanceof SequenceFlow
+                            || child instanceof Gateway || child instanceof Event
                             || child instanceof Artifact || child instanceof DataObject) {
                         if (rootLevelProcess == null) {
                             rootLevelProcess = Bpmn2Factory.eINSTANCE.createProcess();
@@ -352,7 +352,7 @@ public class Bpmn2JsonUnmarshaller {
                                 ((Definitions) rootLevelProcess.eContainer()).getImports().add(0, imported);
                             }
                         }
-                        
+
                     } else {
                         throw new IllegalArgumentException("Don't know what to do of " + child);
                     }
@@ -457,7 +457,7 @@ public class Bpmn2JsonUnmarshaller {
         if (baseElement instanceof Message) {
             applyMessageProperties((Message) baseElement, properties);
         }
-        
+
         // finally, apply properties from helpers:
         for (BpmnMarshallerHelper helper : _helpers) {
             helper.applyProperties(baseElement, properties);
@@ -541,7 +541,7 @@ public class Bpmn2JsonUnmarshaller {
     private void applyTaskProperties(Task task, Map<String, String> properties) {
         task.setName(properties.get("name"));
     }
-    
+
     private void applyGatewayProperties(Gateway gateway, Map<String, String> properties) {
         gateway.setName(properties.get("name"));
     }

@@ -25,19 +25,19 @@ if(!WAPAMA.Plugins) { WAPAMA.Plugins = {} }
 if(!WAPAMA.Plugins.DragTracker) { WAPAMA.Plugins.DragTracker = {} }
 
 new function(){
-	
+
 	/**
 	 * Lane drag tracker is an implementation to help drag lanes inside pools.
 	 * @class WAPAMA.Plugins.DragTracker.LaneLayouter
 	 * @author Antoine Toulme
 	 */
 	WAPAMA.Plugins.DragTracker.PoolDragTracker = WAPAMA.Plugins.AbstractDragTracker.extend({
-		
+
 		shapes : [ "Pool"],
-		
+
 		resizeEnd : function(shapes) {
 			var lanes = [];
-			
+
 			//we create our own command for resizing. It's a bit awkward to recreate commands
 			//for such things, and that begs for a nice framework.
 			var commandClass = WAPAMA.Core.Command.extend({
@@ -46,17 +46,17 @@ new function(){
 					this.oldBounds = shape.bounds.clone();
 					this.newBounds = newBounds;
 					this.plugin = plugin;
-				},			
+				},
 				execute: function(){
 					this.shape.bounds.set(this.newBounds.a, this.newBounds.b);
 					this.update(this.getOffset(this.oldBounds, this.newBounds));
-					
+
 				},
 				rollback: function(){
 					this.shape.bounds.set(this.oldBounds.a, this.oldBounds.b);
 					this.update(this.getOffset(this.newBounds, this.oldBounds))
 				},
-				
+
 				getOffset:function(b1, b2){
 					return {
 						x: b2.a.x - b1.a.x,
@@ -73,7 +73,7 @@ new function(){
 					this.plugin.facade.getCanvas().update();
 				}
 			});
-			
+
 			commands = [];
 			shapes.each(function(parent) {
 				var width = parent.bounds.width();
@@ -94,7 +94,7 @@ new function(){
 			}.bind(this));
 			this.facade.executeCommands(commands);
 		},
-	
+
 		/**
 		 * Callback to change the size delta depending on the positions.
 		 * @param shape
@@ -105,7 +105,7 @@ new function(){
 			var findOccupiedArea = function(shape, ignoreList) {
 				var childsBounds = undefined;
 				shape.getChildShapes(true).findAll(function(child) {
-					return !ignoreList.detect(function(ignored) { child.getStencil().id().include(ignored) }.bind(child));				
+					return !ignoreList.detect(function(ignored) { child.getStencil().id().include(ignored) }.bind(child));
 				}).each(function(childShape, i) {
 					if(i == 0) {
 						/* Initialize bounds that include all direct child shapes of the shape */
@@ -114,15 +114,15 @@ new function(){
 					}
 
 					/* Include other child elements */
-					childsBounds.include(childShape.absoluteBounds());			
+					childsBounds.include(childShape.absoluteBounds());
 				});
 
 				return childsBounds;
 			};
-			
+
 			// TODO add artifacts to the ignored shapes ?
 			var ignoreList = ["Lane"]
-			
+
 			shapes.each(function(shape) {
 				occupiedArea = findOccupiedArea(shape, ignoreList);
 				if (occupiedArea !== undefined) {
@@ -130,15 +130,15 @@ new function(){
 					occupiedArea.moveBy(20, 20);
 					if (bounds.lowerRight().y < occupiedArea.lowerRight().y) {
 						bounds.set(bounds.upperLeft().x, bounds.upperLeft().y, bounds.lowerRight().x, occupiedArea.lowerRight().y);
-					} 
+					}
 					if (bounds.lowerRight().x < occupiedArea.lowerRight().x) {
 						bounds.set(bounds.upperLeft().x, bounds.upperLeft().y, occupiedArea.lowerRight().x, bounds.lowerRight().y);
 					}
 				}
 			});
 		}
-		
+
 	});
-	
-	
+
+
 }()

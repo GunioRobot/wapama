@@ -62,7 +62,7 @@ var addScript = function(url, urls, prefix, finalCallback){
     }
     script.src = url;
     document.head.appendChild(script);
-    
+
 };
 
 var addScriptSequential = function(urls, prefix, finalCallback) {
@@ -74,7 +74,7 @@ var addScriptSequential = function(urls, prefix, finalCallback) {
 	}
 	url = urls.shift();
 	addScript(prefix + url, urls, prefix, finalCallback);
-	
+
 };
 
 function loadLanguageFiles() {
@@ -99,7 +99,7 @@ function loadProfile(nextStep) {
 		WAPAMA.CONFIG.SSEXTS= profile.ssexts.map(function(ssext) {
 			// for each of the extensions, we get the extension file and return its contents.
 			var contents = null;
-			
+
 			new Ajax.Request(WAPAMA.PATH + "stencilset/" + ssext, {
 				asynchronous: false,
 				method: 'get',
@@ -128,19 +128,19 @@ function loadProfile(nextStep) {
 			profile.plugins.each(function(pluginName) {
 				WAPAMA.availablePlugins.push(allPlugins[pluginName]);
 			}.bind(allPlugins));
-			
+
 			// now load the files as requested:
-			addScriptSequential(profile.plugins.map(function(pluginName) { return pluginName + ".js"; }), 
+			addScriptSequential(profile.plugins.map(function(pluginName) { return pluginName + ".js"; }),
 					WAPAMA.PATH + 'plugin/', nextStep);
 		},
 	    onFailure: function(result) {
 	    	alert("Could not load Process Designer"); //TODO even better logging ?
 	    }
-			
+
 		});
-		
-		
-		
+
+
+
 	},
 	onFailure: function(result) {
 		alert("Could not load Process Designer"); //TODO even better logging ?
@@ -155,10 +155,10 @@ new Ajax.Request(WAPAMA.PATH + "env", {
 	method: 'get',
 	contentType: 'application/json',
 	onSuccess: function(result) {
-	  addScriptSequential(result.responseText.evalJSON().files, WAPAMA.PATH, function() { 
+	  addScriptSequential(result.responseText.evalJSON().files, WAPAMA.PATH, function() {
 		  loadLanguageFiles();
 		  loadProfile(WAPAMA.load);
-		  
+
 	  });
     },
     onFailure: function(result) {

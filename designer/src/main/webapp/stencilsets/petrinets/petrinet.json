@@ -98,7 +98,7 @@
 					"optional":true,
 					"length":"",
 					"wrapLines":true
-				},				
+				},
 			]
 		},
  		{
@@ -124,7 +124,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},			
+				},
 				{
 					"id":"title",
 					"type":"String",
@@ -210,7 +210,7 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				}															
+				}
 			]
 		},
  		{
@@ -236,7 +236,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},			
+				},
 				{
 					"id":"title",
 					"type":"String",
@@ -259,7 +259,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-				},			
+				},
 				{
 					"id":"href",
 					"type":"String",
@@ -308,9 +308,9 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				}						
-			]			
-		},		
+				}
+			]
+		},
 		{
 			"type": "node",
 			"id":"Place",
@@ -319,8 +319,8 @@
 			"description":"A place.",
 			"view":"node.place.svg",
 			"icon":"new_place.png",
-			"intersectionType":"ellipse",	
-			"fixedAspectRatio":true,		
+			"intersectionType":"ellipse",
+			"fixedAspectRatio":true,
 			"roles": [
 				"place",
 				"fromtoall",
@@ -336,7 +336,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},			
+				},
 				{
 					"id":"title",
 					"type":"String",
@@ -450,7 +450,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"href",
 					"type":"String",
@@ -490,8 +490,8 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				},					
-							
+				},
+
 
 			]
 		},
@@ -517,7 +517,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},					
+				},
 				{
 					"id":"label",
 					"type":"String",
@@ -540,10 +540,10 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				}								
+				}
 			]
 		}
-	],	
+	],
 	"rules": {
 		"connectionRules": [
 			{
@@ -558,7 +558,7 @@
 						"to":["transition"]
 					},
 				]
-			}	
+			}
 		],
 		"containmentRules": [
 			{

@@ -30,11 +30,11 @@ var ID_PREFIX = "resource";
  * of the document, including all scripts, is completed.
  */
 function init() {
-	
+
 	if (WAPAMA.UI.main.setBlankImgUrl) {
 		WAPAMA.UI.main.setBlankImgUrl();
 	}
-	
+
 	WAPAMA.Log.debug("Querying editor instances");
 
 	// Hack for WebKit to set the SVGElement-Classes
@@ -58,17 +58,17 @@ if(!WAPAMA) {var WAPAMA= {};}
  * @param {String} config.id Any ID that can be used inside the editor. If fullscreen=false, any HTML node with this id must be present to render the editor to this node.
  * @param {boolean} [config.fullscreen=true] Render editor in fullscreen mode or not.
  * @param {String} config.stencilset.url Stencil set URL.
- * @param {String} [config.stencil.id] Stencil type used for creating the canvas.  
+ * @param {String} [config.stencil.id] Stencil type used for creating the canvas.
  * @param {Object} config.properties Any properties applied to the canvas.
 */
 WAPAMA.Editor = {
     /** @lends WAPAMA.Editor.prototype */
-	// Defines the global dom event listener 
+	// Defines the global dom event listener
 	DOMEventListeners: new Hash(),
 
 	// Defines the selection
 	selection: [],
-	
+
 	// Defines the current zoom level
 	zoomLevel:1.0,
 
@@ -77,18 +77,18 @@ WAPAMA.Editor = {
 		this._eventsQueue 	= [];
 		this.loadedPlugins 	= [];
 		this.pluginsData 	= [];
-		
-		
+
+
 		//meta data about the model for the signavio warehouse
 		//directory, new, name, description, revision, model (the model data)
-		
+
 		this.modelMetaData = config;
-		
+
 		var model = config;
 		if(config.model) {
 			model = config.model;
 		}
-		
+
 		this.id = model.resourceId;
         if(!this.id) {
         	this.id = model.id;
@@ -96,10 +96,10 @@ WAPAMA.Editor = {
         		this.id = WAPAMA.Editor.provideId();
         	}
         }
-        
+
         // Defines if the editor should be fullscreen or not
 		this.fullscreen = model.fullscreen || true;
-		
+
 		// Initialize the eventlistener
 		this._initEventListener();
 
@@ -111,8 +111,8 @@ WAPAMA.Editor = {
 			var ssUrl = model.stencilset.url;
         	WAPAMA.Core.StencilSet.loadStencilSet(this, ssUrl, this.id);
 		}
-		
-        
+
+
         //load the extensions
         if(!!WAPAMA.CONFIG.SSEXTS){
         	WAPAMA.CONFIG.SSEXTS.each(function(ssext){
@@ -126,11 +126,11 @@ WAPAMA.Editor = {
 		// disable key events when Ext modal window is active
 		WAPAMA.UI.makeExtModalWindowKeysave(this._getPluginFacade());
 	},
-	
+
 	_initEventListener: function(){
 
 		// Register on Events
-		
+
 		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_KEYDOWN, this.catchKeyDownEvents.bind(this), true);
 		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_KEYUP, this.catchKeyUpEvents.bind(this), true);
 
@@ -144,9 +144,9 @@ WAPAMA.Editor = {
 		this.DOMEventListeners[WAPAMA.CONFIG.EVENT_MOUSEOUT] 	= [];
 		this.DOMEventListeners[WAPAMA.CONFIG.EVENT_SELECTION_CHANGED] = [];
 		this.DOMEventListeners[WAPAMA.CONFIG.EVENT_MOUSEMOVE] = [];
-				
+
 	},
-	
+
 	getAvailablePlugins: function(){
 		var curAvailablePlugins=WAPAMA.availablePlugins.clone();
 		curAvailablePlugins.each(function(plugin){
@@ -181,7 +181,7 @@ WAPAMA.Editor = {
 	},
 	/**
 	 * activate Plugin
-	 * 
+	 *
 	 * @param {String} name
 	 * @param {Function} callback
 	 * 		callback(sucess, [errorCode])
@@ -190,28 +190,28 @@ WAPAMA.Editor = {
 	activatePluginByName: function(name, callback, loadTry){
 
 		var match=this.getAvailablePlugins().find(function(value){return value.name==name});
-		if(match && (!match.engaged || (match.engaged==='false'))){		
+		if(match && (!match.engaged || (match.engaged==='false'))){
 				var loadedStencilSetsNamespaces = this.getStencilSets().keys();
 				var facade = this._getPluginFacade();
 				var newPlugin;
 				var me=this;
 				WAPAMA.Log.debug("Initializing plugin '%0'", match.name);
-				
+
 					if (!match.requires 	|| !match.requires.namespaces 	|| match.requires.namespaces.any(function(req){ return loadedStencilSetsNamespaces.indexOf(req) >= 0 }) ){
 						if(!match.notUsesIn 	|| !match.notUsesIn.namespaces 	|| !match.notUsesIn.namespaces.any(function(req){ return loadedStencilSetsNamespaces.indexOf(req) >= 0 })){
-	
+
 					try {
-						
+
 						var className 	= eval(match.name);
 							var newPlugin = new className(facade, match);
 							newPlugin.type = match.name;
-							
+
 							// If there is an GUI-Plugin, they get all Plugins-Offer-Meta-Data
-							if (newPlugin.registryChanged) 
+							if (newPlugin.registryChanged)
 								newPlugin.registryChanged(me.pluginsData);
-							
+
 							// If there have an onSelection-Method it will pushed to the Editor Event-Handler
-							if (newPlugin.onSelectionChanged) 
+							if (newPlugin.onSelectionChanged)
 								me.registerOnEvent(WAPAMA.CONFIG.EVENT_SELECTION_CHANGED, newPlugin.onSelectionChanged.bind(newPlugin));
 							this.loadedPlugins.push(newPlugin);
 							this.loadedPlugins.each(function(loaded){
@@ -219,7 +219,7 @@ WAPAMA.Editor = {
 									loaded.registryChanged(this.pluginsData);
 							}.bind(me));
 							callback(true);
-						
+
 					} catch(e) {
 						WAPAMA.Log.warn("Plugin %0 is not available", match.name);
 						if(!!loadTry){
@@ -232,13 +232,13 @@ WAPAMA.Editor = {
 						callback(false,"NOTUSEINSTENCILSET");
 						WAPAMA.Log.info("Plugin need a stencilset which is not loaded'", match.name);
 					}
-								
+
 				} else {
 					callback(false,"REQUIRESTENCILSET");
 					WAPAMA.Log.info("Plugin need a stencilset which is not loaded'", match.name);
 				}
 
-			
+
 			}else{
 				callback(false, match?"NOTFOUND":"YETACTIVATED");
 				//TODO error handling
@@ -249,14 +249,14 @@ WAPAMA.Editor = {
 	 *  Laden der Plugins
 	 */
 	loadPlugins: function() {
-		
+
 		// if there should be plugins but still are none, try again.
 		// TODO this should wait for every plugin respectively.
 		/*if (!WAPAMA.Plugins && WAPAMA.availablePlugins.length > 0) {
 			window.setTimeout(this.loadPlugins.bind(this), 100);
 			return;
 		}*/
-		
+
 		var me = this;
 		var newPlugins = [];
 
@@ -265,7 +265,7 @@ WAPAMA.Editor = {
 
 		// Available Plugins will be initalize
 		var facade = this._getPluginFacade();
-		
+
 		// If there is an Array where all plugins are described, than only take those
 		// (that comes from the usage of wapama with a mashup api)
 		if( WAPAMA.MashupAPI && WAPAMA.MashupAPI.loadablePlugins && WAPAMA.MashupAPI.loadablePlugins instanceof Array ){
@@ -273,7 +273,7 @@ WAPAMA.Editor = {
 			WAPAMA.availablePlugins = $A(WAPAMA.availablePlugins).findAll(function(value){
 										return WAPAMA.MashupAPI.loadablePlugins.include( value.name )
 									})
-			
+
 			// Add those plugins to the list, which are only in the loadablePlugins list
 			WAPAMA.MashupAPI.loadablePlugins.each(function( className ){
 				if( !(WAPAMA.availablePlugins.find(function(val){ return val.name == className }))){
@@ -281,7 +281,7 @@ WAPAMA.Editor = {
 				}
 			})
 		}
-		
+
 		WAPAMA.availablePlugins.each(function(value) {
 			WAPAMA.Log.debug("Initializing plugin '%0'", value.name);
 				if( (!value.requires 	|| !value.requires.namespaces 	|| value.requires.namespaces.any(function(req){ return loadedStencilSetsNamespaces.indexOf(req) >= 0 }) ) &&
@@ -300,11 +300,11 @@ WAPAMA.Editor = {
 				} catch(e) {
 					WAPAMA.Log.warn("Plugin %0 is not available", value.name);
 				}
-							
+
 			} else {
 				WAPAMA.Log.info("Plugin need a stencilset which is not loaded'", value.name);
 			}
-			
+
 		});
 
 		newPlugins.each(function(value) {
@@ -318,16 +318,16 @@ WAPAMA.Editor = {
 		});
 
 		this.loadedPlugins = newPlugins;
-		
+
 		// Hack for the Scrollbars
 		if(WAPAMA.UI.isMac()) {
 			WAPAMA.Editor.resizeFix();
 		}
-		
+
 		this.registerPluginsOnKeyEvents();
-		
+
 		this.setSelection();
-		
+
 	},
 	/**
 	 * Callback when stencil set loading finished
@@ -369,19 +369,19 @@ WAPAMA.Editor = {
             // Get any root stencil type
             stencilType = this.getStencilSets().values()[0].findRootStencilName();
         }
-        
+
 		// get the stencil associated with the type
 		var canvasStencil = WAPAMA.Core.StencilSet.stencil(stencilType);
-			
-		if (!canvasStencil) 
+
+		if (!canvasStencil)
 			WAPAMA.Log.fatal("Initialisation failed, because the stencil with the type %0 is not part of one of the loaded stencil sets.", stencilType);
-		
+
 		// create all dom
 		// TODO fix border, so the visible canvas has a double border and some spacing to the scrollbars
 		var div = WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", null, ['div']);
 		// set class for custom styling
 		div.addClassName("WAPAMA_Editor");
-						
+
 		// create the canvas
 		this._canvas = new WAPAMA.Core.Canvas({
 			width					: WAPAMA.CONFIG.CANVAS_WIDTH,
@@ -390,7 +390,7 @@ WAPAMA.Editor = {
 			id						: this.id,
 			parentNode				: div
 		}, canvasStencil);
-        
+
         if (canvasConfig) {
           // Migrate canvasConfig to an RDF-like structure
           //FIXME this isn't nice at all because we don't want rdf any longer
@@ -402,7 +402,7 @@ WAPAMA.Editor = {
               value: canvasConfig[field]
             });
           }
-            
+
           this._canvas.deserialize(properties);
         }
 	},
@@ -431,24 +431,24 @@ WAPAMA.Editor = {
 				setSelection:			this.setSelection.bind(this),
 				updateSelection:		this.updateSelection.bind(this),
 				getCanvas:				this.getCanvas.bind(this),
-				
+
 				importJSON:				this.importJSON.bind(this),
 				importERDF:				this.importERDF.bind(this),
 				getERDF:				this.getERDF.bind(this),
                 getJSON:                this.getJSON.bind(this),
                 getSerializedJSON:      this.getSerializedJSON.bind(this),
-				
+
 				executeCommands:		this.executeCommands.bind(this),
-				
+
 				registerOnEvent:		this.registerOnEvent.bind(this),
 				unregisterOnEvent:		this.unregisterOnEvent.bind(this),
 				raiseEvent:				this.handleEvents.bind(this),
 				enableEvent:			this.enableEvent.bind(this),
 				disableEvent:			this.disableEvent.bind(this),
-				
+
 				eventCoordinates:		this.eventCoordinates.bind(this),
 				addToRegion:			WAPAMA.UI.main.addToRegion.bind(this),
-				
+
 				getModelMetaData:		this.getModelMetaData.bind(this)
 			};
 
@@ -464,26 +464,26 @@ WAPAMA.Editor = {
 	 * @param <Wapama.Core.Command>[] Array of commands
 	 */
 	executeCommands: function(commands){
-		
+
 		// Check if the argument is an array and the elements are from command-class
-		if ( 	commands instanceof Array 	&& 
-				commands.length > 0 		&& 
+		if ( 	commands instanceof Array 	&&
+				commands.length > 0 		&&
 				commands.all(function(command){ return command instanceof WAPAMA.Core.Command }) ) {
-		
+
 			// Raise event for executing commands
 			this.handleEvents({
 				type		: WAPAMA.CONFIG.EVENT_EXECUTE_COMMANDS,
 				commands	: commands
 			});
-			
+
 			// Execute every command
 			commands.each(function(command){
 				command.execute();
 			})
-			
+
 		}
 	},
-	
+
     /**
      * Returns JSON of underlying canvas (calls WAPAMA.Canvas#toJSON()).
      * @return {Object} Returns JSON representation as JSON object.
@@ -493,7 +493,7 @@ WAPAMA.Editor = {
         canvas.ssextensions = this.getStencilSets().values()[0].extensions().keys();
         return canvas;
     },
-    
+
     /**
      * Serializes a call to toJSON().
      * @return {String} Returns JSON representation as string.
@@ -501,7 +501,7 @@ WAPAMA.Editor = {
     getSerializedJSON: function(){
         return WAPAMA.UI.encode(this.getJSON());
     },
-	
+
     /**
 	 * @return {String} Returns eRDF representation.
 	 * @deprecated Use WAPAMA.Editor#getJSON instead, if possible.
@@ -510,7 +510,7 @@ WAPAMA.Editor = {
 
 		// Get the serialized dom
         var serializedDOM = DataManager.serializeDOM( this._getPluginFacade() );
-		
+
 		// Add xml definition if there is no
 		serializedDOM = '<?xml version="1.0" encoding="utf-8"?>' +
 						'<html xmlns="http://www.w3.org/1999/xhtml" ' +
@@ -530,10 +530,10 @@ WAPAMA.Editor = {
 						'</head><body>' +
 						serializedDOM +
 						'</body></html>';
-		
-		return serializedDOM;				
+
+		return serializedDOM;
 	},
-    
+
 	/**
 	* Imports shapes in JSON as expected by {@link WAPAMA.Editor#loadSerialized}
 	* @param {Object|String} jsonObject The (serialized) json object to be imported
@@ -541,12 +541,12 @@ WAPAMA.Editor = {
 	* @throws {SyntaxError} If the serialized json object contains syntax errors
 	*/
 	importJSON: function(jsonObject, noSelectionAfterImport) {
-		
+
         try {
             jsonObject = this.renewResourceIds(jsonObject);
         } catch(error){
             throw error;
-        }     
+        }
 		//check, if the imported json model can be loaded in this editor
 		// (stencil set has to fit)
         if (!jsonObject.stencilset) {
@@ -567,16 +567,16 @@ WAPAMA.Editor = {
 				this.parents = new Hash();
 				this.selection = this.facade.getSelection();
 				this.loadSerialized = loadSerializedCB;
-			},			
+			},
 			execute: function(){
-				
+
 				if (!this.shapes) {
-					// Import the shapes out of the serialization		
-					this.shapes	= this.loadSerialized( this.jsonObject );		
-					
+					// Import the shapes out of the serialization
+					this.shapes	= this.loadSerialized( this.jsonObject );
+
 					//store all connections
 					this.shapes.each(function(shape) {
-						
+
 						if (shape.getDockers) {
 							var dockers = shape.getDockers();
 							if (dockers) {
@@ -588,7 +588,7 @@ WAPAMA.Editor = {
 								}
 							}
 						}
-						
+
 						//store parents
 						this.parents[shape.id] = shape.parent;
 					}.bind(this));
@@ -596,17 +596,17 @@ WAPAMA.Editor = {
 					this.shapes.each(function(shape) {
 						this.parents[shape.id].add(shape);
 					}.bind(this));
-					
+
 					this.connections.each(function(con) {
 						con[0].setDockedShape(con[1]);
 						con[0].setReferencePoint(con[2]);
 						//con[0].update();
 					});
 				}
-				
+
 				//this.parents.values().uniq().invoke("update");
 				this.facade.getCanvas().update();
-					
+
 				if(!this.noSelection)
 					this.facade.setSelection(this.shapes);
 				else
@@ -614,34 +614,34 @@ WAPAMA.Editor = {
 				},
 				rollback: function(){
 					var selection = this.facade.getSelection();
-					
+
 					this.shapes.each(function(shape) {
 						selection = selection.without(shape);
 						this.facade.deleteShape(shape);
 					}.bind(this));
-					
+
 					/*this.parents.values().uniq().each(function(parent) {
 						if(!this.shapes.member(parent))
 							parent.update();
 					}.bind(this));*/
-					
+
 					this.facade.getCanvas().update();
-					
+
 					this.facade.setSelection(selection);
 				}
 			})
-			
-			var command = new commandClass(jsonObject, 
+
+			var command = new commandClass(jsonObject,
 											this.loadSerialized.bind(this),
 											noSelectionAfterImport,
 											this._getPluginFacade());
-			
-			this.executeCommands([command]);	
-			
+
+			this.executeCommands([command]);
+
 			return command.shapes.clone();
 		}
 	},
-    
+
     /**
      * This method renew all resource Ids and according references.
      * Warning: The implementation performs a substitution on the serialized object for
@@ -663,47 +663,47 @@ WAPAMA.Editor = {
             }
         } else {
             var serJsonObject = WAPAMA.UI.encode(jsonObject);
-        }        
-        
+        }
+
         // collect all resourceIds recursively
         var collectResourceIds = function(shapes){
             if(!shapes) return [];
-            
+
             return shapes.map(function(shape){
                 return collectResourceIds(shape.childShapes).concat(shape.resourceId);
             }).flatten();
         }
         var resourceIds = collectResourceIds(jsonObject.childShapes);
-        
+
         // Replace each resource id by a new one
         resourceIds.each(function(oldResourceId){
             var newResourceId = WAPAMA.Editor.provideId();
             serJsonObject = serJsonObject.gsub('"'+oldResourceId+'"', '"'+newResourceId+'"')
         });
-        
+
         return WAPAMA.UI.decode(serJsonObject);
     },
-	
+
 	/**
 	 * Import erdf structure to the editor
 	 *
 	 */
 	importERDF: function( erdfDOM ){
 
-		var serialized = this.parseToSerializeObjects( erdfDOM );	
-		
+		var serialized = this.parseToSerializeObjects( erdfDOM );
+
 		if(serialized)
 			return this.importJSON(serialized, true);
 	},
 
 	/**
 	 * Parses one model (eRDF) to the serialized form (JSON)
-	 * 
+	 *
 	 * @param {Object} oneProcessData
-	 * @return {Object} The JSON form of given eRDF model, or null if it couldn't be extracted 
+	 * @return {Object} The JSON form of given eRDF model, or null if it couldn't be extracted
 	 */
 	parseToSerializeObjects: function( oneProcessData ){
-		
+
 		// Firefox splits a long text node into chunks of 4096 characters.
 		// To prevent truncation of long property values the normalize method must be called
 		if(oneProcessData.normalize) oneProcessData.normalize();
@@ -726,14 +726,14 @@ WAPAMA.Editor = {
         	var xsltProcessor = new XSLTProcessor();
         	var xslRef = document.implementation.createDocument("", "", null);
         	xsltProcessor.importStylesheet(xslObject);
-        
+
             var new_rdf = xsltProcessor.transformToFragment(xmlObject, document);
             var serialized_rdf = (new XMLSerializer()).serializeToString(new_rdf);
 			}catch(e){
 			WAPAMA.UI.alert("Wapama", error);
 			var serialized_rdf = "";
 		}
-            
+
             // Firefox 2 to 3 problem?!
             serialized_rdf = !serialized_rdf.startsWith("<?xml") ? "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + serialized_rdf : serialized_rdf;
 
@@ -747,7 +747,7 @@ WAPAMA.Editor = {
               rdf: serialized_rdf
           }
         });
-        
+
         return WAPAMA.UI.decode(req.transport.responseText);
 	},
 
@@ -780,7 +780,7 @@ WAPAMA.Editor = {
      * @param {Object} model Description of the model to load.
      * @param {Array} [model.ssextensions] List of stenctil set extensions.
      * @param {String} model.stencilset.url
-     * @param {String} model.stencil.id 
+     * @param {String} model.stencil.id
      * @param {Array} model.childShapes
      * @param {Array} [model.properties]
      * @param {String} model.resourceId
@@ -789,13 +789,13 @@ WAPAMA.Editor = {
      */
     loadSerialized: function( model ){
         var canvas  = this.getCanvas();
-      
-        
+
+
         // Bugfix (cf. http://code.google.com/p/wapama-editor/issues/detail?id=240)
         // Deserialize the canvas' stencil set extensions properties first!
         this.loadSSExtensions(model.ssextensions);
         var shapes = this.getCanvas().addShapeObjects(model.childShapes, this.handleEvents.bind(this));
-        
+
         if(model.properties) {
         	for(key in model.properties) {
         		var prop = model.properties[key];
@@ -805,12 +805,12 @@ WAPAMA.Editor = {
             	this.getCanvas().setProperty("wapama-" + key, prop);
             }
         }
-        
-        
+
+
         this.getCanvas().updateSize();
         return shapes;
     },
-    
+
     /**
      * Calls WAPAMA.Editor.prototype.ss_extension_namespace for each element
      * @param {Array} ss_extension_namespaces An array of stencil set extension namespaces.
@@ -822,13 +822,13 @@ WAPAMA.Editor = {
             this.loadSSExtension(ss_extension_namespace);
         }.bind(this));
     },
-	
+
 	/**
 	* Loads a stencil set extension.
 	* The stencil set extensions definiton file must already
 	* be loaded when the editor is initialized.
 	*/
-	loadSSExtension: function(extension) {				
+	loadSSExtension: function(extension) {
     	if (!extension) {
     		return;
     	}
@@ -845,7 +845,7 @@ WAPAMA.Editor = {
     	this._getPluginFacade().raiseEvent({
     		type: WAPAMA.CONFIG.EVENT_STENCIL_SET_LOADED
     	});
-		
+
 	},
 
 	disableEvent: function(eventType){
@@ -865,11 +865,11 @@ WAPAMA.Editor = {
 		if(eventType == WAPAMA.CONFIG.EVENT_KEYDOWN) {
 			this._keydownEnabled = true;
 		}
-		
+
 		if(eventType == WAPAMA.CONFIG.EVENT_KEYUP) {
 			this._keyupEnabled = true;
 		}
-		
+
 		if(this.DOMEventListeners.keys().member("disable_" + eventType)) {
 			var value = this.DOMEventListeners.remove("disable_" + eventType);
 			this.DOMEventListeners[eventType] = value;
@@ -900,14 +900,14 @@ WAPAMA.Editor = {
 		return this.selection;
 	},
 
-	getStencilSets: function() { 
-		return WAPAMA.Core.StencilSet.stencilSets(this.id); 
+	getStencilSets: function() {
+		return WAPAMA.Core.StencilSet.stencilSets(this.id);
 	},
-	
+
 	getRules: function() {
 		return WAPAMA.Core.StencilSet.rules(this.id);
 	},
-	
+
 	loadStencilSet: function(source) {
 		try {
 			WAPAMA.Core.StencilSet.loadStencilSet(this, source, this.id);
@@ -922,80 +922,80 @@ WAPAMA.Editor = {
 			this.pluginsData.push(pluginData);
 		}
 	},
-	
+
 	/**
 	 * It creates an new event or adds the callback, if already existing,
 	 * for the key combination that the plugin passes in keyCodes attribute
 	 * of the offer method.
-	 * 
+	 *
 	 * The new key down event fits the schema:
 	 * 		key.event[.metactrl][.alt][.shift].'thekeyCode'
 	 */
 	registerPluginsOnKeyEvents: function() {
 		this.pluginsData.each(function(pluginData) {
-			
+
 			if(pluginData.keyCodes) {
-				
+
 				pluginData.keyCodes.each(function(keyComb) {
 					var eventName = "key.event";
-					
+
 					/* Include key action */
 					eventName += '.' + keyComb.keyAction;
-					
+
 					if(keyComb.metaKeys) {
 						/* Register on ctrl or apple meta key as meta key */
 						if(keyComb.metaKeys.
 							indexOf(WAPAMA.CONFIG.META_KEY_META_CTRL) > -1) {
 								eventName += "." + WAPAMA.CONFIG.META_KEY_META_CTRL;
 						}
-							
+
 						/* Register on alt key as meta key */
 						if(keyComb.metaKeys.
 							indexOf(WAPAMA.CONFIG.META_KEY_ALT) > -1) {
 								eventName += '.' + WAPAMA.CONFIG.META_KEY_ALT;
 						}
-						
+
 						/* Register on shift key as meta key */
 						if(keyComb.metaKeys.
 							indexOf(WAPAMA.CONFIG.META_KEY_SHIFT) > -1) {
 								eventName += '.' + WAPAMA.CONFIG.META_KEY_SHIFT;
-						}		
+						}
 					}
-					
+
 					/* Register on the actual key */
 					if(keyComb.keyCode)	{
 						eventName += '.' + keyComb.keyCode;
 					}
-					
+
 					/* Register the event */
 					WAPAMA.Log.debug("Register Plugin on Key Event: %0", eventName);
 					this.registerOnEvent(eventName,pluginData.functionality);
-				
+
 				}.bind(this));
 			}
 		}.bind(this));
 	},
 
 	setSelection: function(elements, subSelectionElement, force) {
-		
+
 		if (!elements) { elements = [] }
-		
+
 		elements = elements.compact().findAll(function(n){ return n instanceof WAPAMA.Core.Shape });
-		
+
 		if (elements.first() instanceof WAPAMA.Core.Canvas) {
 			elements = [];
 		}
-		
+
 		if (!force && elements.length === this.selection.length && this.selection.all(function(r){ return elements.include(r) })){
 			return;
 		}
-		
+
 		this.selection = elements;
 		this._subSelection = subSelectionElement;
-		
+
 		this.handleEvents({type:WAPAMA.CONFIG.EVENT_SELECTION_CHANGED, elements:elements, subSelection: subSelectionElement})
 	},
-	
+
 	updateSelection: function() {
 		this.setSelection(this.selection, this._subSelection, true);
 		/*var s = this.selection;
@@ -1006,7 +1006,7 @@ WAPAMA.Editor = {
 	getCanvas: function() {
 		return this._canvas;
 	},
-	
+
 
 	/**
 	*	option = {
@@ -1023,25 +1023,25 @@ WAPAMA.Editor = {
 	createShape: function(option) {
 
 		if(option && option.serialize && option.serialize instanceof Array){
-		
+
 			var type = option.serialize.find(function(obj){return (obj.prefix+"-"+obj.name) == "wapama-type"});
 			var stencil = WAPAMA.Core.StencilSet.stencil(type.value);
-		
+
 			if(stencil.type() == 'node'){
-				var newShapeObject = new WAPAMA.Core.Node({'eventHandlerCallback':this.handleEvents.bind(this)}, stencil);	
+				var newShapeObject = new WAPAMA.Core.Node({'eventHandlerCallback':this.handleEvents.bind(this)}, stencil);
 			} else {
-				var newShapeObject = new WAPAMA.Core.Edge({'eventHandlerCallback':this.handleEvents.bind(this)}, stencil);	
+				var newShapeObject = new WAPAMA.Core.Edge({'eventHandlerCallback':this.handleEvents.bind(this)}, stencil);
 			}
-		
+
 			this.getCanvas().add(newShapeObject);
 			newShapeObject.deserialize(option.serialize);
-		
+
 			return newShapeObject;
 		}
 
 		// If there is no argument, throw an exception
 		if(!option || !option.type || !option.namespace) { throw "To create a new shape you have to give an argument with type and namespace";}
-		
+
 		var canvas = this.getCanvas();
 		var newShapeObject;
 
@@ -1057,7 +1057,7 @@ WAPAMA.Editor = {
 		} else {
 			newShapeObject = new WAPAMA.Core.Edge({'eventHandlerCallback':this.handleEvents.bind(this)}, sset.stencil(shapetype))
 		}
-		
+
 		// when there is a template, inherit the properties.
 		if(option.template) {
 
@@ -1074,91 +1074,91 @@ WAPAMA.Editor = {
 		} else {
 			canvas.add(newShapeObject);
 		}
-		
-		
+
+
 		// Set the position
 		var point = option.position ? option.position : {x:100, y:200};
-	
-		
+
+
 		var con;
 		// If there is create a shape and in the argument there is given an ConnectingType and is instance of an edge
 		if(option.connectingType && option.connectedShape && !(newShapeObject instanceof WAPAMA.Core.Edge)) {
 
 			// there will be create a new Edge
 			con = new WAPAMA.Core.Edge({'eventHandlerCallback':this.handleEvents.bind(this)}, sset.stencil(option.connectingType));
-			
+
 			// And both endings dockers will be referenced to the both shapes
 			con.dockers.first().setDockedShape(option.connectedShape);
-			
+
 			var magnet = option.connectedShape.getDefaultMagnet()
 			var cPoint = magnet ? magnet.bounds.center() : option.connectedShape.bounds.midPoint();
 			con.dockers.first().setReferencePoint( cPoint );
 			con.dockers.last().setDockedShape(newShapeObject);
-			con.dockers.last().setReferencePoint(newShapeObject.getDefaultMagnet().bounds.center());		
-			
+			con.dockers.last().setReferencePoint(newShapeObject.getDefaultMagnet().bounds.center());
+
 			// The Edge will be added to the canvas and be updated
-			canvas.add(con);	
+			canvas.add(con);
 			//con.update();
-			
-		} 
-		
+
+		}
+
 		// Move the new Shape to the position
 		if(newShapeObject instanceof WAPAMA.Core.Edge && option.connectedShape) {
 
 			newShapeObject.dockers.first().setDockedShape(option.connectedShape);
-			
+
 			if( option.connectedShape instanceof WAPAMA.Core.Node ){
-				newShapeObject.dockers.first().setReferencePoint(option.connectedShape.getDefaultMagnet().bounds.center());					
-				newShapeObject.dockers.last().bounds.centerMoveTo(point);			
+				newShapeObject.dockers.first().setReferencePoint(option.connectedShape.getDefaultMagnet().bounds.center());
+				newShapeObject.dockers.last().bounds.centerMoveTo(point);
 			} else {
-				newShapeObject.dockers.first().setReferencePoint(option.connectedShape.bounds.midPoint());								
+				newShapeObject.dockers.first().setReferencePoint(option.connectedShape.bounds.midPoint());
 			}
 
 		} else {
-			
+
 			var b = newShapeObject.bounds
 			if( newShapeObject instanceof WAPAMA.Core.Node && newShapeObject.dockers.length == 1){
 				b = newShapeObject.dockers.first().bounds
 			}
-			
+
 			b.centerMoveTo(point);
-			
+
 			var upL = b.upperLeft();
 			b.moveBy( -Math.min(upL.x, 0) , -Math.min(upL.y, 0) )
-			
+
 			var lwR = b.lowerRight();
 			b.moveBy( -Math.max(lwR.x-canvas.bounds.width(), 0) , -Math.max(lwR.y-canvas.bounds.height(), 0) )
-			
+
 		}
-		
+
 		// Update the shape
 		if (newShapeObject instanceof WAPAMA.Core.Edge) {
 			newShapeObject._update(false);
 		}
-		
+
 		// And refresh the selection
 		if(!(newShapeObject instanceof WAPAMA.Core.Edge)) {
 			this.setSelection([newShapeObject]);
 		}
-		
+
 		if(con && con.alignDockers) {
 			con.alignDockers();
-		} 
+		}
 		if(newShapeObject.alignDockers) {
 			newShapeObject.alignDockers();
 		}
 
 		return newShapeObject;
 	},
-	
+
 	deleteShape: function(shape) {
-		
+
 		if (!shape || !shape.parent){ return }
-		
+
 		//remove shape from parent
 		// this also removes it from DOM
 		shape.parent.remove(shape);
-		
+
 		//delete references to outgoing edges
 		shape.getOutgoingShapes().each(function(os) {
 			var docker = os.getDockers().first();
@@ -1166,7 +1166,7 @@ WAPAMA.Editor = {
 				docker.setDockedShape(undefined);
 			}
 		});
-		
+
 		//delete references to incoming edges
 		shape.getIncomingShapes().each(function(is) {
 			var docker = is.getDockers().last();
@@ -1174,19 +1174,19 @@ WAPAMA.Editor = {
 				docker.setDockedShape(undefined);
 			}
 		});
-		
+
 		//delete references of the shape's dockers
 		shape.getDockers().each(function(docker) {
 			docker.setDockedShape(undefined);
 		});
 	},
-	
+
 	/**
 	 * Returns an object with meta data about the model.
 	 * Like name, description, ...
-	 * 
+	 *
 	 * Empty object with the current backend.
-	 * 
+	 *
 	 * @return {Object} Meta data about the model
 	 */
 	getModelMetaData: function() {
@@ -1194,7 +1194,7 @@ WAPAMA.Editor = {
 	},
 
 	/* Event-Handler Methods */
-	
+
 	/**
 	* Helper method to execute an event immediately. The event is not
 	* scheduled in the _eventsQueue. Needed to handle Layout-Callbacks.
@@ -1202,7 +1202,7 @@ WAPAMA.Editor = {
 	_executeEventImmediately: function(eventObj) {
 		if(this.DOMEventListeners.keys().member(eventObj.event.type)) {
 			this.DOMEventListeners[eventObj.event.type].each((function(value) {
-				value(eventObj.event, eventObj.arg);		
+				value(eventObj.event, eventObj.arg);
 			}).bind(this));
 		}
 	},
@@ -1215,14 +1215,14 @@ WAPAMA.Editor = {
 		}
 		this._queueRunning = false;
 	},
-	
+
 	/**
 	 * Leitet die Events an die Editor-Spezifischen Event-Methoden weiter
 	 * @param {Object} event Event , welches gefeuert wurde
 	 * @param {Object} uiObj Target-UiObj
 	 */
 	handleEvents: function(event, uiObj) {
-		
+
 		WAPAMA.Log.trace("Dispatching event type %0 on %1", event.type, uiObj);
 
 		switch(event.type) {
@@ -1248,11 +1248,11 @@ WAPAMA.Editor = {
 		} else {
 			this._eventsQueue.push({event: event, arg: uiObj});
 		}
-		
+
 		if(!this._queueRunning) {
 			this._executeEvents();
 		}
-		
+
 		// TODO: Make this return whether no listener returned false.
 		// So that, when one considers bubbling undesireable, it won't happen.
 		return false;
@@ -1263,28 +1263,28 @@ WAPAMA.Editor = {
 			return;
 		}
 		/* assure we have the current event. */
-        if (!event) 
+        if (!event)
             event = window.event;
-        
+
 		// Checks if the event comes from some input field
 		if ( ["INPUT", "TEXTAREA"].include(event.target.tagName.toUpperCase()) ){
 			return;
 		}
-		
+
 		/* Create key up event type */
 		var keyUpEvent = this.createKeyCombEvent(event,	WAPAMA.CONFIG.KEY_ACTION_UP);
-		
+
 		WAPAMA.Log.debug("Key Event to handle: %0", keyUpEvent);
 
 		/* forward to dispatching. */
 		this.handleEvents({type: keyUpEvent, event:event});
 	},
-	
+
 	/**
-	 * Catches all key down events and forward the appropriated event to 
+	 * Catches all key down events and forward the appropriated event to
 	 * dispatching concerning to the pressed keys.
-	 * 
-	 * @param {Event} 
+	 *
+	 * @param {Event}
 	 * 		The key down event to handle
 	 */
 	catchKeyDownEvents: function(event) {
@@ -1292,9 +1292,9 @@ WAPAMA.Editor = {
 			return;
 		}
 		/* Assure we have the current event. */
-        if (!event) 
+        if (!event)
             event = window.event;
-        
+
 		/* Fixed in FF3 */
 		// This is a mac-specific fix. The mozilla event object has no knowledge
 		// of meta key modifier on osx, however, it is needed for certain
@@ -1306,24 +1306,24 @@ WAPAMA.Editor = {
 		//	event.appleMetaKey = true;
 		//}
 		//this.__currentKey = pressedKey;
-		
+
 		// Checks if the event comes from some input field
 		if ( ["INPUT", "TEXTAREA"].include(event.target.tagName.toUpperCase()) ){
 			return;
 		}
-		
+
 		/* Create key up event type */
 		var keyDownEvent = this.createKeyCombEvent(event, WAPAMA.CONFIG.KEY_ACTION_DOWN);
-		
+
 		WAPAMA.Log.debug("Key Event to handle: %0", keyDownEvent);
-		
+
 		/* Forward to dispatching. */
 		this.handleEvents({type: keyDownEvent,event: event});
 	},
-	
+
 	/**
 	 * Creates the event type name concerning to the pressed keys.
-	 * 
+	 *
 	 * @param {Event} keyDownEvent
 	 * 		The source keyDownEvent to build up the event name
 	 */
@@ -1332,41 +1332,41 @@ WAPAMA.Editor = {
 		/* Get the currently pressed key code. */
         var pressedKey = keyEvent.which || keyEvent.keyCode;
 		//this.__currentKey = pressedKey;
-		
+
 		/* Event name */
 		var eventName = "key.event";
-		
+
 		/* Key action */
 		if(keyAction) {
 			eventName += "." + keyAction;
 		}
-		
+
 		/* Ctrl or apple meta key is pressed */
 		if(keyEvent.ctrlKey || keyEvent.metaKey) {
 			eventName += "." + WAPAMA.CONFIG.META_KEY_META_CTRL;
 		}
-		
+
 		/* Alt key is pressed */
 		if(keyEvent.altKey) {
 			eventName += "." + WAPAMA.CONFIG.META_KEY_ALT;
 		}
-		
+
 		/* Alt key is pressed */
 		if(keyEvent.shiftKey) {
 			eventName += "." + WAPAMA.CONFIG.META_KEY_SHIFT;
 		}
-		
+
 		/* Return the composed event name */
 		return  eventName + "." + pressedKey;
 	},
 
 	_handleMouseDown: function(event, uiObj) {
-		
+
 		// get canvas.
 		var canvas = this.getCanvas();
 		// Try to get the focus
 		canvas.focus()
-	
+
 		// find the shape that is responsible for this element's id.
 		var element = event.currentTarget;
 		var elementController = uiObj;
@@ -1405,7 +1405,7 @@ WAPAMA.Editor = {
 		// not selected, add it to the selection.
 		} else if(currentIsSelectable && modifierKeyPressed
 			&& !currentIsSelected) {
-				
+
 			var newSelection = this.selection.clone();
 			newSelection.push(elementController)
 			this.setSelection(newSelection)
@@ -1432,9 +1432,9 @@ WAPAMA.Editor = {
 		// Rule #2: When clicked on something that is neither
 		// selectable nor movable, clear the selection, and return.
 		} else if (!currentIsSelectable && !currentIsMovable) {
-			
+
 			this.setSelection([]);
-			
+
 			WAPAMA.Log.trace("Rule #2 applied for mouse down on %0", element.id);
 
 			return;
@@ -1444,25 +1444,25 @@ WAPAMA.Editor = {
 		// the movedObject to the current one and enable Drag. Dockers will
 		// be processed in the dragDocker plugin.
 		} else if(!currentIsSelectable && currentIsMovable && !(elementController instanceof WAPAMA.Core.Controls.Docker)) {
-			
+
 			// TODO: If there is any moveable elements, do this in a plugin
 			//WAPAMA.Core.UIEnableDrag(event, elementController);
 
 			WAPAMA.Log.trace("Rule #7 applied for mouse down on %0", element.id);
-		
-		// Rule #8: When the element is selectable and is currently selected and no 
+
+		// Rule #8: When the element is selectable and is currently selected and no
 		// modifier key is pressed
 		} else if(currentIsSelectable && currentIsSelected &&
 			!modifierKeyPressed) {
-			
+
 			this._subSelection = this._subSelection != elementController ? elementController : undefined;
-						
+
 			this.setSelection(this.selection, this._subSelection);
-			
+
 			WAPAMA.Log.trace("Rule #8 applied for mouse down on %0", element.id);
 		}
-		
-		
+
+
 		// prevent event from bubbling, return.
 		//Event.stop(event);
 		return;
@@ -1518,14 +1518,14 @@ WAPAMA.Editor = Clazz.extend(WAPAMA.Editor);
  */
 WAPAMA.Editor.createByUrl = function(modelUrl, config){
     if(!config) config = {};
-    
+
     new Ajax.Request(modelUrl, {
       method: 'GET',
       onSuccess: function(transport) {
         var editorConfig = WAPAMA.UI.decode(transport.responseText);
         editorConfig = WAPAMA.UI.applyIf(editorConfig, config);
         new WAPAMA.Editor(editorConfig);
-      
+
         if ("function" == typeof(config.onSuccess)) {
 		  	config.onSuccess(transport);
 	    }
@@ -1634,39 +1634,39 @@ WAPAMA.Editor.resizeFix = function() {
 			window.resizeBy(1,1);
 			window.resizeBy(-1,-1);
 			WAPAMA.Editor._resizefixTimeout = null;
-		}, 100); 
+		}, 100);
 	}
 };
 
 WAPAMA.Editor.Cookie = {
-	
+
 	callbacks:[],
-		
+
 	onChange: function( callback, interval ){
-	
+
 		this.callbacks.push(callback);
 		this.start( interval )
-	
+
 	},
-	
+
 	start: function( interval ){
-		
+
 		if( this.pe ){
 			return;
 		}
-		
+
 		var currentString = document.cookie;
-		
+
 		this.pe = new PeriodicalExecuter( function(){
-			
+
 			if( currentString != document.cookie ){
 				currentString = document.cookie;
 				this.callbacks.each(function(callback){ callback(this.getParams()) }.bind(this));
 			}
-			
-		}.bind(this), ( interval || 10000 ) / 1000);	
+
+		}.bind(this), ( interval || 10000 ) / 1000);
 	},
-	
+
 	stop: function(){
 
 		if( this.pe ){
@@ -1674,16 +1674,16 @@ WAPAMA.Editor.Cookie = {
 			this.pe = null;
 		}
 	},
-		
+
 	getParams: function(){
 		var res = {};
-		
+
 		var p = document.cookie;
 		p.split("; ").each(function(param){ res[param.split("=")[0]] = param.split("=")[1];});
-		
+
 		return res;
-	},	
-	
+	},
+
 	toString: function(){
 		return document.cookie;
 	}
@@ -1691,13 +1691,13 @@ WAPAMA.Editor.Cookie = {
 
 /**
  * Workaround for SAFARI/Webkit, because
- * when trying to check SVGSVGElement of instanceof there is 
+ * when trying to check SVGSVGElement of instanceof there is
  * raising an error
- * 
+ *
  */
 WAPAMA.Editor.SVGClassElementsAreAvailable = true;
 WAPAMA.Editor.setMissingClasses = function() {
-	
+
 	try {
 		SVGElement;
 	} catch(e) {
@@ -1714,12 +1714,12 @@ WAPAMA.Editor.setMissingClasses = function() {
 		SVGLineElement	 	= document.createElementNS('http://www.w3.org/2000/svg', 'line').toString();
 		SVGPolylineElement 	= document.createElementNS('http://www.w3.org/2000/svg', 'polyline').toString();
 		SVGPolygonElement 	= document.createElementNS('http://www.w3.org/2000/svg', 'polygon').toString();
-		
+
 	}
-	
+
 }
 WAPAMA.Editor.checkClassType = function( classInst, classType ) {
-	
+
 	if( WAPAMA.Editor.SVGClassElementsAreAvailable ){
 		return classInst instanceof classType
 	} else {

@@ -42,5 +42,5 @@ Ext.override(Ext.form.Field, {
         // reference to original value for reset
         this.originalValue = this.getValue();
     }
- 
+
 });

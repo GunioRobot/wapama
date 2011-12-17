@@ -40,22 +40,22 @@ WAPAMA.Core.Shape = {
 	construct: function(options, stencil, resourceId) {
 		// call base class constructor
 		arguments.callee.$.construct.apply(this, arguments);
-		
+
 		this.dockers = [];
 		this.magnets = [];
-		
+
 		this._defaultMagnet;
-		
+
 		this.incoming = [];
 		this.outgoing = [];
-		
+
 		this.nodes = [];
-		
+
 		this._dockerChangedCallback = this._dockerChanged.bind(this);
-		
+
 		//Hash map for all labels. Labels are not treated as children of shapes.
 		this._labels = new Hash();
-		
+
 		// create SVG node
 		this.node = WAPAMA.Editor.graft("http://www.w3.org/2000/svg",
 			null,
@@ -67,7 +67,7 @@ WAPAMA.Core.Shape = {
 				],
 				['g', {"class": "controls"},
 					['g', {"class": "dockers"}],
-					['g', {"class": "magnets"}]				
+					['g', {"class": "magnets"}]
 				]
 			]);
 	},
@@ -80,14 +80,14 @@ WAPAMA.Core.Shape = {
 			//this.layout();
 		//}
 	},
-	
+
 	/**
 	 * !!!Not called from any sub class!!!
 	 */
 	_update: function() {
 
 	},
-	
+
 	/**
 	 * Calls the super class refresh method
 	 *  and updates the svg elements that are referenced by a property.
@@ -95,7 +95,7 @@ WAPAMA.Core.Shape = {
 	refresh: function() {
 		//call base class refresh method
 		arguments.callee.$.refresh.apply(this, arguments);
-		
+
 		if(this.node.ownerDocument) {
 			//adjust SVG to properties' values
 			var me = this;
@@ -117,7 +117,7 @@ WAPAMA.Core.Shape = {
 								}
 							}
 						}).bind(this));
-							
+
 						//if the choice's items are referencing SVG elements
 						// show the selected and hide all other referenced SVG
 						// elements
@@ -125,25 +125,25 @@ WAPAMA.Core.Shape = {
 						property.items().each((function(item) {
 							item.refToView().each((function(itemRef) {
 								if(itemRef == "") { this.propertiesChanged[propChanged.key] = true; return; }
-								
+
 								var svgElem = this.node.ownerDocument.getElementById(this.id + itemRef);
-	
+
 								if(!svgElem) { this.propertiesChanged[propChanged.key] = true; return; }
-								
-								
+
+
 								/* Do not refresh the same svg element multiple times */
 								if(!refreshedSvgElements[svgElem.id] || prop == item.value()) {
 									svgElem.setAttributeNS(null, 'display', ((prop == item.value()) ? 'inherit' : 'none'));
 									refreshedSvgElements[svgElem.id] = svgElem;
 								}
-								
+
 								// Reload the href if there is an image-tag
 								if(WAPAMA.Editor.checkClassType(svgElem, SVGImageElement)) {
 									svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', svgElem.getAttributeNS('http://www.w3.org/1999/xlink', 'href'));
 								}
 							}).bind(this));
 						}).bind(this));
-						
+
 					} else { //handle properties that are not of type choice
 						//iterate all references to SVG elements
 						property.refToView().each((function(ref) {
@@ -151,31 +151,31 @@ WAPAMA.Core.Shape = {
 							// do nothing
 
 							if(ref === "") { this.propertiesChanged[propChanged.key] = true; return; }
-		
+
 							var refId = this.id + ref;
 
 							//get the SVG element
 							var svgElem = this.node.ownerDocument.getElementById(refId);
 
 							//if the SVG element can not be found
-							if(!svgElem || !(svgElem.ownerSVGElement)) { 
+							if(!svgElem || !(svgElem.ownerSVGElement)) {
 								//if the referenced SVG element is a SVGAElement, it cannot
 								// be found with getElementById (Firefox bug).
 								// this is a work around
 								if(property.type() === WAPAMA.CONFIG.TYPE_URL || property.type() === WAPAMA.CONFIG.TYPE_DIAGRAM_LINK) {
 									var svgElems = this.node.ownerDocument.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'a');
-									
+
 									svgElem = $A(svgElems).find(function(elem) {
 										return elem.getAttributeNS(null, 'id') === refId;
 									});
-									
-									if(!svgElem) { this.propertiesChanged[propChanged.key] = true; return; } 
+
+									if(!svgElem) { this.propertiesChanged[propChanged.key] = true; return; }
 								} else {
 									this.propertiesChanged[propChanged.key] = true;
 									return;
-								}					
+								}
 							}
-							
+
 							if (property.complexAttributeToView()) {
 								var label = this._labels[refId];
 								if (label) {
@@ -187,23 +187,23 @@ WAPAMA.Core.Shape = {
 								    	label.text(prop);
 								    }
 								}
-								
+
 							} else {
 
 								switch (property.type()) {
-									case WAPAMA.CONFIG.TYPE_BOOLEAN:	
-										
+									case WAPAMA.CONFIG.TYPE_BOOLEAN:
+
 										if (typeof prop == "string")
 											prop = prop === "true"
-	
+
 										svgElem.setAttributeNS(null, 'display', (!(prop === property.inverseBoolean())) ? 'inherit' : 'none');
-										
+
 										break;
 									case WAPAMA.CONFIG.TYPE_COLOR:
 										if(property.fill()) {
 											if (svgElem.tagName.toLowerCase() === "stop"){
 												svgElem.setAttributeNS(null, "stop-color", prop);
-												
+
 												// Adjust stop color of the others
 												if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
 													WAPAMA.Utils.adjustGradient(svgElem.parentNode, svgElem);
@@ -231,7 +231,7 @@ WAPAMA.Core.Shape = {
 									case WAPAMA.CONFIG.TYPE_FLOAT:
 										if(property.fillOpacity()) {
 											svgElem.setAttributeNS(null, 'fill-opacity', prop);
-										} 
+										}
 										if(property.strokeOpacity()) {
 											svgElem.setAttributeNS(null, 'stroke-opacity', prop);
 										}
@@ -250,42 +250,42 @@ WAPAMA.Core.Shape = {
 											hrefAttr.textContent = prop;
 										} else {
 											svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', prop);
-										}	
+										}
 										break;
 								}
 							}
 						}).bind(this));
-						
-						
+
+
 					}
-					
+
 				}
 			}).bind(this));
-			
+
 			//update labels
 			this._labels.values().each(function(label) {
 				label.update();
 			});
 		}
 	},
-	
+
 	layout: function() {
 		//this.getStencil().layout(this)
 		var layoutEvents = this.getStencil().layout()
 		if(this instanceof WAPAMA.Core.Node && layoutEvents) {
 			layoutEvents.each(function(event) {
-				
+
 				// setup additional attributes
 				event.shape = this;
 				event.forceExecution = true;
-				
+
 				// do layouting
 				this._delegateEvent(event);
 			}.bind(this))
-			
+
 		}
 	},
-	
+
 	/**
 	 * Returns an array of Label objects.
 	 */
@@ -299,11 +299,11 @@ WAPAMA.Core.Shape = {
 	getDockers: function() {
 		return this.dockers;
 	},
-	
+
 	getMagnets: function() {
 		return this.magnets;
 	},
-	
+
 	getDefaultMagnet: function() {
 		if(this._defaultMagnet) {
 			return this._defaultMagnet;
@@ -317,14 +317,14 @@ WAPAMA.Core.Shape = {
 	getParentShape: function() {
 		return this.parent;
 	},
-	
+
 	getIncomingShapes: function(iterator) {
 		if(iterator) {
 			this.incoming.each(iterator);
 		}
 		return this.incoming;
 	},
-	
+
 	getIncomingNodes: function(iterator) {
         return this.incoming.select(function(incoming){
             var isNode = (incoming instanceof WAPAMA.Core.Node);
@@ -332,15 +332,15 @@ WAPAMA.Core.Shape = {
             return isNode;
         });
     },
-	
-	
+
+
 	getOutgoingShapes: function(iterator) {
 		if(iterator) {
 			this.outgoing.each(iterator);
 		}
 		return this.outgoing;
 	},
-    
+
     getOutgoingNodes: function(iterator) {
         return this.outgoing.select(function(out){
             var isNode = (out instanceof WAPAMA.Core.Node);
@@ -348,7 +348,7 @@ WAPAMA.Core.Shape = {
             return isNode;
         });
     },
-	
+
 	getAllDockedShapes: function(iterator) {
 		var result = this.incoming.concat(this.outgoing);
 		if(iterator) {
@@ -366,9 +366,9 @@ WAPAMA.Core.Shape = {
 			return undefined;
 		}
 	},
-	
+
 	/**
-	 * 
+	 *
 	 * @param {Object} deep
 	 * @param {Object} iterator
 	 */
@@ -383,16 +383,16 @@ WAPAMA.Core.Shape = {
 					iterator(uiObject);
 				}
 				result.push(uiObject);
-				
+
 				if(deep && uiObject instanceof WAPAMA.Core.Shape) {
 					result = result.concat(uiObject.getChildNodes(deep, iterator));
 				}
 			});
-	
+
 			return result;
 		}
 	},
-	
+
 	/**
 	 * Overrides the UIObject.add method. Adds uiObject to the correct sub node.
 	 * @param {UIObject} uiObject
@@ -401,9 +401,9 @@ WAPAMA.Core.Shape = {
 	add: function(uiObject, index) {
 		//parameter has to be an UIObject, but
 		// must not be an Edge.
-		if(uiObject instanceof WAPAMA.Core.UIObject 
+		if(uiObject instanceof WAPAMA.Core.UIObject
 			&& !(uiObject instanceof WAPAMA.Core.Edge)) {
-			
+
 			if (!(this.children.member(uiObject))) {
 				//if uiObject is child of another parent, remove it from that parent.
 				if(uiObject.parent) {
@@ -447,14 +447,14 @@ WAPAMA.Core.Shape = {
 					uiObject.node = parent.insertBefore(uiObject.node, parent.childNodes[index]);
 				else
 					uiObject.node = parent.appendChild(uiObject.node);
-					
+
 				this._changed();
 				//uiObject.bounds.registerCallback(this._changedCallback);
-				
-				
+
+
 				if(this.eventHandlerCallback)
 					this.eventHandlerCallback({type:WAPAMA.CONFIG.EVENT_SHAPEADDED,shape:uiObject})
-					
+
 			} else {
 
 				WAPAMA.Log.warn("add: WAPAMA.Core.UIObject is already a child of this object.");
@@ -506,17 +506,17 @@ WAPAMA.Core.Shape = {
 			WAPAMA.Log.warn("remove: WAPAMA.Core.UIObject is not a child of this object.");
 		}
 	},
-	
+
 	/**
 	 * Calculate the Border Intersection Point between two points
 	 * @param {PointA}
 	 * @param {PointB}
 	 */
 	getIntersectionPoint: function() {
-			
+
 		var pointAX, pointAY, pointBX, pointBY;
-		
-		// Get the the two Points	
+
+		// Get the the two Points
 		switch(arguments.length) {
 			case 2:
 				pointAX = arguments[0].x;
@@ -533,14 +533,14 @@ WAPAMA.Core.Shape = {
 			default:
 				throw "getIntersectionPoints needs two or four arguments";
 		}
-		
-		
-		
+
+
+
 		// Defined an include and exclude point
 		var includePointX, includePointY, excludePointX, excludePointY;
 
 		var bounds = this.absoluteBounds();
-		
+
 		if(this.isPointIncluded(pointAX, pointAY, bounds)){
 			includePointX = pointAX;
 			includePointY = pointAY;
@@ -556,30 +556,30 @@ WAPAMA.Core.Shape = {
 			excludePointX = pointBX;
 			excludePointY = pointBY;
 		}
-				
+
 		// If there is no inclue or exclude Shape, than return
 		if(!includePointX || !includePointY || !excludePointX || !excludePointY) {
 			return undefined;
 		}
 
 		var midPointX = 0;
-		var midPointY = 0;		
-		
+		var midPointY = 0;
+
 		var refPointX, refPointY;
-		
+
 		var minDifferent = 1;
 		// Get the UpperLeft and LowerRight
 		//var ul = bounds.upperLeft();
 		//var lr = bounds.lowerRight();
-		
+
 		var i = 0;
-		
+
 		while(true) {
-			// Calculate the midpoint of the current to points	
+			// Calculate the midpoint of the current to points
 			var midPointX = Math.min(includePointX, excludePointX) + ((Math.max(includePointX, excludePointX) - Math.min(includePointX, excludePointX)) / 2.0);
 			var midPointY = Math.min(includePointY, excludePointY) + ((Math.max(includePointY, excludePointY) - Math.min(includePointY, excludePointY)) / 2.0);
-			
-			
+
+
 			// Set the new midpoint by the means of the include of the bounds
 			if(this.isPointIncluded(midPointX, midPointY, bounds)){
 				includePointX = midPointX;
@@ -587,39 +587,39 @@ WAPAMA.Core.Shape = {
 			} else {
 				excludePointX = midPointX;
 				excludePointY = midPointY;
-			}			
-			
+			}
+
 			// Calc the length of the line
 			var length = Math.sqrt(Math.pow(includePointX - excludePointX, 2) + Math.pow(includePointY - excludePointY, 2))
 			// Calc a point one step from the include point
 			refPointX = includePointX + ((excludePointX - includePointX) / length),
 			refPointY = includePointY + ((excludePointY - includePointY) / length)
-					
-			
+
+
 			// If the reference point not in the bounds, break
 			if(!this.isPointIncluded(refPointX, refPointY, bounds)) {
 				break
 			}
-							
-			
+
+
 		}
 
 		// Return the last includepoint
 		return {x:refPointX , y:refPointY};
 	},
 
-   
-    
+
+
     /**
      * Calculate if the point is inside the Shape
      * @param {PointX}
-     * @param {PointY} 
+     * @param {PointY}
      */
     isPointIncluded: function(){
 		return  false
 	},
 
-    
+
     /**
      * Calculate if the point is over an special offset area
      * @param {Point}
@@ -627,11 +627,11 @@ WAPAMA.Core.Shape = {
     isPointOverOffset: function(){
 		return  this.isPointIncluded.apply( this , arguments )
 	},
-		
+
 	_dockerChanged: function() {
 
 	},
-		
+
 	/**
 	 * Create a Docker for this Edge
 	 *
@@ -643,7 +643,7 @@ WAPAMA.Core.Shape = {
 			docker.bounds.centerMoveTo(position);
 		}
 		this.add(docker, index);
-		
+
 		return docker
 	},
 
@@ -663,21 +663,21 @@ WAPAMA.Core.Shape = {
 
 		// Add the outgoing shapes
 		this.getOutgoingShapes().each((function(followingShape){
-			serializedObject.push({name: 'outgoing', prefix:'raziel', value: '#'+ERDF.__stripHashes(followingShape.resourceId), type: 'resource'});			
+			serializedObject.push({name: 'outgoing', prefix:'raziel', value: '#'+ERDF.__stripHashes(followingShape.resourceId), type: 'resource'});
 		}).bind(this));
 
 		// Add the parent shape, if the parent not the canvas
 		//if(this.parent instanceof WAPAMA.Core.Shape){
-			serializedObject.push({name: 'parent', prefix:'raziel', value: '#'+ERDF.__stripHashes(this.parent.resourceId), type: 'resource'});	
-		//}			
-		
+			serializedObject.push({name: 'parent', prefix:'raziel', value: '#'+ERDF.__stripHashes(this.parent.resourceId), type: 'resource'});
+		//}
+
 		return serializedObject;
 	},
-		
-		
+
+
 	deserialize: function(serialze){
 		arguments.callee.$.deserialize.apply(this, arguments);
-		
+
 		// Set the Bounds
 		var bounds = serialze.find(function(ser){ return (ser.prefix+"-"+ser.name) == 'wapama-bounds'});
 		if(bounds) {
@@ -687,11 +687,11 @@ WAPAMA.Core.Shape = {
 				this.dockers.last().bounds.centerMoveTo(parseFloat(b[2]), parseFloat(b[3]));
 			} else {
 				this.bounds.set(parseFloat(b[0]), parseFloat(b[1]), parseFloat(b[2]), parseFloat(b[3]));
-			}			
+			}
 		}
 	},
 
-		
+
 	/**
 	 * Private methods.
 	 */
@@ -715,14 +715,14 @@ WAPAMA.Core.Shape = {
 				element.setAttributeNS(null, 'id', this.id + "_" + this.id + "_" + idIndex);
 				idIndex++;
 			}
-			
+
 			// Replace URL in fill attribute
 			var fill = element.getAttributeNS(null, 'fill');
 			if (fill&&fill.include("url(#")){
 				fill = fill.replace(/url\(#/g, 'url(#'+this.id);
 				element.setAttributeNS(null, 'fill', fill);
 			}
-			
+
 			if(element.hasChildNodes()) {
 				for(var i = 0; i < element.childNodes.length; i++) {
 					idIndex = this._adjustIds(element.childNodes[i], idIndex);

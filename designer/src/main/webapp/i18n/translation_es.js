@@ -1,6 +1,6 @@
 ﻿/**
  * @author Anna Luebbe
- * 
+ *
  * Contains all strings for Spanish language.
  * Version 1 - 12/01/08
  */
@@ -12,15 +12,15 @@ WAPAMA.I18N.Language = "es"; //Pattern <ISO language code>_<ISO country code> in
 
 if(!WAPAMA.I18N.Wapama) WAPAMA.I18N.Wapama = {};
 
-WAPAMA.I18N.Wapama.pleaseWait = "Wapama está cargando ... Espere por favor."; 
+WAPAMA.I18N.Wapama.pleaseWait = "Wapama está cargando ... Espere por favor.";
 WAPAMA.I18N.Wapama.notLoggedOn = "No conectado";
 
 if(!WAPAMA.I18N.AddDocker) WAPAMA.I18N.AddDocker = {};
 
 WAPAMA.I18N.AddDocker.group = "Docker";
-WAPAMA.I18N.AddDocker.add = "Añadir Docker"; 
+WAPAMA.I18N.AddDocker.add = "Añadir Docker";
 WAPAMA.I18N.AddDocker.addDesc = "Añade un Docker haziendo cliq sobre la linea";
-WAPAMA.I18N.AddDocker.del = "Borrar el Docker";  
+WAPAMA.I18N.AddDocker.del = "Borrar el Docker";
 WAPAMA.I18N.AddDocker.delDesc = "Borre el Docker haciendo cliq sobre él";
 
 if(!WAPAMA.I18N.SSExtensionLoader) WAPAMA.I18N.SSExtensionLoader = {};
@@ -30,7 +30,7 @@ WAPAMA.I18N.SSExtensionLoader.add = "Añadir ampliaciones al juego de plantillas
 WAPAMA.I18N.SSExtensionLoader.addDesc = "Añadir ampliaciones al juego de plantillas";
 WAPAMA.I18N.SSExtensionLoader.loading = "Esta cargando ampliaciones al juego de plantillas"
 WAPAMA.I18N.SSExtensionLoader.noExt = "No hay mas ampliaciones a disposición"
-WAPAMA.I18N.SSExtensionLoader.failed1 = "Ocurrió un error cargando el archivo de configuracion. La respuesta del servidor no contiene un archivo de configuración válido."; 
+WAPAMA.I18N.SSExtensionLoader.failed1 = "Ocurrió un error cargando el archivo de configuracion. La respuesta del servidor no contiene un archivo de configuración válido.";
 WAPAMA.I18N.SSExtensionLoader.failed2 = "Ocurrió un error cargando el archivo de configuracion. El servidor responde un mensaje de error.";
 WAPAMA.I18N.SSExtensionLoader.panelTitle = "Ampliaciónes al juego de plantillas";
 WAPAMA.I18N.SSExtensionLoader.panelText = "Seleccione ampliaciones a añadir";
@@ -38,70 +38,70 @@ WAPAMA.I18N.SSExtensionLoader.panelText = "Seleccione ampliaciones a añadir";
 if(!WAPAMA.I18N.AdHocCC) WAPAMA.I18N.AdHocCC = {};
 
 WAPAMA.I18N.AdHocCC.group = "Ad Hoc";
-WAPAMA.I18N.AdHocCC.compl = "Editar condición final"; 
-WAPAMA.I18N.AdHocCC.complDesc = "Editar condición final de una actividad Ad Hoc"; 
-WAPAMA.I18N.AdHocCC.notOne = "No ha seleccionado justo un elemento."; 
-WAPAMA.I18N.AdHocCC.nodAdHocCC = "El elemento seleccionado no tiene una condición final Ad Hoc" 
-WAPAMA.I18N.AdHocCC.selectTask = "seleccionar actividad"; 
+WAPAMA.I18N.AdHocCC.compl = "Editar condición final";
+WAPAMA.I18N.AdHocCC.complDesc = "Editar condición final de una actividad Ad Hoc";
+WAPAMA.I18N.AdHocCC.notOne = "No ha seleccionado justo un elemento.";
+WAPAMA.I18N.AdHocCC.nodAdHocCC = "El elemento seleccionado no tiene una condición final Ad Hoc"
+WAPAMA.I18N.AdHocCC.selectTask = "seleccionar actividad";
 WAPAMA.I18N.AdHocCC.selectState = "seleccionar estado";
 WAPAMA.I18N.AdHocCC.addExp = "Añadir expresión";
-WAPAMA.I18N.AdHocCC.selectDataField = "Seleccionar campo de datos"; 
+WAPAMA.I18N.AdHocCC.selectDataField = "Seleccionar campo de datos";
 WAPAMA.I18N.AdHocCC.enterEqual = "Agregar valor de comparación";
 WAPAMA.I18N.AdHocCC.and = "y";
-WAPAMA.I18N.AdHocCC.or = "o"; 
+WAPAMA.I18N.AdHocCC.or = "o";
 WAPAMA.I18N.AdHocCC.not = "no";
 WAPAMA.I18N.AdHocCC.clearCC = "Borrar condición final";
 WAPAMA.I18N.AdHocCC.editCC = "Editar condición final ad hoc";
-WAPAMA.I18N.AdHocCC.addExecState = "Añadir expresión de estado de ejecución"; 
+WAPAMA.I18N.AdHocCC.addExecState = "Añadir expresión de estado de ejecución";
 WAPAMA.I18N.AdHocCC.addDataExp = "Añadir expresión de datos";
 WAPAMA.I18N.AdHocCC.addLogOp = "Añadir operadores logicos";
 WAPAMA.I18N.AdHocCC.curCond = "Condición final actual";
 
 if(!WAPAMA.I18N.AMLSupport) WAPAMA.I18N.AMLSupport = {};
 
-WAPAMA.I18N.AMLSupport.group = "EPC"; 
-WAPAMA.I18N.AMLSupport.imp = "Importar archivo AML"; 
+WAPAMA.I18N.AMLSupport.group = "EPC";
+WAPAMA.I18N.AMLSupport.imp = "Importar archivo AML";
 WAPAMA.I18N.AMLSupport.impDesc = "Importar archivo Aris 7 AML";
 WAPAMA.I18N.AMLSupport.failed = "Falló importar el archivo AML. Por favor compruebe que el archivo seleccionado es un archivo AML válido. Mensaje de error: ";
 WAPAMA.I18N.AMLSupport.failed2 = "Falló importar el archivo AML: ";
 WAPAMA.I18N.AMLSupport.noRights = "No tiene derecho suficente para el importe de varios diagramas. (Requerido iniciar sesión).";
 WAPAMA.I18N.AMLSupport.panelText = "Seleccione un archivo AML (.xml) que quiere importar";
-WAPAMA.I18N.AMLSupport.file = "Archivo"; 
+WAPAMA.I18N.AMLSupport.file = "Archivo";
 WAPAMA.I18N.AMLSupport.importBtn = "Importar archivo AML";
-WAPAMA.I18N.AMLSupport.get = "Está cargando diagramas..."; 
+WAPAMA.I18N.AMLSupport.get = "Está cargando diagramas...";
 WAPAMA.I18N.AMLSupport.close = "Cerrar";
-WAPAMA.I18N.AMLSupport.title = "Título"; 
+WAPAMA.I18N.AMLSupport.title = "Título";
 WAPAMA.I18N.AMLSupport.selectDiagrams = "Seleccione diagramas que quiere importar. <br/> Un diagrama seleccionado está importado al editor abierto. Si selecciona mas que un diagrama, ellos seran guardados directamente.";
 WAPAMA.I18N.AMLSupport.impText = "Importar";
 WAPAMA.I18N.AMLSupport.impProgress = "Realizando importe...";
-WAPAMA.I18N.AMLSupport.cancel = "Cancelar"; 
-WAPAMA.I18N.AMLSupport.name = "Nombre"; 
+WAPAMA.I18N.AMLSupport.cancel = "Cancelar";
+WAPAMA.I18N.AMLSupport.name = "Nombre";
 WAPAMA.I18N.AMLSupport.allImported = "Todos diagramas importados";
-WAPAMA.I18N.AMLSupport.ok = "OK"; 
+WAPAMA.I18N.AMLSupport.ok = "OK";
 
 if(!WAPAMA.I18N.Arrangement) WAPAMA.I18N.Arrangement = {};
 
 WAPAMA.I18N.Arrangement.groupZ = "Z-Order";
-WAPAMA.I18N.Arrangement.btf = "En primer plano"; 
+WAPAMA.I18N.Arrangement.btf = "En primer plano";
 WAPAMA.I18N.Arrangement.btfDesc = "En primer plano";
-WAPAMA.I18N.Arrangement.btb = "Al fondo";  
+WAPAMA.I18N.Arrangement.btb = "Al fondo";
 WAPAMA.I18N.Arrangement.btbDesc = "Al fondo";
-WAPAMA.I18N.Arrangement.bf = "Un nivél mas adelante"; 
+WAPAMA.I18N.Arrangement.bf = "Un nivél mas adelante";
 WAPAMA.I18N.Arrangement.bfDesc = "Un nivél mas adelante";
-WAPAMA.I18N.Arrangement.bb = "Un nivél atras"; 
+WAPAMA.I18N.Arrangement.bb = "Un nivél atras";
 WAPAMA.I18N.Arrangement.bbDesc = "Un nivél atras";
 WAPAMA.I18N.Arrangement.groupA = "Alineado";
-WAPAMA.I18N.Arrangement.ab = "Alinear abajo"; 
+WAPAMA.I18N.Arrangement.ab = "Alinear abajo";
 WAPAMA.I18N.Arrangement.abDesc = "Alinear abajo";
-WAPAMA.I18N.Arrangement.am = "Alinear centrado en el eje horizontal"; 
+WAPAMA.I18N.Arrangement.am = "Alinear centrado en el eje horizontal";
 WAPAMA.I18N.Arrangement.amDesc = "Alinear centrado en el eje horizontal";
-WAPAMA.I18N.Arrangement.at = "Alinear arriba"; 
+WAPAMA.I18N.Arrangement.at = "Alinear arriba";
 WAPAMA.I18N.Arrangement.atDesc = "Alinear arriba";
 WAPAMA.I18N.Arrangement.al = "Alinear a la izqierda";
 WAPAMA.I18N.Arrangement.alDesc = "Alinear a la izqierda";
-WAPAMA.I18N.Arrangement.ac = "Alinear centrado en el eje vertical"; 
+WAPAMA.I18N.Arrangement.ac = "Alinear centrado en el eje vertical";
 WAPAMA.I18N.Arrangement.acDesc = "Alinear centrado en el eje vertical";
-WAPAMA.I18N.Arrangement.ar = "Alinear a la derecha"; 
+WAPAMA.I18N.Arrangement.ar = "Alinear a la derecha";
 WAPAMA.I18N.Arrangement.arDesc = "Alinear a la derecha";
 
 if(!WAPAMA.I18N.BPELSupport) WAPAMA.I18N.BPELSupport = {};
@@ -112,15 +112,15 @@ WAPAMA.I18N.BPELSupport.expDesc = "Exportar a BPEL";
 WAPAMA.I18N.BPELSupport.imp = "Importar BPEL";
 WAPAMA.I18N.BPELSupport.impDesc = "Importar un archivor BPEL";
 WAPAMA.I18N.BPELSupport.selectFile = "Seleccione un archivo BPEL que quiere importar";
-WAPAMA.I18N.BPELSupport.file = "Archivo"; 
+WAPAMA.I18N.BPELSupport.file = "Archivo";
 WAPAMA.I18N.BPELSupport.impPanel = "Importar archivo BPEL";
 WAPAMA.I18N.BPELSupport.impBtn = "Importar";
-WAPAMA.I18N.BPELSupport.content = "Contenido"; 
-WAPAMA.I18N.BPELSupport.close = "Cerrar"; 
-WAPAMA.I18N.BPELSupport.error = "Error"; 
+WAPAMA.I18N.BPELSupport.content = "Contenido";
+WAPAMA.I18N.BPELSupport.close = "Cerrar";
+WAPAMA.I18N.BPELSupport.error = "Error";
 WAPAMA.I18N.BPELSupport.progressImp = "Importa... ";
-WAPAMA.I18N.BPELSupport.progressExp = "Exporta..."; 
-WAPAMA.I18N.BPELSupport.impFailed = "Se produjo un error al importar. <br/>mensaje de error: <br/><br/>"; 
+WAPAMA.I18N.BPELSupport.progressExp = "Exporta...";
+WAPAMA.I18N.BPELSupport.impFailed = "Se produjo un error al importar. <br/>mensaje de error: <br/><br/>";
 
 if(!WAPAMA.I18N.Bpel4ChorTransformation) WAPAMA.I18N.Bpel4ChorTransformation = {};
 
@@ -130,19 +130,19 @@ WAPAMA.I18N.Bpel4ChorTransformation.exportBPELDesc = "Exportar a BPEL4Chor";
 WAPAMA.I18N.Bpel4ChorTransformation.exportXPDL = "XPDL4Chor exportación";
 WAPAMA.I18N.Bpel4ChorTransformation.exportXPDLDesc = "Exportar a XPDL4Chor";
 WAPAMA.I18N.Bpel4ChorTransformation.warning = "Alerta";
-WAPAMA.I18N.Bpel4ChorTransformation.wrongValue = 'El nombre modificado tiene que tener el calor "1" para evitar errores al transformar a BPEL4Chor.'; 
+WAPAMA.I18N.Bpel4ChorTransformation.wrongValue = 'El nombre modificado tiene que tener el calor "1" para evitar errores al transformar a BPEL4Chor.';
 WAPAMA.I18N.Bpel4ChorTransformation.loopNone = 'La Tarea recipiente para estar transformado a BPEL4Chor tiene que tener el tipo de circulo "none"';
-WAPAMA.I18N.Bpel4ChorTransformation.error = "Error"; 
-WAPAMA.I18N.Bpel4ChorTransformation.noSource = "1 con la ID 2 no tiene objeto de fuente";  
+WAPAMA.I18N.Bpel4ChorTransformation.error = "Error";
+WAPAMA.I18N.Bpel4ChorTransformation.noSource = "1 con la ID 2 no tiene objeto de fuente";
 WAPAMA.I18N.Bpel4ChorTransformation.noTarget = "1 con la ID 2 no tiene objeto de destinación ";
-WAPAMA.I18N.Bpel4ChorTransformation.transCall = "Se produjo un error al transformar. 1:2"; 
-WAPAMA.I18N.Bpel4ChorTransformation.noResult = "El servicio web de transformación no ha suministrado un resultado.";  
-WAPAMA.I18N.Bpel4ChorTransformation.errorParsing = "Al analizar el diagrama se produjo un error."; 
-WAPAMA.I18N.Bpel4ChorTransformation.transResult = "Resultados de transformación"; 
-WAPAMA.I18N.Bpel4ChorTransformation.showFile = "Mostrar archivo de resultado"; 
-WAPAMA.I18N.Bpel4ChorTransformation.downloadFile = "Descargar archivo de resultado"; 
-WAPAMA.I18N.Bpel4ChorTransformation.downloadAll = "Descargar todos los archivos de resultado"; 
-WAPAMA.I18N.Bpel4ChorTransformation.loadingXPDL4ChorExport = "Exporta a XPDL4Chor";  
+WAPAMA.I18N.Bpel4ChorTransformation.transCall = "Se produjo un error al transformar. 1:2";
+WAPAMA.I18N.Bpel4ChorTransformation.noResult = "El servicio web de transformación no ha suministrado un resultado.";
+WAPAMA.I18N.Bpel4ChorTransformation.errorParsing = "Al analizar el diagrama se produjo un error.";
+WAPAMA.I18N.Bpel4ChorTransformation.transResult = "Resultados de transformación";
+WAPAMA.I18N.Bpel4ChorTransformation.showFile = "Mostrar archivo de resultado";
+WAPAMA.I18N.Bpel4ChorTransformation.downloadFile = "Descargar archivo de resultado";
+WAPAMA.I18N.Bpel4ChorTransformation.downloadAll = "Descargar todos los archivos de resultado";
+WAPAMA.I18N.Bpel4ChorTransformation.loadingXPDL4ChorExport = "Exporta a XPDL4Chor";
 WAPAMA.I18N.Bpel4ChorTransformation.loadingBPEL4ChorExport = "Exporta a BPEL4Chor";
 WAPAMA.I18N.Bpel4ChorTransformation.noGen = "No se ha podido crear datos de input para la transformación: 1\n2\n"
 
@@ -157,15 +157,15 @@ WAPAMA.I18N.DesynchronizabilityOverlay.invalid = "Invalid answer from server.";
 
 if(!WAPAMA.I18N.Edit) WAPAMA.I18N.Edit = {};
 
-WAPAMA.I18N.Edit.group = "Editar"; 
-WAPAMA.I18N.Edit.cut = "Cortar"; 
-WAPAMA.I18N.Edit.cutDesc = "Cortar los elementos seleccionados";  
-WAPAMA.I18N.Edit.copy = "Copiar"; 
-WAPAMA.I18N.Edit.copyDesc = "Copiar los elementos seleccionados";  
-WAPAMA.I18N.Edit.paste = "Pegar"; 
-WAPAMA.I18N.Edit.pasteDesc = "Pegar los elementos copiados/seleccionados";  
-WAPAMA.I18N.Edit.del = "Borrar";  
-WAPAMA.I18N.Edit.delDesc = "Borrar los elementos seleccionados"; 
+WAPAMA.I18N.Edit.group = "Editar";
+WAPAMA.I18N.Edit.cut = "Cortar";
+WAPAMA.I18N.Edit.cutDesc = "Cortar los elementos seleccionados";
+WAPAMA.I18N.Edit.copy = "Copiar";
+WAPAMA.I18N.Edit.copyDesc = "Copiar los elementos seleccionados";
+WAPAMA.I18N.Edit.paste = "Pegar";
+WAPAMA.I18N.Edit.pasteDesc = "Pegar los elementos copiados/seleccionados";
+WAPAMA.I18N.Edit.del = "Borrar";
+WAPAMA.I18N.Edit.delDesc = "Borrar los elementos seleccionados";
 
 if(!WAPAMA.I18N.EPCSupport) WAPAMA.I18N.EPCSupport = {};
 
@@ -174,7 +174,7 @@ WAPAMA.I18N.EPCSupport.exp = "Exportación EPML";
 WAPAMA.I18N.EPCSupport.expDesc = "Exportar a EPML";
 WAPAMA.I18N.EPCSupport.imp = "Importación EPML";
 WAPAMA.I18N.EPCSupport.impDesc = "Importar un archivo EPML";
-WAPAMA.I18N.EPCSupport.progressExp = "Exporta modelo";  
+WAPAMA.I18N.EPCSupport.progressExp = "Exporta modelo";
 WAPAMA.I18N.EPCSupport.selectFile = "Seleccione un archivo EPML que quiere importar.";
 WAPAMA.I18N.EPCSupport.file = "Archivo";
 WAPAMA.I18N.EPCSupport.impPanel = "Importar archivo EPML";
@@ -257,7 +257,7 @@ WAPAMA.I18N.Grouping.grouping = "Agrupar";
 WAPAMA.I18N.Grouping.group = "Agrupar";
 WAPAMA.I18N.Grouping.groupDesc = "Agrupar elementos seleccionados";
 WAPAMA.I18N.Grouping.ungroup = "Borrar agrupación";
-WAPAMA.I18N.Grouping.ungroupDesc = "Borrar todas las agrupaciones de los elementos seleccionados"; 
+WAPAMA.I18N.Grouping.ungroupDesc = "Borrar todas las agrupaciones de los elementos seleccionados";
 
 if(!WAPAMA.I18N.IBPMN2BPMN) WAPAMA.I18N.IBPMN2BPMN = {};
 
@@ -365,7 +365,7 @@ WAPAMA.I18N.TreeGraphSupport.syntaxCheckDesc = "Check the syntax of an tree grap
 
 WAPAMA.I18N.PropertyWindow.title = "Propriedades";
 
-if(!WAPAMA.I18N.ShapeRepository) WAPAMA.I18N.ShapeRepository = {}; 
+if(!WAPAMA.I18N.ShapeRepository) WAPAMA.I18N.ShapeRepository = {};
 
 WAPAMA.I18N.ShapeRepository.title = "Shape Repository";
 
@@ -374,7 +374,7 @@ WAPAMA.I18N.Save.dialogLabelTitle = "Título";
 WAPAMA.I18N.Save.dialogLabelDesc = "Descripción";
 WAPAMA.I18N.Save.dialogLabelType = "Típo";
 
-WAPAMA.I18N.Validator.name = "BPMN Validator"; 
+WAPAMA.I18N.Validator.name = "BPMN Validator";
 WAPAMA.I18N.Validator.description = "Validación para BPMN";
 
 WAPAMA.I18N.SSExtensionLoader.labelImport = "Importación";

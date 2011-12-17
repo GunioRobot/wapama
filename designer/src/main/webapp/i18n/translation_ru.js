@@ -1,6 +1,6 @@
 ﻿/**
  * @author Sergey Smirnov
- * 
+ *
  * Contains all strings for the default language (ru).
  * Version 1 - 08/29/08
  */
@@ -383,7 +383,7 @@ WAPAMA.I18N.SSExtensionLoader.labelCancel = "Отмена";
 Ext.MessageBox.buttonText.yes = "Да";
 Ext.MessageBox.buttonText.no = "Нет";
 Ext.MessageBox.buttonText.cancel = "Отмена";
-Ext.MessageBox.buttonText.ok = "Ок"; 
+Ext.MessageBox.buttonText.ok = "Ок";
 
 
 ///** New Language Properties: 08.12.2008 */

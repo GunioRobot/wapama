@@ -74,9 +74,9 @@
 				]
 			}
 		],
-		
+
 		"cardinalityRules":[
-			{	
+			{
 				"role":"process",
 				"maximumOccurrence":undefined
 			}

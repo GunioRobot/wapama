@@ -130,7 +130,7 @@
 					"wrapLines":true
 				}
 			]
-		},			
+		},
  		{
 			"type": "node",
 			"id":"Task",
@@ -704,7 +704,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -744,7 +744,7 @@
 					"description":"XForm attached manually if standard XForm doesn't suffice",
 					"readonly":false,
 					"optional":true
-				}				
+				}
 			]
 		},
  		{
@@ -1235,7 +1235,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"entry",
 					"prefix":"raziel",
@@ -1246,7 +1246,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"u"
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -1376,7 +1376,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -1541,7 +1541,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -1741,7 +1741,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -1881,7 +1881,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2033,7 +2033,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2061,19 +2061,19 @@
 				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
-				"fromtoall"				
+				"fromtoall"
 			],
-			"layout":function(shape) {		
+			"layout":function(shape) {
 				var lanes = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn#Lane");
 				});
-				
+
 				if(lanes.length > 0) {
-				
+
 					lanes = lanes.sortBy(function(lane) {
 						return lane.bounds.upperLeft().y;
 					});
-					
+
 					var shapeWidth = shape.bounds.width();
 					var shapeHeight = 0;
 					var topBound = 0;
@@ -2087,7 +2087,7 @@
 						lr.x = shapeWidth;
 						lane.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, shape.bounds.lowerRight().x, upl.y + shapeHeight);
 				}
@@ -2330,7 +2330,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2357,8 +2357,8 @@
 				"messageflow_start",
 				"messageflow_end",
 				"PoolChild",
-				"fromtoall"				
-			],				
+				"fromtoall"
+			],
 			"properties": [
 				{
 					"id":"id",
@@ -2426,7 +2426,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2748,7 +2748,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2781,7 +2781,7 @@
 			"groups":["Startevents"],
 			"description":"An event without incoming edges.",
 			"view":"startevent/node.event.start.svg",
-			"icon":"new_startevent.png",		
+			"icon":"new_startevent.png",
 			"roles": [
 				"sequence_start",
 				"messageflow_end",
@@ -2866,7 +2866,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3014,7 +3014,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3142,7 +3142,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3260,7 +3260,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3389,7 +3389,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3508,7 +3508,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3626,7 +3626,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3785,7 +3785,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3924,7 +3924,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -4053,7 +4053,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -4171,7 +4171,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -4300,7 +4300,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -4429,7 +4429,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -4569,7 +4569,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -4699,7 +4699,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -5604,7 +5604,7 @@
 			]
 		}
 	],
-	
+
 	"rules": {
 		"connectionRules": [
 			{
@@ -5788,14 +5788,14 @@
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
 						maximum:0,
-						
+
 					}
 				]
 			},
@@ -5806,14 +5806,14 @@
 					{
 						role:"SequenceFlow",
 						maximum:0,
-						
+
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				]
 			}
@@ -5859,13 +5859,13 @@
 				contains: ["tc"]
 			}
 		],
-//		canConnect: function(args) { 
+//		canConnect: function(args) {
 //			if(args.result) {
 //				if(args.sourceShape.parent.parent.id == args.targetShape.parent.parent.id) {
 //						args.result = false;
 //				}
 //			}
-//			return args.result; 
+//			return args.result;
 //		}
 	}
 }

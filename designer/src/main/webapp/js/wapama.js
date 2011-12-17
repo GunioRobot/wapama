@@ -23,7 +23,7 @@
  **/
 
 function printf() {
-	
+
 	var result = arguments[0];
 	for (var i=1; i<arguments.length; i++)
 		result = result.replace('%' + (i-1), arguments[i]);
@@ -59,13 +59,13 @@ WAPAMA = Object.extend(WAPAMA, {
 	 * The WAPAMA.Log logger.
 	 */
 	Log: {
-	
+
 		__appenders: [
 			{ append: function(message) {
 				if(typeof(console) !== 'undefined')
 				console.log(message); }}
 		],
-	
+
 		trace: function() {	if(WAPAMA_LOGLEVEL >= WAPAMA_LOGLEVEL_TRACE)
 			WAPAMA.Log.__log('TRACE', arguments); },
 		debug: function() { if(WAPAMA_LOGLEVEL >= WAPAMA_LOGLEVEL_DEBUG)
@@ -78,18 +78,18 @@ WAPAMA = Object.extend(WAPAMA, {
 			WAPAMA.Log.__log('ERROR', arguments); },
 		fatal: function() { if(WAPAMA_LOGLEVEL >= WAPAMA_LOGLEVEL_FATAL)
 			WAPAMA.Log.__log('FATAL', arguments); },
-		
+
 		__log: function(prefix, messageParts) {
-			
+
 			messageParts[0] = (new Date()).getTime() + " "
 				+ prefix + " " + messageParts[0];
 			var message = printf.apply(null, messageParts);
-			
+
 			WAPAMA.Log.__appenders.each(function(appender) {
 				appender.append(message);
 			});
 		},
-		
+
 		addAppender: function(appender) {
 			WAPAMA.Log.__appenders.push(appender);
 		}
@@ -103,12 +103,12 @@ WAPAMA = Object.extend(WAPAMA, {
 	 * preliminary condition is not met has to fail with an error.
 	 */
 	load: function() {
-		
+
 		// show loading window
 		WAPAMA.UI.showLoadingWindow(WAPAMA.I18N.Wapama.pleaseWait);
-				
+
 		WAPAMA.Log.debug("Wapama begins loading procedure.");
-		
+
 		// check for prototype
 		if( (typeof Prototype=='undefined') ||
 			(typeof Element == 'undefined') ||
@@ -117,7 +117,7 @@ WAPAMA = Object.extend(WAPAMA, {
 				Prototype.Version.split(".")[1]) < 1.5)
 
 			throw("Application requires the Prototype JavaScript framework >= 1.5.3");
-		
+
 		WAPAMA.Log.debug("Prototype > 1.5 found.");
 
 		init();

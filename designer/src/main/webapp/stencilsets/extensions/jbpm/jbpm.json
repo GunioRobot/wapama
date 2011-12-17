@@ -87,7 +87,7 @@
 					"type":"String",
 					"value":"",
 					"width":100,
-					"optional":false 
+					"optional":false
 				},
 				{
 					"id":"type",
@@ -95,7 +95,7 @@
 					"type":"String",
 					"value":"",
 					"width":100,
-					"optional":false 
+					"optional":false
 				},
 				{
 					"id":"name",
@@ -103,7 +103,7 @@
 					"type":"String",
 					"value":"",
 					"width":100,
-					"optional":false 
+					"optional":false
 				},
 				{
 					"id":"value",
@@ -130,7 +130,7 @@
 					"type":"String",
 					"value":"",
 					"width":100,
-					"optional":false 
+					"optional":false
 				},
 				{
 					"id":"value",
@@ -138,7 +138,7 @@
 					"type":"String",
 					"value":"",
 					"width":100,
-					"optional":false 
+					"optional":false
 				},
 				{
 					"id":"type",
@@ -332,7 +332,7 @@
 						"type":"String",
 						"value":"",
 						"width":100,
-						"optional":true 
+						"optional":true
 					},
 					{
 						"id":"expr",
@@ -340,7 +340,7 @@
 						"type":"String",
 						"value":"",
 						"width":100,
-						"optional":true 
+						"optional":true
 					},
 					{
 						"id":"type",
@@ -466,7 +466,7 @@
 						"type":"String",
 						"value":"",
 						"width":100,
-						"optional":false 
+						"optional":false
 					},
 					{
 						"id":"value",
@@ -584,7 +584,7 @@
 						"type":"String",
 						"value":"",
 						"width":100,
-						"optional":false 
+						"optional":false
 					},
 					{
 						"id":"value",
@@ -838,7 +838,7 @@
 		"Association_Bidirectional"
 	],
 	"removeproperties": [
-	
+
 	{
 		"stencil":"BPMNDiagram",
 			"properties":[
@@ -924,7 +924,7 @@
 			"gates_outgoingsequenceflow",
 			"gates_assignments",
 			"gatewaytype",
-		]		
+		]
 	},
 	{
 		"stencil": "SequenceFlow",
@@ -935,7 +935,7 @@
 			"sourceref",
 			"targetref",
 			"quantity",
-		]		
+		]
 	},
 	{
 		"stencil": "StartEvent",
@@ -948,7 +948,7 @@
 			"lanes",
 			"trigger",
 			"eventtype",
-		]		
+		]
 	},
 	{
 		"stencil": "EndEvent",
@@ -961,7 +961,7 @@
 			"lanes",
 			"eventtype",
 			"result",
-		]		
+		]
 	},
 	{
 		"stencil": "EndErrorEvent",
@@ -975,7 +975,7 @@
 			"eventtype",
 			"result",
 			"errorcode",
-		]		
+		]
 	},
 	{
 		"stencil": "EndCancelEvent",
@@ -988,7 +988,7 @@
 			"lanes",
 			"eventtype",
 			"result",
-		]		
+		]
 	},
 	],
 }

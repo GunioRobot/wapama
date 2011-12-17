@@ -49,7 +49,7 @@ WAPAMA.Plugins.PropertyWindow = {
 		this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_LOADED, this.selectDiagram.bind(this));
 		this.init();
 	},
-	
+
 	init: function(){
 
 		// The parent div-node of the grid
@@ -64,13 +64,13 @@ WAPAMA.Plugins.PropertyWindow = {
 		// the properties array
 		this.popularProperties = [];
 		this.properties = [];
-		
+
 		/* The currently selected shapes whos properties will shown */
 		this.shapeSelection = new Hash();
 		this.shapeSelection.shapes = new Array();
 		this.shapeSelection.commonProperties = new Array();
 		this.shapeSelection.commonPropertiesValues = new Hash();
-		
+
 		this.updaterFlag = false;
 
 		// creating the column model of the grid.
@@ -117,7 +117,7 @@ WAPAMA.Plugins.PropertyWindow = {
 		        direction = direction || 'ASC';
 		        var st = this.fields.get(f).sortType;
 		        var fn = function(r1, r2){
-					//if displayorder of a property is greater than 0 
+					//if displayorder of a property is greater than 0
 					//then this property is sorted by displayorder asc
 					//else it is sorted by name asc
 					var v1 = st(r1.data['name']), v2 = st(r2.data['name']);
@@ -130,15 +130,15 @@ WAPAMA.Plugins.PropertyWindow = {
 					} else if (!p1 && p2) { // p1 is non-popular, p2 is popular
 						result = 1;
 					} else { // both are popular or non popular
-						if (d1 > 0 && d2 > 0) {  // both displayorder > 0 
-							result = d1 < d2 ? -1 : (d1 > d2 ? 1 : 0);   
+						if (d1 > 0 && d2 > 0) {  // both displayorder > 0
+							result = d1 < d2 ? -1 : (d1 > d2 ? 1 : 0);
 						} else if (d1 + d2 > 0 && (d1 == 0 || d2 == 0)){ // only one displayorder = 0
-							result = d1 > d2 ? -1 : 1; 
+							result = d1 > d2 ? -1 : 1;
 						} else { // both displayorder = 0
 							result = p1 && !p2 ? -1 : (!p1 && p2 ? 1 : (v1 > v2 ? 1 : (v1 < v2 ? -1 : 0)));
 						}
 					}
-					
+
 					return result;
 		        };
 		        this.data.sort(direction, fn);
@@ -149,7 +149,7 @@ WAPAMA.Plugins.PropertyWindow = {
 			groupField: 'popular'
         });
 		this.dataSource.load();
-		
+
 		this.grid = new Ext.grid.EditorGridPanel({
 			clicksToEdit: 1,
 			stripeRows: true,
@@ -162,10 +162,10 @@ WAPAMA.Plugins.PropertyWindow = {
 				forceFit: true,
 				groupTextTpl: '{[values.rs.first().data.popular ? WAPAMA.I18N.PropertyWindow.oftenUsed : WAPAMA.I18N.PropertyWindow.moreProps]}'
 			}),
-			
+
 			// the data store
 			store: this.dataSource
-			
+
 		});
 
 		if (WAPAMA.UI.main.addToRegion) {
@@ -175,7 +175,7 @@ WAPAMA.Plugins.PropertyWindow = {
                 border: false,
                 //title: 'Properties',
                 items: [
-                    this.grid 
+                    this.grid
                 ]
             }), WAPAMA.I18N.PropertyWindow.title);
 		}
@@ -184,9 +184,9 @@ WAPAMA.Plugins.PropertyWindow = {
 		this.grid.on('beforeedit', this.beforeEdit, this, true);
 		this.grid.on('afteredit', this.afterEdit, this, true);
 		this.grid.view.on('refresh', this.hideMoreAttrs, this, true);
-		
+
 		//this.grid.on(WAPAMA.CONFIG.EVENT_KEYDOWN, this.keyDown, this, true);
-		
+
 		// Renderer the Grid
 		this.grid.enableColumnMove = false;
 		//this.grid.render();
@@ -195,11 +195,11 @@ WAPAMA.Plugins.PropertyWindow = {
 		//this.dataSource.sort('name');
 
 	},
-	
+
 	// Select the Canvas when the editor is ready
 	selectDiagram: function() {
 		this.shapeSelection.shapes = [this.facade.getCanvas()];
-		
+
 		this.setPropertyWindowTitle();
 		this.identifyCommonProperties();
 		this.createProperties();
@@ -217,17 +217,17 @@ WAPAMA.Plugins.PropertyWindow = {
 		p.cellAttr = 'title="' + record.data.gridProperties.tooltip + '"';
 		return value;
 	},
-	
+
 	renderer: function(value, p, record) {
-		
+
 		this.tooltipRenderer(value, p, record);
-		
+
 		if (record.data.gridProperties.labelProvider) {
 		    // there is a label provider to render the value.
 		    // we pass it the value
 		    return record.data.gridProperties.labelProvider(value);
 		}
-				
+
 		if(value instanceof Date) {
 			// TODO: Date-Schema is not generic
 			value = value.dateFormat(WAPAMA.I18N.PropertyWindow.dateFormat);
@@ -272,24 +272,24 @@ WAPAMA.Plugins.PropertyWindow = {
 			this.facade.disableEvent(WAPAMA.CONFIG.EVENT_KEYDOWN);
 
 			option.grid.getColumnModel().setEditor(1, editorGrid);
-			
+
 			editorGrid.field.row = option.row;
-			// Render the editor to the grid, therefore the editor is also available 
+			// Render the editor to the grid, therefore the editor is also available
 			// for the first and last row
 			editorGrid.render(this.grid);
-			
+
 			//option.grid.getColumnModel().setRenderer(1, editorRenderer);
 			editorGrid.setSize(option.grid.getColumnModel().getColumnWidth(1), editorGrid.height);
 		} else {
 			return false;
 		}
-		
+
 		var key = this.dataSource.getAt(option.row).data.gridProperties.propId;
-		
+
 		this.oldValues = new Hash();
 		this.shapeSelection.shapes.each(function(shape){
 			this.oldValues[shape.getId()] = shape.properties[key];
-		}.bind(this)); 
+		}.bind(this));
 	},
 
 	afterEdit: function(option) {
@@ -298,12 +298,12 @@ WAPAMA.Plugins.PropertyWindow = {
 
 		var key 			 = option.record.data.gridProperties.propId;
 		var selectedElements = this.shapeSelection.shapes;
-		
-		var oldValues 	= this.oldValues;	
-		
+
+		var oldValues 	= this.oldValues;
+
 		var newValue	= option.value;
 		var facade		= this.facade;
-		
+
 
 		// Implement the specific command for property change
 		var commandClass = WAPAMA.Core.Command.extend({
@@ -313,7 +313,7 @@ WAPAMA.Plugins.PropertyWindow = {
 				this.oldValues = oldValues;
 				this.newValue 	= newValue;
 				this.facade		= facade;
-			},			
+			},
 			execute: function(){
 				this.selectedElements.each(function(shape){
 					if(!shape.getStencil().property(this.key).readonly()) {
@@ -335,10 +335,10 @@ WAPAMA.Plugins.PropertyWindow = {
 				this.facade.getCanvas().update();
 				this.facade.updateSelection();
 			}
-		})		
+		})
 		// Instanciated the class
 		var command = new commandClass();
-		
+
 		// Execute the command
 		this.facade.executeCommands([command]);
 
@@ -346,38 +346,38 @@ WAPAMA.Plugins.PropertyWindow = {
 		// extended by Kerstin (start)
 //
 		this.facade.raiseEvent({
-			type 		: WAPAMA.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, 
+			type 		: WAPAMA.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED,
 			elements	: selectedElements,
 			key			: key,
 			value		: option.value
 		});
 		// extended by Kerstin (end)
 	},
-	
+
 	// Changes made in the property window will be shown directly
 	editDirectly:function(key, value){
-		
+
 		this.shapeSelection.shapes.each(function(shape){
 			if(!shape.getStencil().property(key).readonly()) {
 				shape.setProperty(key, value);
 				//shape.update();
 			}
 		}.bind(this));
-		
+
 		/* Propagate changed properties */
 		var selectedElements = this.shapeSelection.shapes;
-		
+
 		this.facade.raiseEvent({
-			type 		: WAPAMA.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, 
+			type 		: WAPAMA.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED,
 			elements	: selectedElements,
 			key			: key,
 			value		: value
 		});
 
 		this.facade.getCanvas().update();
-		
+
 	},
-	
+
 	// if a field becomes invalid after editing the shape must be restored to the old value
 	updateAfterInvalid : function(key) {
 		this.shapeSelection.shapes.each(function(shape) {
@@ -386,16 +386,16 @@ WAPAMA.Plugins.PropertyWindow = {
 				shape.update();
 			}
 		}.bind(this));
-		
+
 		this.facade.getCanvas().update();
 	},
 
-	// extended by Kerstin (start)	
+	// extended by Kerstin (start)
 	dialogClosed: function(data) {
-		var row = this.field ? this.field.row : this.row 
+		var row = this.field ? this.field.row : this.row
 		this.scope.afterEdit({
-			grid:this.scope.grid, 
-			record:this.scope.grid.getStore().getAt(row), 
+			grid:this.scope.grid,
+			record:this.scope.grid.getStore().getAt(row),
 			//value:this.scope.grid.getStore().getAt(this.row).get("value")
 			value: data
 		})
@@ -403,7 +403,7 @@ WAPAMA.Plugins.PropertyWindow = {
 		this.scope.grid.startEditing(row, this.col);
 	},
 	// extended by Kerstin (end)
-	
+
 	/**
 	 * Changes the title of the property window panel according to the selected shapes.
 	 */
@@ -415,7 +415,7 @@ WAPAMA.Plugins.PropertyWindow = {
 			region.setTitle(WAPAMA.I18N.PropertyWindow.title +' ('
 							+ this.shapeSelection.shapes.length
 							+ ' '
-							+ WAPAMA.I18N.PropertyWindow.selected 
+							+ WAPAMA.I18N.PropertyWindow.selected
 							+')');
 		}
 	},
@@ -430,13 +430,13 @@ WAPAMA.Plugins.PropertyWindow = {
 			var key = property.prefix() + "-" + property.id();
 			var emptyValue = false;
 			var firstShape = this.shapeSelection.shapes.first();
-			
+
 			this.shapeSelection.shapes.each(function(shape){
 				if(firstShape.properties[key] != shape.properties[key]) {
 					emptyValue = true;
 				}
 			}.bind(this));
-			
+
 			/* Set property value */
 			if(!emptyValue) {
 				this.shapeSelection.commonPropertiesValues[key]
@@ -444,47 +444,47 @@ WAPAMA.Plugins.PropertyWindow = {
 			}
 		}.bind(this));
 	},
-	
+
 	/**
 	 * Returns the set of stencils used by the passed shapes.
 	 */
 	getStencilSetOfSelection: function() {
 		var stencils = new Hash();
-		
+
 		this.shapeSelection.shapes.each(function(shape) {
 			stencils[shape.getStencil().id()] = shape.getStencil();
 		})
 		return stencils;
 	},
-	
+
 	/**
 	 * Identifies the common Properties of the selected shapes.
 	 */
 	identifyCommonProperties: function() {
 		this.shapeSelection.commonProperties.clear();
-		
-		/* 
-		 * A common property is a property, that is part of 
+
+		/*
+		 * A common property is a property, that is part of
 		 * the stencil definition of the first and all other stencils.
 		 */
 		var stencils = this.getStencilSetOfSelection();
 		var firstStencil = stencils.values().first();
 		var comparingStencils = stencils.values().without(firstStencil);
-		
-		
+
+
 		if(comparingStencils.length == 0) {
 			this.shapeSelection.commonProperties = firstStencil.properties();
 		} else {
 			var properties = new Hash();
-			
+
 			/* put all properties of on stencil in a Hash */
 			firstStencil.properties().each(function(property){
-				properties[property.namespace() + '-' + property.id() 
+				properties[property.namespace() + '-' + property.id()
 							+ '-' + property.type()] = property;
 			});
-			
+
 			/* Calculate intersection of properties. */
-			
+
 			comparingStencils.each(function(stencil){
 				var intersection = new Hash();
 				stencil.properties().each(function(property){
@@ -494,39 +494,39 @@ WAPAMA.Plugins.PropertyWindow = {
 										+ '-' + property.type()] = property;
 					}
 				});
-				properties = intersection;	
+				properties = intersection;
 			});
-			
+
 			this.shapeSelection.commonProperties = properties.values();
 		}
 	},
-	
+
 	onSelectionChanged: function(event) {
 		/* Event to call afterEdit method */
 		this.grid.stopEditing();
-		
+
 		/* Selected shapes */
 		this.shapeSelection.shapes = event.elements;
-		
+
 		/* Case: nothing selected */
 		if(event.elements.length == 0) {
 			this.shapeSelection.shapes = [this.facade.getCanvas()];
 		}
-		
+
 		/* subselection available */
 		if(event.subSelection){
 			this.shapeSelection.shapes = [event.subSelection];
 		}
-		
+
 		this.setPropertyWindowTitle();
 		this.identifyCommonProperties();
 		this.setCommonPropertiesValues();
-		
+
 		// Create the Properties
-		
+
 		this.createProperties();
 	},
-	
+
 	/**
 	 * Creates the properties for the ExtJS-Grid from the properties of the
 	 * selected shapes.
@@ -536,12 +536,12 @@ WAPAMA.Plugins.PropertyWindow = {
 		this.popularProperties = [];
 
 		if(this.shapeSelection.commonProperties) {
-			
+
 			// add new property lines
 			this.shapeSelection.commonProperties.each((function(pair, index) {
 
 				var key = pair.prefix() + "-" + pair.id();
-				
+
 				// Get the property pair
 				var name		= pair.title();
 				var icons		= [];
@@ -550,11 +550,11 @@ WAPAMA.Plugins.PropertyWindow = {
 
 				var editorGrid = undefined;
 				var editorRenderer = null;
-				
+
 				var refToViewFlag = false;
 
 				var editorClass = WAPAMA.FieldEditors[pair.type()];
-				 
+
 				if (editorClass !== undefined) {
 					editorGrid = editorClass.init.bind(this, key, pair, icons, index)();
 					if (editorGrid == null) {
@@ -573,7 +573,7 @@ WAPAMA.Plugins.PropertyWindow = {
 								var editorTextArea = new Ext.form.TextArea({alignment: "tl-tl", allowBlank: pair.optional(),  msgTarget:'title', maxLength:pair.length()});
 								editorTextArea.on('keyup', function(textArea, event) {
 									this.editDirectly(key, textArea.getValue());
-								}.bind(this));								
+								}.bind(this));
 
 								editorGrid = new Ext.Editor(editorTextArea);
 							} else {
@@ -611,7 +611,7 @@ WAPAMA.Plugins.PropertyWindow = {
 							var numberField = new Ext.form.NumberField({allowBlank: pair.optional(), allowDecimals:false, msgTarget:'title', minValue: pair.min(), maxValue: pair.max()});
 							numberField.on('keyup', function(input, event) {
 								this.editDirectly(key, input.getValue());
-							}.bind(this));							
+							}.bind(this));
 
 							editorGrid = new Ext.Editor(numberField);
 							break;
@@ -701,7 +701,7 @@ WAPAMA.Plugins.PropertyWindow = {
 								row:index,
 								facade:this.facade
 							});
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
 
@@ -709,7 +709,7 @@ WAPAMA.Plugins.PropertyWindow = {
 						case WAPAMA.CONFIG.TYPE_COMPLEX:
 
 							var cf = new Ext.form.ComplexListField({ allowBlank: pair.optional()}, pair.complexItems(), key, this.facade);
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
 							// extended by Kerstin (end)
@@ -719,8 +719,8 @@ WAPAMA.Plugins.PropertyWindow = {
 							var editorInput = new Ext.form.TextField(
 									{
 										allowBlank: pair.optional(),
-										msgTarget:'title', 
-										maxLength:pair.length(), 
+										msgTarget:'title',
+										maxLength:pair.length(),
 										enableKeyEvents: true
 									});
 
@@ -728,7 +728,7 @@ WAPAMA.Plugins.PropertyWindow = {
 								this.editDirectly(key, input.getValue());
 							}.bind(this));
 
-							editorGrid = new Ext.Editor(editorInput);							
+							editorGrid = new Ext.Editor(editorInput);
 							break;
 							// extended by Gerardo (End)
 
@@ -751,15 +751,15 @@ WAPAMA.Plugins.PropertyWindow = {
 						attribute = "<a href='" + attribute + "' target='_blank'>" + attribute.split("://")[1] + "</a>"
 					}
 				}
-				
+
 				// Push to the properties-array
 				if(pair.visible() && !pair._jsonProp.hidden) {
 					// Popular Properties are those with a refToView set or those which are set to be popular
 					if (pair.refToView()[0] || refToViewFlag || pair.popular()) {
 						pair.setPopular();
-					} 
-					
-					
+					}
+
+
 					if(pair.popular()) {
 						this.popularProperties.push([pair.popular(), name, attribute, icons, dispayOrder, {
 							editor: editorGrid,
@@ -770,8 +770,8 @@ WAPAMA.Plugins.PropertyWindow = {
 							labelProvider: this.getLabelProvider(pair)
 						}]);
 					}
-					else {					
-						
+					else {
+
 						if (editorGrid&&editorGrid.field&&editorGrid.field.store&&editorGrid.field.store.data&&editorGrid.field.store.data.items) {
 								editorGrid.field.store.data.items.each(function(each) {
 									if (each.data.value==attribute) {
@@ -779,7 +779,7 @@ WAPAMA.Plugins.PropertyWindow = {
 									}
 								});
 						}
-						
+
 						this.properties.push([pair.popular(), name, attribute, icons, dispayOrder, {
 							editor: editorGrid,
 							propId: key,
@@ -796,7 +796,7 @@ WAPAMA.Plugins.PropertyWindow = {
 
 		this.setProperties();
 	},
-	
+
 	/**
 	 * Gets a label provider from the registered label providers
 	 * according to the id of the label provider registered on the stencil.
@@ -810,21 +810,21 @@ WAPAMA.Plugins.PropertyWindow = {
         }
         return labelProviderFunction;
     },
-	
+
 	hideMoreAttrs: function(panel) {
 		// TODO: Implement the case that the canvas has no attributes
 		if (this.properties.length <= 0){ return }
-		
+
 		// collapse the "more attr" group
 		this.grid.view.toggleGroup(this.grid.view.getGroupId(this.properties[0][0]), false);
-		
+
 		// prevent the more attributes pane from closing after a attribute has been edited
 		this.grid.view.un("refresh", this.hideMoreAttrs, this);
 	},
 
 	setProperties: function() {
 		var props = this.popularProperties.concat(this.properties);
-		
+
 		this.dataSource.loadData(props);
 	}
 }
@@ -834,13 +834,13 @@ WAPAMA.Plugins.PropertyWindow = Clazz.extend(WAPAMA.Plugins.PropertyWindow);
 
 /**
  * Editor for complex type
- * 
+ *
  * When starting to edit the editor, it creates a new dialog where new attributes
- * can be specified which generates json out of this and put this 
+ * can be specified which generates json out of this and put this
  * back to the input field.
- * 
+ *
  * This is implemented from Kerstin Pfitzner
- * 
+ *
  * @param {Object} config
  * @param {Object} items
  * @param {Object} key
@@ -869,22 +869,22 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
     triggerClass:	'x-form-complex-trigger',
 	readOnly:		true,
 	emptyText: 		WAPAMA.I18N.PropertyWindow.clickIcon,
-		
+
 	/**
 	 * Builds the JSON value from the data source of the grid in the dialog.
 	 */
 	buildValue: function() {
 		var ds = this.grid.getStore();
 		ds.commitChanges();
-		
+
 		if (ds.getCount() == 0) {
 			return "";
 		}
-		
+
 		var jsonString = "[";
 		var size = 0;
 		for (var i = 0; i < ds.getCount(); i++) {
-			var data = ds.getAt(i);		
+			var data = ds.getAt(i);
 			// a temp string, if all the values are empty, then don't set it into result JSON.
 			var innerJsonString = "{";
 			var strCannotEmpty = "";
@@ -907,20 +907,20 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			}
 		}
 		jsonString += "]";
-		
+
 		// finally, in the result json, there will be no emtpy element.
-		jsonString = "{'totalCount':" + size.toJSON() + 
+		jsonString = "{'totalCount':" + size.toJSON() +
 			", 'items':" + jsonString + "}";
 		return Object.toJSON(jsonString.evalJSON());
 	},
-	
+
 	/**
 	 * Returns the field key.
 	 */
 	getFieldKey: function() {
 		return this.key;
 	},
-	
+
 	/**
 	 * Returns the actual value of the trigger field.
 	 * If the table does not contain any values the empty
@@ -929,22 +929,22 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
     getValue : function(){
 		// return actual value if grid is active
 		if (this.grid) {
-			return this.buildValue();			
+			return this.buildValue();
 		} else if (this.data == undefined) {
 			return "";
 		} else {
 			return this.data;
 		}
     },
-	
+
 	/**
 	 * Sets the value of the trigger field.
 	 * In this case this sets the data that will be shown in
 	 * the grid of the dialog.
-	 * 
+	 *
 	 * @param {Object} value The value to be set (JSON format or empty string)
 	 */
-	setValue: function(value) {	
+	setValue: function(value) {
 		if (value.length > 0) {
 			// set only if this.data not set yet
 			// only to initialize the grid
@@ -954,20 +954,20 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			Ext.form.ComplexListField.superclass.setValue.apply(this, arguments);
 		}
 	},
-	
+
 	/**
 	 * Returns false. In this way key events will not be propagated
 	 * to other elements.
-	 * 
+	 *
 	 * @param {Object} event The keydown event.
 	 */
 	keydownHandler: function(event) {
 		return false;
 	},
-	
+
 	/**
-	 * The listeners of the dialog. 
-	 * 
+	 * The listeners of the dialog.
+	 *
 	 * If the dialog is hidded, a dialogClosed event will be fired.
 	 * This has to be used by the parent element of the trigger field
 	 * to reenable the trigger field (focus gets lost when entering values
@@ -975,7 +975,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 	 */
     dialogListeners : {
         show : function(){ // retain focus styling
-            this.onFocus();	
+            this.onFocus();
 			this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_KEYDOWN, this.keydownHandler.bind(this));
 			this.facade.disableEvent(WAPAMA.CONFIG.EVENT_KEYDOWN);
 			return;
@@ -985,49 +985,49 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
             var dl = this.dialogListeners;
             this.dialog.un("show", dl.show,  this);
             this.dialog.un("hide", dl.hide,  this);
-			
+
 			this.dialog.destroy(true);
 			this.grid.destroy(true);
 			delete this.grid;
 			delete this.dialog;
-			
+
 			this.facade.unregisterOnEvent(WAPAMA.CONFIG.EVENT_KEYDOWN, this.keydownHandler.bind(this));
 			this.facade.enableEvent(WAPAMA.CONFIG.EVENT_KEYDOWN);
-			
+
 			// store data and notify parent about the closed dialog
 			// parent has to handel this event and start editing the text field again
 			this.fireEvent('dialogClosed', this.data);
-			
+
 			Ext.form.ComplexListField.superclass.setValue.call(this, this.data);
         }
-    },	
-	
+    },
+
 	/**
 	 * Builds up the initial values of the grid.
-	 * 
+	 *
 	 * @param {Object} recordType The record type of the grid.
 	 * @param {Object} items      The initial items of the grid (columns)
 	 */
 	buildInitial: function(recordType, items) {
 		var initial = new Hash();
-		
+
 		for (var i = 0; i < items.length; i++) {
 			var id = items[i].id();
 			initial[id] = items[i].value();
 		}
-		
+
 		var RecordTemplate = Ext.data.Record.create(recordType);
 		return new RecordTemplate(initial);
 	},
-	
+
 	/**
 	 * Builds up the column model of the grid. The parent element of the
 	 * grid.
-	 * 
-	 * Sets up the editors for the grid columns depending on the 
+	 *
+	 * Sets up the editors for the grid columns depending on the
 	 * type of the items.
-	 * 
-	 * @param {Object} parent The 
+	 *
+	 * @param {Object} parent The
 	 */
 	buildColumnModel: function(parent) {
 		var cols = [];
@@ -1037,26 +1037,26 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			var width 	= this.items[i].width();
 			var type 	= this.items[i].type();
 			var editor;
-			
+
 			if (type == WAPAMA.CONFIG.TYPE_STRING) {
 				editor = new Ext.form.TextField({ allowBlank : this.items[i].optional(), width : width});
-			} else if (type == WAPAMA.CONFIG.TYPE_CHOICE) {				
+			} else if (type == WAPAMA.CONFIG.TYPE_CHOICE) {
 				var items = this.items[i].items();
 				var select = WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", parent, ['select', {style:'display:none'}]);
 				var optionTmpl = new Ext.Template('<option value="{value}">{key}</option>');
-				items.each(function(value){ 
-					optionTmpl.append(select, {key:value.title(),value:value.value()}); 
-				});				
-				
+				items.each(function(value){
+					optionTmpl.append(select, {key:value.title(),value:value.value()});
+				});
+
 				editor = new Ext.form.ComboBox(
-					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});			
+					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});
 			} else if (type == WAPAMA.CONFIG.TYPE_BOOLEAN) {
 				editor = new Ext.form.Checkbox( { width : width } );
 			} else if (type == WAPAMA.CONFIG.TYPE_XPATH) {
 				// set the editor of xpath type as textarea.
 				editor = new Ext.form.TextArea({ allowBlank : this.items[i].optional(), width : width, blankText : WAPAMA.I18N.PropertyWindow.xpathTextarea});
 			}
-					
+
 			cols.push({
 				id: 		id,
 				header: 	header,
@@ -1065,31 +1065,31 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 				editor: 	editor,
 				width:		width
 	        });
-			
+
 		}
 		return new Ext.grid.ColumnModel(cols);
 	},
-	
+
 	/**
 	 * After a cell was edited the changes will be commited.
-	 * 
+	 *
 	 * @param {Object} option The option that was edited.
 	 */
 	afterEdit: function(option) {
 		option.grid.getStore().commitChanges();
 	},
-		
+
 	/**
-	 * Before a cell is edited it has to be checked if this 
+	 * Before a cell is edited it has to be checked if this
 	 * cell is disabled by another cell value. If so, the cell editor will
 	 * be disabled.
-	 * 
+	 *
 	 * @param {Object} option The option to be edited.
 	 */
 	beforeEdit: function(option) {
 
 		var state = this.grid.getView().getScrollState();
-		
+
 		var col = option.column;
 		var row = option.row;
 		var editId = this.grid.getColumnModel().config[col].id;
@@ -1099,15 +1099,15 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			var item = this.items[i];
 			var disables = item.disable();
 			if (disables != undefined) {
-				
+
 				// check if the value of the column of this item in this row is equal to a disabling value
 				var value = this.grid.getStore().getAt(row).get(item.id());
 				for (var j = 0; j < disables.length; j++) {
 					var disable = disables[j];
 					if (disable.value == value) {
-						
+
 						for (var k = 0; k < disable.items.length; k++) {
-							// check if this value disables the cell to select 
+							// check if this value disables the cell to select
 							// (id is equals to the id of the column to edit)
 							var disItem = disable.items[k];
 							if (disItem == editId) {
@@ -1116,13 +1116,13 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 							}
 						}
 					}
-				}		
+				}
 			}
 		}
 		this.grid.getColumnModel().getCellEditor(col, row).enable();
 		//this.grid.getView().restoreScroll(state);
 	},
-	
+
     /**
      * If the trigger was clicked a dialog has to be opened
      * to enter the values for the complex property.
@@ -1130,20 +1130,20 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
     onTriggerClick : function(){
         if(this.disabled){
             return;
-        }	
-		
-		//if(!this.dialog) { 
-		
+        }
+
+		//if(!this.dialog) {
+
 			var dialogWidth = 0;
 			var recordType 	= [];
 			// establish the window title
 			var windowTitle = WAPAMA.I18N.PropertyWindow.complex;
-			
+
 			for (var i = 0; i < this.items.length; i++) {
 				var id 		= this.items[i].id();
 				var width 	= this.items[i].width();
-				var type 	= this.items[i].type();	
-					
+				var type 	= this.items[i].type();
+
 				if (type == WAPAMA.CONFIG.TYPE_CHOICE) {
 					type = WAPAMA.CONFIG.TYPE_STRING;
 				} else if (type == WAPAMA.CONFIG.TYPE_XPATH) {
@@ -1152,38 +1152,38 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 						windowTitle = WAPAMA.I18N.PropertyWindow.mappingeditor;
 					}
  				}
-						
+
 				dialogWidth += width;
 				recordType[i] = {name:id, type:type};
-			}			
-			
+			}
+
 			if (dialogWidth > 800) {
 				dialogWidth = 800;
 			} else if (dialogWidth == 0) {
 				// if no items defined, the dialogWidth is 0. Set a default width.
 				dialogWidth = 200;
 			}
-			
+
 			dialogWidth += 35;
-			
+
 			var data = this.data;
 			if (data == "" || data == undefined) {
 				// empty string can not be parsed
 				data = '{"items" : [], "totalCount" : 0}';
 			}
-			
+
 			var ds = new Ext.data.Store({
-		        proxy: new Ext.data.MemoryProxy(eval("(" + data + ")")),				
+		        proxy: new Ext.data.MemoryProxy(eval("(" + data + ")")),
 				reader: new Ext.data.JsonReader({
 		            root: 'items',
 		            totalProperty: 'totalCount'
 		        	}, recordType)
 	        });
 			ds.load();
-					
-				
+
+
 			var cm = this.buildColumnModel();
-			
+
 			this.grid = new Ext.grid.EditorGridPanel({
 				store:		ds,
 		        cm:			cm,
@@ -1191,9 +1191,9 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 				clicksToEdit : 1,
 				autoHeight:true,
 		        selModel: 	new Ext.grid.CellSelectionModel()
-		    });	
-			
-									
+		    });
+
+
 			//var gridHead = this.grid.getView().getHeaderPanel(true);
 			var toolbar = new Ext.Toolbar(
 			[{
@@ -1216,24 +1216,24 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 						return;
 					}
 					this.grid.getSelectionModel().clearSelections();
-		            this.grid.stopEditing();					
+		            this.grid.stopEditing();
 					var record = ds.getAt(selection[0]);
 					ds.remove(record);
-					ds.commitChanges();           
+					ds.commitChanges();
 				}.bind(this)
-			}]);			
-		
+			}]);
+
 			// Basic Dialog
-			this.dialog = new Ext.Window({ 
+			this.dialog = new Ext.Window({
 				autoScroll: true,
-				autoCreate: true, 
-				title: windowTitle, 
-				height: 350, 
-				width: dialogWidth, 
+				autoCreate: true,
+				title: windowTitle,
+				height: 350,
+				width: dialogWidth,
 				modal:true,
 				collapsible:false,
-				fixedcenter: true, 
-				shadow:true, 
+				fixedcenter: true,
+				shadow:true,
 				proxyDrag: true,
 				keys:[{
 					key: 27,
@@ -1246,7 +1246,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 				buttons: [{
 	                text: WAPAMA.I18N.PropertyWindow.ok,
 	                handler: function(){
-	                    this.grid.stopEditing();	
+	                    this.grid.stopEditing();
 						// store dialog input
 						this.data = this.buildValue();
 						this.dialog.hide()
@@ -1257,24 +1257,24 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 	                	this.dialog.hide()
 	                }.bind(this)
 	            }]
-			});		
-				
+			});
+
 			this.dialog.on(Ext.apply({}, this.dialogListeners, {
 	       		scope:this
 	        }));
-		
-			this.dialog.show();	
-		
-	
+
+			this.dialog.show();
+
+
 			this.grid.on('beforeedit', 	this.beforeEdit, 	this, true);
 			this.grid.on('afteredit', 	this.afterEdit, 	this, true);
-			
-			this.grid.render();			
-	    
+
+			this.grid.render();
+
 		/*} else {
-			this.dialog.show();		
+			this.dialog.show();
 		}*/
-		
+
 	}
 });
 
@@ -1282,7 +1282,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
  * Override the Ext.grid.GroupingView.
  * It allows the property value which is being editing in property window
  * can be saved when the GroupingView collapses or expands.
- * 
+ *
  * @class Ext.grid.WapamaGroupingView
  * @extends Ext.grid.GroupingView
  */
@@ -1291,7 +1291,7 @@ Ext.grid.WapamaGroupingView = Ext.extend(Ext.grid.GroupingView,  {
     /**
      * Toggles the specified group.
      * Save the property value which is being editing.
-     * 
+     *
      * @param {String} group The groupId assigned to the group (see getGroupId)
      * @param {Boolean} expanded (optional)
      */
@@ -1320,11 +1320,11 @@ Ext.form.ComplexTextField = Ext.extend(Ext.form.TriggerField,  {
      * to enter the values for the complex property.
      */
     onTriggerClick : function(){
-		
+
         if(this.disabled){
             return;
-        }	
-		        
+        }
+
 		var grid = new Ext.form.TextArea({
 	        anchor		: '100% 100%',
 			value		: this.value,
@@ -1334,21 +1334,21 @@ Ext.form.ComplexTextField = Ext.extend(Ext.form.TriggerField,  {
 				}.bind(this)
 			}
 		})
-		
-		
+
+
 		// Basic Dialog
-		var dialog = new Ext.Window({ 
+		var dialog = new Ext.Window({
 			layout		: 'anchor',
-			autoCreate	: true, 
-			title		: WAPAMA.I18N.PropertyWindow.text, 
-			height		: document.body.clientHeight / 2 < 150 ? 150 : document.body.clientHeight / 2, 
-			width		: document.body.clientWidth / 4 < 200 ? 200 : document.body.clientWidth / 4, 
+			autoCreate	: true,
+			title		: WAPAMA.I18N.PropertyWindow.text,
+			height		: document.body.clientHeight / 2 < 150 ? 150 : document.body.clientHeight / 2,
+			width		: document.body.clientWidth / 4 < 200 ? 200 : document.body.clientWidth / 4,
 			minHeight	: 150,
 			minWidth	: 200,
 			modal		: true,
 			collapsible	: false,
-			fixedcenter	: true, 
-			shadow		: true, 
+			fixedcenter	: true,
+			shadow		: true,
 			proxyDrag	: true,
 			keys:[{
 				key	: 27,
@@ -1362,15 +1362,15 @@ Ext.form.ComplexTextField = Ext.extend(Ext.form.TriggerField,  {
 					this.fireEvent('dialogClosed', this.value);
 					//this.focus.defer(10, this);
 					dialog.destroy();
-				}.bind(this)				
+				}.bind(this)
 			},
 			buttons		: [{
                 text: WAPAMA.I18N.PropertyWindow.ok,
-                handler: function(){	 
+                handler: function(){
 					// store dialog input
 					var value = grid.getValue();
 					this.setValue(value);
-					
+
 					this.dataSource.getAt(this.row).set('value', value)
 					this.dataSource.commitChanges()
 
@@ -1383,13 +1383,13 @@ Ext.form.ComplexTextField = Ext.extend(Ext.form.TriggerField,  {
                 	dialog.hide()
                 }.bind(this)
             }]
-		});		
-				
-		dialog.show();		
+		});
+
+		dialog.show();
 		grid.render();
 
 		this.grid.stopEditing();
 		grid.focus( false, 100 );
-		
+
 	}
 });

@@ -30,7 +30,7 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 
 	construct: function(facade) {
 		this.facade = facade;
-		
+
 		this.alignGroups = new Hash();
 
 		var containerNode = this.facade.getCanvas().getHTMLContainer();
@@ -46,19 +46,19 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 			this.hideMorphMenu();
 		}).bind(this));
 		this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_RESIZE_END,  this.showShapeMenu.bind(this));
-		
+
 		// Enable DragZone
 		var DragZone = new Ext.dd.DragZone(containerNode.parentNode, {shadow: !Ext.isMac});
 		DragZone.afterDragDrop = this.afterDragging.bind(this, DragZone);
 		DragZone.beforeDragOver = this.beforeDragOver.bind(this, DragZone);
-		
+
 		// Memory of created Buttons
 		this.createdButtons = {};
-		
+
 		this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_STENCIL_SET_LOADED, (function(){ this.registryChanged() }).bind(this));
 
 		this.timer = null;
-		
+
 		this.resetElements = true;
 
 	},
@@ -70,66 +70,66 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 	},
 
 	showShapeMenu: function( dontGenerateNew ) {
-	
+
 		if( !dontGenerateNew || this.resetElements ){
-			
+
 			window.clearTimeout(this.timer);
 			this.timer = window.setTimeout(function(){
-				
+
 					// Close all Buttons
 				this.shapeMenu.closeAllButtons();
-		
+
 				// Show the Morph Button
 				this.showMorphButton(this.currentShapes);
-				
+
 				// Show the Stencil Buttons
-				this.showStencilButtons(this.currentShapes);	
-				
+				this.showStencilButtons(this.currentShapes);
+
 				// Show the ShapeMenu
 				this.shapeMenu.show(this.currentShapes);
-				
+
 				this.resetElements = false;
 			}.bind(this), 300)
-			
+
 		} else {
-			
+
 			window.clearTimeout(this.timer);
 			this.timer = null;
-			
+
 			// Show the ShapeMenu
 			this.shapeMenu.show(this.currentShapes);
-			
+
 		}
 	},
 
 	registryChanged: function(pluginsData) {
-		
+
 		if(pluginsData) {
 			pluginsData = pluginsData.each(function(value) {value.group = value.group ? value.group : 'unknown'});
 			this.pluginsData = pluginsData.sortBy( function(value) {
 				return (value.group + "" + value.index);
-			});			
-		}		
-		
+			});
+		}
+
 		this.shapeMenu.removeAllButtons();
 		this.shapeMenu.setNumberOfButtonsPerLevel(WAPAMA.CONFIG.SHAPEMENU_RIGHT, 2);
 		this.createdButtons = {};
-		
+
 		this.createMorphMenu();
-		
+
 		if( !this.pluginsData ){
 			this.pluginsData = [];
 		}
 
 		this.baseMorphStencils = this.facade.getRules().baseMorphs();
-		
+
 		// Checks if the stencil set has morphing attributes
 		var isMorphing = this.facade.getRules().containsMorphingRules();
-		
+
 		// Create Buttons for all Stencils of all loaded stencilsets
 		var stencilsets = this.facade.getStencilSets();
 		stencilsets.values().each((function(stencilSet){
-			
+
 			var nodes = stencilSet.nodes();
 			nodes.each((function(stencil) {
 				if (stencil.hidden()) {
@@ -146,13 +146,13 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 					msg:		stencil.title() + " - " + WAPAMA.I18N.ShapeMenuPlugin.clickDrag
 					});
 				// Add button to shape menu
-				this.shapeMenu.addButton(button); 
+				this.shapeMenu.addButton(button);
 				// Add to the created Button Array
 				this.createdButtons[stencil.namespace() + stencil.type() + stencil.id()] = button;
 				// Drag'n'Drop will enable
-				Ext.dd.Registry.register(button.node.lastChild, option);			
+				Ext.dd.Registry.register(button.node.lastChild, option);
 			}).bind(this));
-		
+
 			var edges = stencilSet.edges();
 			edges.each((function(stencil) {
 				// Create a button for each edge
@@ -166,128 +166,128 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 					//dragcallback: this.hideShapeMenu.bind(this),
 					msg:		(isMorphing ? WAPAMA.I18N.Edge : stencil.title()) + " - " + WAPAMA.I18N.ShapeMenuPlugin.drag
 				});
-				
+
 				// Add button to shape menu
-				this.shapeMenu.addButton(button); 
-				
+				this.shapeMenu.addButton(button);
+
 				// Add to the created Button Array
 				this.createdButtons[stencil.namespace() + stencil.type() + stencil.id()] = button;
-				
+
 				// Drag'n'Drop will enable
 				Ext.dd.Registry.register(button.node.lastChild, option);
-				
+
 			}).bind(this));
-		
-		}).bind(this));				
-					
+
+		}).bind(this));
+
 	},
-	
+
 	createMorphMenu: function() {
-		
+
 		this.morphMenu = new Ext.menu.Menu({
 			id: 'Wapama_morph_menu',
 			items: []
 		});
-		
+
 		this.morphMenu.on("mouseover", function() {
 			this.morphMenuHovered = true;
 		}, this);
 		this.morphMenu.on("mouseout", function() {
 			this.morphMenuHovered = false;
 		}, this);
-		
-		
+
+
 		// Create the button to show the morph menu
 		var button = new WAPAMA.Plugins.ShapeMenuButton({
-			hovercallback: 	(WAPAMA.CONFIG.ENABLE_MORPHMENU_BY_HOVER ? this.showMorphMenu.bind(this) : undefined), 
-			resetcallback: 	(WAPAMA.CONFIG.ENABLE_MORPHMENU_BY_HOVER ? this.hideMorphMenu.bind(this) : undefined), 
-			callback:		(WAPAMA.CONFIG.ENABLE_MORPHMENU_BY_HOVER ? undefined : this.toggleMorphMenu.bind(this)), 
+			hovercallback: 	(WAPAMA.CONFIG.ENABLE_MORPHMENU_BY_HOVER ? this.showMorphMenu.bind(this) : undefined),
+			resetcallback: 	(WAPAMA.CONFIG.ENABLE_MORPHMENU_BY_HOVER ? this.hideMorphMenu.bind(this) : undefined),
+			callback:		(WAPAMA.CONFIG.ENABLE_MORPHMENU_BY_HOVER ? undefined : this.toggleMorphMenu.bind(this)),
 			icon: 			WAPAMA.PATH + 'images/wrench_orange.png',
 			align: 			WAPAMA.CONFIG.SHAPEMENU_BOTTOM,
 			group:			0,
 			msg:			WAPAMA.I18N.ShapeMenuPlugin.morphMsg
-		});				
-		
+		});
+
 		this.shapeMenu.setNumberOfButtonsPerLevel(WAPAMA.CONFIG.SHAPEMENU_BOTTOM, 1)
 		this.shapeMenu.addButton(button);
 		this.morphMenu.getEl().appendTo(button.node);
 		this.morphButton = button;
 	},
-	
+
 	showMorphMenu: function() {
 		this.morphMenu.show(this.morphButton.node);
 		this._morphMenuShown = true;
 	},
-	
+
 	hideMorphMenu: function() {
 		this.morphMenu.hide();
 		this._morphMenuShown = false;
 	},
-	
+
 	toggleMorphMenu: function() {
 		if(this._morphMenuShown)
 			this.hideMorphMenu();
 		else
 			this.showMorphMenu();
 	},
-	
+
 	onSelectionChanged: function(event) {
 		var elements = event.elements;
 
 		this.hideShapeMenu();
 		this.hideMorphMenu();
-				
+
 		if( this.currentShapes.inspect() !== elements.inspect() ){
 			this.currentShapes = elements;
 			this.resetElements = true;
-			
+
 			this.showShapeMenu();
 		} else {
 			this.showShapeMenu(true)
 		}
-		
+
 	},
-	
+
 	/**
 	 * Show button for morphing the selected shape into another stencil
 	 */
 	showMorphButton: function(elements) {
-		
+
 		if(elements.length != 1) return;
-		
+
 		var possibleMorphs = this.facade.getRules().morphStencils({ stencil: elements[0].getStencil() });
 		possibleMorphs = possibleMorphs.select(function(morph) {
 			if(elements[0].getStencil().type() === "node") {
 				//check containment rules
 				return this.facade.getRules().canContain({containingShape:elements[0].parent, containedStencil:morph});
-			} else { 
+			} else {
 				//check connect rules
 				return this.facade.getRules().canConnect({
-											sourceShape:	elements[0].dockers.first().getDockedShape(), 
-											edgeStencil:	morph, 
+											sourceShape:	elements[0].dockers.first().getDockedShape(),
+											edgeStencil:	morph,
 											targetShape:	elements[0].dockers.last().getDockedShape()
-											});	
+											});
 			}
 		}.bind(this));
 		if(possibleMorphs.size()<=1) return; // if morphing to other stencils is not possible, don't show button
-		
+
 		this.morphMenu.removeAll();
-		
+
 		// populate morph menu with the possible morph stencils ordered by their position
 		possibleMorphs = possibleMorphs.sortBy(function(stencil) { return stencil.position(); });
 		possibleMorphs.each((function(morph) {
-			var menuItem = new Ext.menu.Item({ 
-				text: morph.title(), 
-				icon: morph.icon(), 
+			var menuItem = new Ext.menu.Item({
+				text: morph.title(),
+				icon: morph.icon(),
 				disabled: morph.id()==elements[0].getStencil().id(),
 				disabledClass: WAPAMA.CONFIG.MORPHITEM_DISABLED,
-				handler: (function() { this.morphShape(elements[0], morph); }).bind(this) 
+				handler: (function() { this.morphShape(elements[0], morph); }).bind(this)
 			});
 			this.morphMenu.add(menuItem);
 		}).bind(this));
-		
+
 		this.morphButton.prepareToShow();
-		
+
 	},
 
 	/**
@@ -302,72 +302,72 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 
 		// Get all available edges
 		var edges = this.facade.getRules().outgoingEdgeStencils({canvas:this.facade.getCanvas(), sourceShape:elements[0]});
-		
+
 		// And find all targets for each Edge
 		var targets = new Array();
 		var addedEdges = new Array();
-		
+
 		var isMorphing = this.facade.getRules().containsMorphingRules();
-		
+
 		edges.each((function(edge) {
-			
+
 			if (isMorphing){
 				if(this.baseMorphStencils.include(edge)) {
 					var shallAppear = true;
 				} else {
-					
+
 					// if edge is member of a morph groups where none of the base morphs is in the outgoing edges
 					// we want to display the button (but only for the first one)
-					
+
 					var possibleMorphs = this.facade.getRules().morphStencils({ stencil: edge });
-					
+
 					var shallAppear = !possibleMorphs.any((function(morphStencil) {
 						if(this.baseMorphStencils.include(morphStencil) && edges.include(morphStencil)) return true;
 						return addedEdges.include(morphStencil);
 					}).bind(this));
-					
+
 				}
 			}
 			if(shallAppear || !isMorphing) {
-				if(this.createdButtons[edge.namespace() + edge.type() + edge.id()]) 
+				if(this.createdButtons[edge.namespace() + edge.type() + edge.id()])
 					this.createdButtons[edge.namespace() + edge.type() + edge.id()].prepareToShow();
 				addedEdges.push(edge);
 			}
-			
+
 			// get all targets for this edge
 			targets = targets.concat(this.facade.getRules().targetStencils(
 					{canvas:this.facade.getCanvas(), sourceShape:elements[0], edgeStencil:edge}));
 
 		}).bind(this));
-		
+
 		targets.uniq();
-		
+
 		var addedTargets = new Array();
-		// Iterate all possible target 
+		// Iterate all possible target
 		targets.each((function(target) {
-			
+
 			if (isMorphing){
-				
+
 				// continue with next target stencil
-				if (target.type()==="edge") return; 
-				
+				if (target.type()==="edge") return;
+
 				// continue when stencil should not shown in the shape menu
-				if (!this.facade.getRules().showInShapeMenu(target)) return 
-				
-				// if target is not a base morph 
+				if (!this.facade.getRules().showInShapeMenu(target)) return
+
+				// if target is not a base morph
 				if(!this.baseMorphStencils.include(target)) {
-					
+
 					// if target is member of a morph groups where none of the base morphs is in the targets
 					// we want to display the button (but only for the first one)
-					
+
 					var possibleMorphs = this.facade.getRules().morphStencils({ stencil: target });
 					if(possibleMorphs.size()==0) return; // continue with next target
-	
+
 					var baseMorphInTargets = possibleMorphs.any((function(morphStencil) {
 						if(this.baseMorphStencils.include(morphStencil) && targets.include(morphStencil)) return true;
 						return addedTargets.include(morphStencil);
 					}).bind(this));
-					
+
 					if(baseMorphInTargets) return; // continue with next target
 				}
 			}
@@ -376,15 +376,15 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 				return;
 			}
 			// if this is reached the button shall appear in the shape menu:
-			if(this.createdButtons[target.namespace() + target.type() + target.id()]) 
+			if(this.createdButtons[target.namespace() + target.type() + target.id()])
 				this.createdButtons[target.namespace() + target.type() + target.id()].prepareToShow();
 			addedTargets.push(target);
-			
+
 		}).bind(this));
-		
+
 	},
 
-	
+
 	beforeDragOver: function(dragZone, target, event){
 
 		if (this.shapeMenu.isVisible){
@@ -394,18 +394,18 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 		var coord = this.facade.eventCoordinates(event.browserEvent);
 		var aShapes = this.facade.getCanvas().getAbstractShapesAtPosition(coord);
 
-		if(aShapes.length <= 0) {return false;}	
-		
+		if(aShapes.length <= 0) {return false;}
+
 		var el = aShapes.last();
-		
+
 		if(this._lastOverElement == el) {
-			
+
 			return false;
-			
+
 		} else {
 			// check containment rules
 			var option = Ext.dd.Registry.getHandle(target.DDM.currentTarget);
-			
+
 			// revert to original options if these were modified
 			if(option.backupOptions) {
 				for(key in option.backupOptions) {
@@ -423,13 +423,13 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 			if(stencil.type() === "node") {
 				//check containment rules
 				var canContain = this.facade.getRules().canContain({containingShape:candidate, containedStencil:stencil});
-									
+
 				// if not canContain, try to find a morph which can be contained
 				if(!canContain) {
 					var possibleMorphs = this.facade.getRules().morphStencils({stencil: stencil});
 					for(var i=0; i<possibleMorphs.size(); i++) {
 						canContain = this.facade.getRules().canContain({
-							containingShape:candidate, 
+							containingShape:candidate,
 							containedStencil:possibleMorphs[i]
 						});
 						if(canContain) {
@@ -440,28 +440,28 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 						}
 					}
 				}
-					
+
 				this._currentReference = canContain ? candidate : undefined;
-					
-	
+
+
 			} else { //Edge
-			
+
 				var curCan = candidate, orgCan = candidate;
 				var canConnect = false;
 				while(!canConnect && curCan && !(curCan instanceof WAPAMA.Core.Canvas)){
 					candidate = curCan;
 					//check connection rules
 					canConnect = this.facade.getRules().canConnect({
-											sourceShape: this.currentShapes.first(), 
-											edgeStencil: stencil, 
+											sourceShape: this.currentShapes.first(),
+											edgeStencil: stencil,
 											targetShape: curCan
-											});	
+											});
 					curCan = curCan.parent;
 				}
 
 			 	// if not canConnect, try to find a morph which can be connected
 				if(!canConnect) {
-					
+
 					candidate = orgCan;
 					var possibleMorphs = this.facade.getRules().morphStencils({stencil: stencil});
 					for(var i=0; i<possibleMorphs.size(); i++) {
@@ -471,10 +471,10 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 							candidate = curCan;
 							//check connection rules
 							canConnect = this.facade.getRules().canConnect({
-														sourceShape:	this.currentShapes.first(), 
-														edgeStencil:	possibleMorphs[i], 
+														sourceShape:	this.currentShapes.first(),
+														edgeStencil:	possibleMorphs[i],
 														targetShape:	curCan
-													});	
+													});
 							curCan = curCan.parent;
 						}
 						if(canConnect) {
@@ -487,48 +487,48 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 						}
 					}
 				}
-										
-				this._currentReference = canConnect ? candidate : undefined;		
-				
-			}	
+
+				this._currentReference = canConnect ? candidate : undefined;
+
+			}
 
 			this.facade.raiseEvent({
-											type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW, 
+											type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW,
 											highlightId:'shapeMenu',
 											elements:	[candidate],
 											color:		this._currentReference ? WAPAMA.CONFIG.SELECTION_VALID_COLOR : WAPAMA.CONFIG.SELECTION_INVALID_COLOR
 										});
-												
+
 			var pr = dragZone.getProxy();
 			pr.setStatus(this._currentReference ? pr.dropAllowed : pr.dropNotAllowed );
 			pr.sync();
-										
+
 		}
-		
+
 		this._lastOverElement = el;
-		
+
 		return false;
-	},	
+	},
 
 	afterDragging: function(dragZone, target, event) {
-		
+
 		if (!(this.currentShapes instanceof Array)||this.currentShapes.length<=0) {
 			return;
 		}
 		var sourceShape = this.currentShapes;
-		
+
 		this._lastOverElement = undefined;
-		
+
 		// Hide the highlighting
 		this.facade.raiseEvent({type: WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'shapeMenu'});
-		
+
 		// Check if drop is allowed
 		var proxy = dragZone.getProxy()
 		if(proxy.dropStatus == proxy.dropNotAllowed) { return this.facade.updateSelection();}
-				
+
 		// Check if there is a current Parent
 		if(!this._currentReference) { return }
-				
+
 		var option = Ext.dd.Registry.getHandle(target.DDM.currentTarget);
 		option['parent'] = this._currentReference;
 
@@ -547,23 +547,23 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 		var parentAbs = this._currentReference.absoluteXY();
 		pos.x -= parentAbs.x;
 		pos.y -= parentAbs.y;
-		
-		// If the ctrl key is not pressed, 
-		// snapp the new shape to the center 
+
+		// If the ctrl key is not pressed,
+		// snapp the new shape to the center
 		// if it is near to the center of the other shape
 		if (!event.ctrlKey){
 			// Get the center of the shape
 			var cShape = this.currentShapes[0].bounds.center();
-			// Snapp +-20 Pixel horizontal to the center 
+			// Snapp +-20 Pixel horizontal to the center
 			if (20 > Math.abs(cShape.x - pos.x)){
 				pos.x = cShape.x;
 			}
-			// Snapp +-20 Pixel vertical to the center 
+			// Snapp +-20 Pixel vertical to the center
 			if (20 > Math.abs(cShape.y - pos.y)){
 				pos.y = cShape.y;
 			}
 		}
-				
+
 		option['position'] = pos;
 		option['connectedShape'] = this.currentShapes[0];
 		if(option['connectingType']) {
@@ -572,27 +572,27 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 			var args = { sourceShape: this.currentShapes[0], targetStencil: containedStencil };
 			option['connectingType'] = this.facade.getRules().connectMorph(args).id();
 		}
-		
+
 		if (WAPAMA.CONFIG.SHAPEMENU_DISABLE_CONNECTED_EDGE===true) {
 			delete option['connectingType'];
 		}
-			
+
 		var command = new WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand(Object.clone(option), this._currentReference, pos, this);
-		
+
 		this.facade.executeCommands([command]);
-		
-		// Inform about completed Drag 
+
+		// Inform about completed Drag
 		this.facade.raiseEvent({type: WAPAMA.CONFIG.EVENT_SHAPE_MENU_CLOSE, source:sourceShape, destination:this.currentShapes});
-		
+
 		// revert to original options if these were modified
 		if(option.backupOptions) {
 			for(key in option.backupOptions) {
 				option[key] = option.backupOptions[key];
 			}
 			delete option.backupOptions;
-		}	
-		
-		this._currentReference = undefined;		
+		}
+
+		this._currentReference = undefined;
 	},
 
 	newShape: function(option, event) {
@@ -607,7 +607,7 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 			option['connectedShape'] = this.currentShapes[0];
 			option['parent'] = this.currentShapes.first().parent;
 			option['containedStencil'] = containedStencil;
-		
+
 			var args = { sourceShape: this.currentShapes[0], targetStencil: containedStencil };
 			var targetStencil = this.facade.getRules().connectMorph(args);
 			if (!targetStencil){ return }// Check if there can be a target shape
@@ -616,13 +616,13 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 			if (WAPAMA.CONFIG.SHAPEMENU_DISABLE_CONNECTED_EDGE===true) {
 				delete option['connectingType'];
 			}
-			
+
 			var command = new WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand(option, undefined, undefined, this);
-		
+
 			this.facade.executeCommands([command]);
 		}
 	},
-	
+
 	/**
 	 * Morph a shape to a new stencil
 	 * {Command implemented}
@@ -630,7 +630,7 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 	 * @param {Stencil} stencil
 	 */
 	morphShape: function(shape, stencil) {
-		
+
 		var MorphTo = WAPAMA.Core.Command.extend({
 			construct: function(shape, stencil, facade){
 				this.shape = shape;
@@ -638,11 +638,11 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 				this.facade = facade;
 			},
 			execute: function(){
-				
+
 				var shape = this.shape;
 				var stencil = this.stencil;
 				var resourceId = shape.resourceId;
-				
+
 				// Serialize all attributes
 				var serialized = shape.serialize();
 				stencil.properties().each((function(prop) {
@@ -652,7 +652,7 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 						});
 					}
 				}).bind(this));
-		
+
 				// Get shape if already created, otherwise create a new shape
 				if (this.newShape){
 					newShape = this.newShape;
@@ -664,16 +664,16 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 									resourceId: resourceId
 								});
 				}
-				
+
 				// calculate new bounds using old shape's upperLeft and new shape's width/height
 				var boundsObj = serialized.find(function(serProp){
 					return (serProp.prefix === "wapama" && serProp.name === "bounds");
 				});
-				
+
 				var changedBounds = null;
-				
+
 				if(!this.facade.getRules().preserveBounds(shape.getStencil())) {
-					
+
 					var bounds = boundsObj.value.split(",");
 					if (parseInt(bounds[0], 10) > parseInt(bounds[2], 10)) { // if lowerRight comes first, swap array items
 						var tmp = bounds[0];
@@ -686,36 +686,36 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 					bounds[2] = parseInt(bounds[0], 10) + newShape.bounds.width();
 					bounds[3] = parseInt(bounds[1], 10) + newShape.bounds.height();
 					boundsObj.value = bounds.join(",");
-					
+
 				}  else {
-					
+
 					var height = shape.bounds.height();
 					var width  = shape.bounds.width();
-					
+
 					// consider the minimum and maximum size of
 					// the new shape
-					
+
 					if (newShape.minimumSize) {
 						if (shape.bounds.height() < newShape.minimumSize.height) {
 							height = newShape.minimumSize.height;
 						}
-						
-						
+
+
 						if (shape.bounds.width() < newShape.minimumSize.width) {
 							width = newShape.minimumSize.width;
 						}
 					}
-					
+
 					if(newShape.maximumSize) {
 						if(shape.bounds.height() > newShape.maximumSize.height) {
 							height = newShape.maximumSize.height;
-						}	
-						
+						}
+
 						if(shape.bounds.width() > newShape.maximumSize.width) {
 							width = newShape.maximumSize.width;
 						}
 					}
-					
+
 					changedBounds = {
 						a : {
 							x: shape.bounds.a.x,
@@ -724,67 +724,67 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 						b : {
 							x: shape.bounds.a.x + width,
 							y: shape.bounds.a.y + height
-						}						
+						}
 					};
-					
+
 				}
-				
+
 				var oPos = shape.bounds.center();
 				if(changedBounds !== null) {
 					newShape.bounds.set(changedBounds);
 				}
-				
+
 				// Set all related dockers
 				this.setRelatedDockers(shape, newShape);
-				
+
 				// store DOM position of old shape
 				var parentNode = shape.node.parentNode;
 				var nextSibling = shape.node.nextSibling;
-				
+
 				// Delete the old shape
 				this.facade.deleteShape(shape);
-				
+
 				// Deserialize the new shape - Set all attributes
 				newShape.deserialize(serialized);
 				/*
 				 * Change color to default if unchanged
 				 * 23.04.2010
 				 */
-				if(shape.getStencil().property("wapama-bgcolor") 
+				if(shape.getStencil().property("wapama-bgcolor")
 						&& shape.properties["wapama-bgcolor"]
 						&& shape.getStencil().property("wapama-bgcolor").value().toUpperCase()== shape.properties["wapama-bgcolor"].toUpperCase()){
 						if(newShape.getStencil().property("wapama-bgcolor")){
 							newShape.setProperty("wapama-bgcolor", newShape.getStencil().property("wapama-bgcolor").value());
 						}
-				}	
+				}
 				if(changedBounds !== null) {
 					newShape.bounds.set(changedBounds);
 				}
-				
+
 				if(newShape.getStencil().type()==="edge" || (newShape.dockers.length==0 || !newShape.dockers[0].getDockedShape())) {
 					newShape.bounds.centerMoveTo(oPos);
-				} 
-				
+				}
+
 				if(newShape.getStencil().type()==="node" && (newShape.dockers.length==0 || !newShape.dockers[0].getDockedShape())) {
 					this.setRelatedDockers(newShape, newShape);
-					
+
 				}
-				
+
 				// place at the DOM position of the old shape
 				if(nextSibling) parentNode.insertBefore(newShape.node, nextSibling);
 				else parentNode.appendChild(newShape.node);
-				
+
 				// Set selection
 				this.facade.setSelection([newShape]);
 				this.facade.getCanvas().update();
 				this.facade.updateSelection();
 				this.newShape = newShape;
-				
+
 			},
 			rollback: function(){
-				
+
 				if (!this.shape || !this.newShape || !this.newShape.parent) {return}
-				
+
 				// Append shape to the parent
 				this.newShape.parent.add(this.shape);
 				// Set dockers
@@ -797,18 +797,18 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 				this.facade.getCanvas().update();
 				this.facade.updateSelection();
 			},
-			
+
 			/**
 			 * Set all incoming and outgoing edges from the shape to the new shape
 			 * @param {Shape} shape
 			 * @param {Shape} newShape
 			 */
 			setRelatedDockers: function(shape, newShape){
-				
+
 				if(shape.getStencil().type()==="node") {
-					
+
 					(shape.incoming||[]).concat(shape.outgoing||[])
-						.each(function(i) { 
+						.each(function(i) {
 							i.dockers.each(function(docker) {
 								if (docker.getDockedShape() == shape) {
 									var rPoint = Object.clone(docker.referencePoint);
@@ -830,15 +830,15 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 										//docker.bounds.moveBy({x:rPointNew.x-rPoint.x, y:rPointNew.y-rPoint.y});
 									}
 								}
-							});	
+							});
 						});
-					
+
 					// for attached events
 					if(shape.dockers.length>0&&shape.dockers.first().getDockedShape()) {
 						newShape.dockers.first().setDockedShape(shape.dockers.first().getDockedShape());
 						newShape.dockers.first().setReferencePoint(Object.clone(shape.dockers.first().referencePoint));
 					}
-				
+
 				} else { // is edge
 					newShape.dockers.first().setDockedShape(shape.dockers.first().getDockedShape());
 					newShape.dockers.first().setReferencePoint(shape.dockers.first().referencePoint);
@@ -847,8 +847,8 @@ WAPAMA.Plugins.ShapeMenuPlugin = {
 				}
 			}
 		});
-		
-		// Create and execute command (for undo/redo)			
+
+		// Create and execute command (for undo/redo)
 		var command = new MorphTo(shape, stencil, this.facade);
 		this.facade.executeCommands([command]);
 	}
@@ -869,7 +869,7 @@ WAPAMA.Plugins.ShapeMenu = {
 
 		this.node = WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", $(parentNode),
 			['div', {id: WAPAMA.Editor.provideId(), 'class':'Wapama_ShapeMenu'}]);
-		
+
 		this.alignContainers = new Hash();
 		this.numberOfButtonsPerLevel = new Hash();
 	},
@@ -881,7 +881,7 @@ WAPAMA.Plugins.ShapeMenu = {
 			this.alignContainers[button.align] = WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", this.node,
 					['div', {'class':button.align}]);
 			this.node.appendChild(this.alignContainers[button.align]);
-			
+
 			// add event listeners for hover effect
 			var onBubble = false;
 			this.alignContainers[button.align].addEventListener(WAPAMA.CONFIG.EVENT_MOUSEOVER, this.hoverAlignContainer.bind(this, button.align), onBubble);
@@ -910,7 +910,7 @@ WAPAMA.Plugins.ShapeMenu = {
 		this.isVisible = false;
 	},
 
-	
+
 	/**
 	 * Show the shape menu
 	 */
@@ -960,13 +960,13 @@ WAPAMA.Plugins.ShapeMenu = {
 		var right = 0
 			rightButtonGroup = 0;
 		var size = 22;
-		
+
 		this.getWillShowButtons().sortBy(function(button) {
 			return button.group;
 		});
-		
+
 		this.getWillShowButtons().each(function(button){
-			
+
 			var numOfButtonsPerLevel = this.getNumberOfButtonsPerLevel(button.align);
 
 			if (button.align == WAPAMA.CONFIG.SHAPEMENU_LEFT) {
@@ -977,12 +977,12 @@ WAPAMA.Plugins.ShapeMenu = {
 				}
 				var x = Math.floor(left / numOfButtonsPerLevel)
 				var y = left % numOfButtonsPerLevel;
-				
+
 				button.setLevel(x);
-				
-				button.setPosition(a.x-5 - (x+1)*size, 
+
+				button.setPosition(a.x-5 - (x+1)*size,
 						a.y+numOfButtonsPerLevel*button.group*size + button.group*0.3*size + y*size);
-				
+
 				//button.setPosition(a.x-22, a.y+left*size);
 				left++;
  			} else if (button.align == WAPAMA.CONFIG.SHAPEMENU_TOP) {
@@ -993,9 +993,9 @@ WAPAMA.Plugins.ShapeMenu = {
 				}
  				var x = top % numOfButtonsPerLevel;
  				var y = Math.floor(top / numOfButtonsPerLevel);
- 				
+
  				button.setLevel(y);
- 				
+
  				button.setPosition(a.x+numOfButtonsPerLevel*button.group*size + button.group*0.3*size + x*size,
  						a.y-5 - (y+1)*size);
 				top++;
@@ -1007,9 +1007,9 @@ WAPAMA.Plugins.ShapeMenu = {
 				}
  				var x = bottom % numOfButtonsPerLevel;
  				var y = Math.floor(bottom / numOfButtonsPerLevel);
- 				
+
  				button.setLevel(y);
- 				
+
  				button.setPosition(a.x+numOfButtonsPerLevel*button.group*size + button.group*0.3*size + x*size,
  						a.y+bounds.height() + 5 + y*size);
 				bottom++;
@@ -1021,10 +1021,10 @@ WAPAMA.Plugins.ShapeMenu = {
 				}
 				var x = Math.floor(right / numOfButtonsPerLevel)
 				var y = right % numOfButtonsPerLevel;
-				
+
 				button.setLevel(x);
-				
-				button.setPosition(a.x+bounds.width() + 5 + x*size, 
+
+				button.setPosition(a.x+bounds.width() + 5 + x*size,
 						a.y+numOfButtonsPerLevel*button.group*size + button.group*0.3*size + y*size - 5);
 				right++;
 			}
@@ -1054,23 +1054,23 @@ WAPAMA.Plugins.ShapeMenu = {
 			if(button.align == align) button.showOpaque();
 		});
 	},
-	
+
 	resetAlignContainer: function(align, evt) {
 		this.buttons.each(function(button){
 			if(button.align == align) button.showTransparent();
 		});
 	},
-	
+
 	isHover: function() {
 		return 	this.buttons.any(function(value){
 					return value.isHover();
 				});
 	},
-	
+
 	getWillShowButtons: function() {
 		return this.buttons.findAll(function(value){return value.willShow});
 	},
-	
+
 	/**
 	 * Returns a set on buttons for that align value
 	 * @params {String} align
@@ -1079,16 +1079,16 @@ WAPAMA.Plugins.ShapeMenu = {
 	getButtons: function(align, group){
 		return this.getWillShowButtons().findAll(function(b){ return b.align == align && (group === undefined || b.group == group)})
 	},
-	
+
 	/**
 	 * Set the number of buttons to display on each level of the shape menu in the specified align group.
-	 * Example: setNumberOfButtonsPerLevel(WAPAMA.CONFIG.SHAPEMENU_RIGHT, 2) causes that the buttons of the right align group 
+	 * Example: setNumberOfButtonsPerLevel(WAPAMA.CONFIG.SHAPEMENU_RIGHT, 2) causes that the buttons of the right align group
 	 * will be rendered in 2 rows.
 	 */
 	setNumberOfButtonsPerLevel: function(align, number) {
 		this.numberOfButtonsPerLevel[align] = number;
 	},
-	
+
 	/**
 	 * Returns the number of buttons to display on each level of the shape menu in the specified align group.
 	 * Default value is 1
@@ -1104,7 +1104,7 @@ WAPAMA.Plugins.ShapeMenu = {
 WAPAMA.Plugins.ShapeMenu = Clazz.extend(WAPAMA.Plugins.ShapeMenu);
 
 WAPAMA.Plugins.ShapeMenuButton = {
-	
+
 	/**
 	 * Constructor
 	 * @param option A key map specifying the configuration options:
@@ -1113,7 +1113,7 @@ WAPAMA.Plugins.ShapeMenuButton = {
 	 * 					msg:	(String) A tooltip message
 	 * 					caption:(String) The caption of the button (attention: button width > 22, only set for single column button layouts)
 	 * 					align:	(String) The direction in which the button is aligned
-	 * 					group: 	(Integer) The button group in the specified alignment 
+	 * 					group: 	(Integer) The button group in the specified alignment
 	 * 							(buttons in the same group will be aligned side by side)
 	 * 					callback:		(Function) A callback that is executed when the button is clicked
 	 * 					dragcallback:	(Function) A callback that is executed when the button is dragged
@@ -1142,13 +1142,13 @@ WAPAMA.Plugins.ShapeMenuButton = {
 		if(this.option.msg){
 			imgOptions.title = this.option.msg;
 		}
-		
+
 		// graft and update icon (not in grafting for ns reasons).
 		//TODO Enrich graft()-function to do this in one of the above steps.
 		if(this.option.icon)
 			WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", this.node,
 				['img', imgOptions]);
-		
+
 		if(this.option.caption) {
 			var captionNode = WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", this.node, ['span']);
 			WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", captionNode, this.option.caption);
@@ -1173,7 +1173,7 @@ WAPAMA.Plugins.ShapeMenuButton = {
 		this.willShow 	= false;
 		this.resetTimer;
 	},
-	
+
 	hide: function() {
 		this.node.style.display = "none";
 		this.isVisible = false;
@@ -1184,15 +1184,15 @@ WAPAMA.Plugins.ShapeMenuButton = {
 		this.node.style.opacity = this.opacity;
 		this.isVisible = true;
 	},
-	
+
 	showOpaque: function() {
 		this.node.style.opacity = 1.0;
 	},
-	
+
 	showTransparent: function() {
 		this.node.style.opacity = this.opacity;
 	},
-	
+
 	prepareToShow: function() {
 		this.willShow = true;
 	},
@@ -1206,14 +1206,14 @@ WAPAMA.Plugins.ShapeMenuButton = {
 		this.node.style.left = x + "px";
 		this.node.style.top = y + "px";
 	},
-	
+
 	setLevel: function(level) {
 		if(level==0) this.opacity = 0.5;
 		else if(level==1) this.opacity = 0.2;
 		//else if(level==2) this.opacity = 0.1;
 		else this.opacity = 0.0;
 	},
-	
+
 	setChildWidth: function(width) {
 		this.childNode.style.width = width + "px";
 	},
@@ -1222,16 +1222,16 @@ WAPAMA.Plugins.ShapeMenuButton = {
 		// Delete the timeout for hiding
 		window.clearTimeout( this.resetTimer )
 		this.resetTimer = window.setTimeout( this.doReset.bind(this), 100)
-		
+
 		if(this.option.resetcallback) {
 			this.option.arguments.push(evt);
 			var state = this.option.resetcallback.apply(this, this.option.arguments);
 			this.option.arguments.remove(evt);
 		}
 	},
-	
+
 	doReset: function() {
-		
+
 		if(this.node.hasClassName('Wapama_down'))
 			this.node.removeClassName('Wapama_down');
 
@@ -1254,10 +1254,10 @@ WAPAMA.Plugins.ShapeMenuButton = {
 		// Delete the timeout for hiding
 		window.clearTimeout( this.resetTimer )
 		this.resetTimer = null;
-		
+
 		this.node.addClassName('Wapama_hover');
 		this.dragStart = false;
-		
+
 		if(this.option.hovercallback) {
 			this.option.arguments.push(evt);
 			var state = this.option.hovercallback.apply(this, this.option.arguments);
@@ -1311,11 +1311,11 @@ WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand = WAPAMA.Core.Command.extend({
         this.parent = option.parent;
         this.currentReference = currentReference;
         this.shapeOptions = option.shapeOptions;
-	},			
+	},
 	execute: function(){
-		
+
 		var resume = false;
-		
+
 		if (this.shape) {
 			if (this.shape instanceof WAPAMA.Core.Node) {
 				this.parent.add(this.shape);
@@ -1326,9 +1326,9 @@ WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand = WAPAMA.Core.Command.extend({
 					this.edge.dockers.last().setDockedShape(this.shape);
 					this.edge.dockers.last().setReferencePoint(this.targetRefPos);
 				}
-				
+
 				this.plugin.facade.setSelection([this.shape]);
-				
+
 			} else if (this.shape instanceof WAPAMA.Core.Edge) {
 				this.plugin.facade.getCanvas().add(this.shape);
 				this.shape.dockers.first().setDockedShape(this.connectedShape);
@@ -1340,21 +1340,21 @@ WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand = WAPAMA.Core.Command.extend({
 			this.shape = this.plugin.facade.createShape(this.option);
 			this.edge = (!(this.shape instanceof WAPAMA.Core.Edge)) ? this.shape.getIncomingShapes().first() : undefined;
 		}
-		
+
 		if (this.currentReference && this.position) {
-			
+
 			if (this.shape instanceof WAPAMA.Core.Edge) {
-			
+
 				if (!(this.currentReference instanceof WAPAMA.Core.Canvas)) {
 					this.shape.dockers.last().setDockedShape(this.currentReference);
-					
+
 					// @deprecated It now uses simply the midpoint
 					var upL = this.currentReference.absoluteXY();
 					var refPos = {
 						x: this.position.x - upL.x,
 						y: this.position.y - upL.y
 					};
-					
+
 					this.shape.dockers.last().setReferencePoint(this.currentReference.bounds.midPoint());
 				}
 				else {
@@ -1363,7 +1363,7 @@ WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand = WAPAMA.Core.Command.extend({
 				}
 				this.sourceRefPos = this.shape.dockers.first().referencePoint;
 				this.targetRefPos = this.shape.dockers.last().referencePoint;
-				
+
 			} else if (this.edge){
 				this.sourceRefPos = this.edge.dockers.first().referencePoint;
 				this.targetRefPos = this.edge.dockers.last().referencePoint;
@@ -1373,7 +1373,7 @@ WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand = WAPAMA.Core.Command.extend({
 			var connectedShape = this.connectedShape;
 			var bc = connectedShape.bounds;
 			var bs = this.shape.bounds;
-			
+
 			var pos = bc.center();
 			if(containedStencil.defaultAlign()==="north") {
 				pos.y -= (bc.height() / 2) + WAPAMA.CONFIG.SHAPEMENU_CREATE_OFFSET + (bs.height()/2);
@@ -1396,34 +1396,34 @@ WAPAMA.Plugins.ShapeMenuPlugin.CreateCommand = WAPAMA.Core.Command.extend({
 			} else {
 				pos.x += (bc.width() / 2) + WAPAMA.CONFIG.SHAPEMENU_CREATE_OFFSET + (bs.width()/2);
 			}
-			
+
 			// Move shape to the new position
 			this.shape.bounds.centerMoveTo(pos);
-			
+
 			// Move all dockers of a node to the position
 			if (this.shape instanceof WAPAMA.Core.Node){
 				(this.shape.dockers||[]).each(function(docker){
 					docker.bounds.centerMoveTo(pos);
 				})
 			}
-			
+
 			//this.shape.update();
 			this.position = pos;
-			
+
 			if (this.edge){
 				this.sourceRefPos = this.edge.dockers.first().referencePoint;
 				this.targetRefPos = this.edge.dockers.last().referencePoint;
 			}
 		}
-		
+
 		this.plugin.facade.getCanvas().update();
-		
+
 		// make the node (been hidden since created) visible after update
 		if (this.shape instanceof WAPAMA.Core.Node) {
 			this.shape.setVisible(true);
 		}
 		this.plugin.facade.updateSelection();
-		
+
 		if (!resume) {
 			// If there is a connected shape
 			if (this.edge){

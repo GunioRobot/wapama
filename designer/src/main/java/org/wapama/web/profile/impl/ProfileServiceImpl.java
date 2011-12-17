@@ -38,22 +38,22 @@ import org.wapama.web.profile.IDiagramProfileService;
 
 /**
  * a service to register profiles.
- * 
+ *
  * @author Antoine Toulme
- * 
+ *
  */
 public class ProfileServiceImpl implements IDiagramProfileService {
-    
+
     /**
      * The singleton instance of ProfileServiceImpl shared between servlets.
      */
     public static ProfileServiceImpl INSTANCE = new ProfileServiceImpl();
 
-    private Map<String, IDiagramProfile> _registry = 
+    private Map<String, IDiagramProfile> _registry =
         new HashMap<String, IDiagramProfile>();
-    private Set<IDiagramProfileFactory> _factories = 
+    private Set<IDiagramProfileFactory> _factories =
         new HashSet<IDiagramProfileFactory>();
-    
+
     /**
      * Initialize the service with a context
      * @param context the servlet context to initialize the profile.
@@ -68,7 +68,7 @@ public class ProfileServiceImpl implements IDiagramProfileService {
             }
         }
     }
-    
+
     private Map<String, IDiagramProfile> assembleProfiles(HttpServletRequest request) {
         Map<String, IDiagramProfile> profiles = new HashMap<String, IDiagramProfile>(_registry);
         if (request != null) {
@@ -80,7 +80,7 @@ public class ProfileServiceImpl implements IDiagramProfileService {
         }
         return profiles;
     }
-    
+
     public IDiagramProfile findProfile(HttpServletRequest request, String name) {
         return assembleProfiles(request).get(name);
     }
@@ -93,5 +93,5 @@ public class ProfileServiceImpl implements IDiagramProfileService {
         return _factories;
     }
 
-    
+
 }

@@ -49,14 +49,14 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
     construct: function(wapamaEditor, source, editorId){
 
         arguments.callee.$.construct.apply(this, arguments);
-        
+
         if (!source) {
             throw "WAPAMA.Core.StencilSet.StencilSet(construct): Parameter 'source' is not defined.";
         }
         if (source.endsWith("/")) {
             source = source.substr(0, source.length - 1);
         }
-		
+
 		this._extensions = new Hash();
 
         // save reference
@@ -65,7 +65,7 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
         this._editorId = editorId;
         this._baseUrl = WAPAMA.PATH + "stencilset/" + source + "/"
         this._jsonObject = {};
-        
+
         this._stencils = new Hash();
 		this._availableStencils = new Hash();
 
@@ -85,19 +85,19 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 		    }.bind(source)
         });
     },
-    
+
     /**
      * Finds a root stencil in this stencil set. There may be many of these. If
      * there are, the first one found will be used. In Firefox, this is the
      * topmost definition in the stencil set description file.
      */
     findRootStencilName: function(){
-    
+
         // find any stencil that may be root.
         var rootStencil = this._stencils.values().find(function(stencil){
             return stencil._jsonStencil.mayBeRoot
         });
-        
+
 		// if there is none, just guess the first.
 		if (!rootStencil) {
 			WAPAMA.Log.warn("Did not find any stencil that may be root. Taking a guess.");
@@ -107,7 +107,7 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
         // return its id.
         return rootStencil.id();
     },
-    
+
     /**
      * @param {WAPAMA.Core.StencilSet.StencilSet} stencilSet
      * @return {Boolean} True, if stencil set has the same namespace.
@@ -115,9 +115,9 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
     equals: function(stencilSet){
         return (this.namespace() === stencilSet.namespace());
     },
-    
+
 	/**
-	 * 
+	 *
 	 * @param {WAPAMA.Core.StencilSet.Stencil} rootStencil If rootStencil is defined, it only returns stencils
 	 * 			that could be (in)direct child of that stencil.
 	 */
@@ -126,9 +126,9 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 			var stencils = this._availableStencils.values();
 			var containers = [rootStencil];
 			var checkedContainers = [];
-			
+
 			var result = [];
-			
+
 			while (containers.size() > 0) {
 				var container = containers.pop();
 				checkedContainers.push(container);
@@ -146,26 +146,26 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 				}
 				result = result.concat(children).uniq();
 			}
-			
+
 			// Sort the result to the origin order
 			result = result.sortBy(function(stencil) {
 				return stencils.indexOf(stencil);
 			});
-			
-			
+
+
 			if(sortByGroup) {
 				result = result.sortBy(function(stencil) {
 					return stencil.groups().first();
 				});
 			}
-			
+
 			var edges = stencils.findAll(function(stencil) {
 				return stencil.type() == "edge";
 			});
 			result = result.concat(edges);
-			
+
 			return result;
-			
+
 		} else {
         	if(sortByGroup) {
 				return this._availableStencils.values().sortBy(function(stencil) {
@@ -176,77 +176,77 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 			}
 		}
     },
-    
+
     nodes: function(){
         return this._availableStencils.values().findAll(function(stencil){
             return (stencil.type() === 'node')
         });
     },
-    
+
     edges: function(){
         return this._availableStencils.values().findAll(function(stencil){
             return (stencil.type() === 'edge')
         });
     },
-    
+
     stencil: function(id){
         return this._stencils[id];
     },
-    
+
     title: function(){
         return WAPAMA.Core.StencilSet.getTranslation(this._jsonObject, "title");
     },
-    
+
     description: function(){
         return WAPAMA.Core.StencilSet.getTranslation(this._jsonObject, "description");
     },
-    
+
     namespace: function(){
         return this._jsonObject ? this._jsonObject.namespace : null;
     },
-    
+
     jsonRules: function(){
         return this._jsonObject ? this._jsonObject.rules : null;
     },
-    
+
     source: function(){
         return this._source;
     },
-	
+
 	extensions: function() {
 		return this._extensions;
 	},
-	
+
 	addExtension: function(extension) {
-		this.addExtensionDirectly(extension); 
+		this.addExtensionDirectly(extension);
 	},
-	
+
 	addExtensionDirectly: function(jsonExtension){
 		try {
 			if(!(jsonExtension["extends"].endsWith("#")))
 					jsonExtension["extends"] += "#";
-					
+
 			if(jsonExtension["extends"] == this.namespace()) {
 				this._extensions[jsonExtension.namespace] = jsonExtension;
-				
+
 				var defaultPosition = this._stencils.keys().size();
 				//load new stencils
 				if(jsonExtension.stencils) {
 					$A(jsonExtension.stencils).each(function(stencil) {
 						defaultPosition++;
-						var oStencil = new WAPAMA.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this, undefined, defaultPosition);            
+						var oStencil = new WAPAMA.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this, undefined, defaultPosition);
 						this._stencils[oStencil.id()] = oStencil;
 						this._availableStencils[oStencil.id()] = oStencil;
 					}.bind(this));
 				}
-				
+
 				//load additional properties
 				if (jsonExtension.properties) {
 					var stencils = this._stencils.values();
-					
+
 					stencils.each(function(stencil){
 						var roles = stencil.roles();
-						
+
 						jsonExtension.properties.each(function(prop){
 							prop.roles.any(function(role){
 								role = jsonExtension["extends"] + role;
@@ -254,16 +254,16 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 									prop.properties.each(function(property){
 										stencil.addProperty(property, jsonExtension.namespace);
 									});
-									
+
 									return true;
 								}
-								else 
+								else
 									return false;
 							})
 						})
 					}.bind(this));
 				}
-				
+
 				//remove stencil properties
 				if(jsonExtension.removeproperties) {
 					jsonExtension.removeproperties.each(function(remprop) {
@@ -275,7 +275,7 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 						}
 					}.bind(this));
 				}
-				
+
 				//remove stencils
 				if(jsonExtension.removestencils) {
 					$A(jsonExtension.removestencils).each(function(remstencil) {
@@ -285,29 +285,29 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 			}
 		} catch (e) {
 			WAPAMA.Log.debug("StencilSet.addExtension: Something went wrong when initialising the stencil set extension. " + e);
-		}	
+		}
 	},
-	
+
 	removeExtension: function(namespace) {
 		var jsonExtension = this._extensions[namespace];
 		if(jsonExtension) {
-			
+
 			//unload extension's stencils
 			if(jsonExtension.stencils) {
 				$A(jsonExtension.stencils).each(function(stencil) {
-					var oStencil = new WAPAMA.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this);            
+					var oStencil = new WAPAMA.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this);
 					delete this._stencils[oStencil.id()]; // maybe not ??
 					delete this._availableStencils[oStencil.id()];
 				}.bind(this));
 			}
-			
+
 			//unload extension's properties
 			if (jsonExtension.properties) {
 				var stencils = this._stencils.values();
-				
+
 				stencils.each(function(stencil){
 					var roles = stencil.roles();
-					
+
 					jsonExtension.properties.each(function(prop){
 						prop.roles.any(function(role){
 							role = jsonExtension["extends"] + role;
@@ -315,16 +315,16 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 								prop.properties.each(function(property){
 									stencil.removeProperty(property.id);
 								});
-								
+
 								return true;
 							}
-							else 
+							else
 								return false;
 						})
 					})
 				}.bind(this));
 			}
-			
+
 			//restore removed stencil properties
 			if(jsonExtension.removeproperties) {
 				jsonExtension.removeproperties.each(function(remprop) {
@@ -338,7 +338,7 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 					}
 				}.bind(this));
 			}
-			
+
 			//restore removed stencils
 			if(jsonExtension.removestencils) {
 				$A(jsonExtension.removestencils).each(function(remstencil) {
@@ -349,44 +349,44 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 		}
 		delete this._extensions[namespace];
 	},
-    
+
     __handleStencilset: function(response){
-    
+
         try {
             // using eval instead of prototype's parsing,
             // since there are functions in this JSON.
             eval("this._jsonObject =" + response.responseText);
-        } 
+        }
         catch (e) {
             throw "Stenciset corrupt: " + e;
         }
-        
+
         // assert it was parsed.
         if (!this._jsonObject) {
             throw "Error evaluating stencilset. It may be corrupt.";
         }
-        
+
         with (this._jsonObject) {
-        
+
             // assert there is a namespace.
-            if (!namespace || namespace === "") 
+            if (!namespace || namespace === "")
                 throw "Namespace definition missing in stencilset.";
-            
-            if (!(stencils instanceof Array)) 
+
+            if (!(stencils instanceof Array))
                 throw "Stencilset corrupt.";
-            
+
             // assert namespace ends with '#'.
-            if (!namespace.endsWith("#")) 
+            if (!namespace.endsWith("#"))
                 namespace = namespace + "#";
-            
+
             // assert title and description are strings.
-            if (!title) 
+            if (!title)
                 title = "";
-            if (!description) 
+            if (!description)
                 description = "";
         }
     },
-	
+
 	_getJSONURL: function(response) {
 		this._baseUrl = response.responseText.substring(0, response.responseText.lastIndexOf("/") + 1);
 		this._source = response.responseText;
@@ -397,7 +397,7 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
             onFailure: this._cancelInit.bind(this)
         });
 	},
-    
+
     /**
      * This method is called when the HTTP request to get the requested stencil
      * set succeeds. The response is supposed to be a JSON representation
@@ -409,16 +409,16 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
         WAPAMA.Log.debug("Finish loading the of stencilset: " + this._source);
         // init and check consistency.
         this.__handleStencilset(response);
-		
+
 		var pps = new Hash();
-		
+
 		// init property packages
 		if(this._jsonObject.propertyPackages) {
 			$A(this._jsonObject.propertyPackages).each((function(pp) {
 				pps[pp.name] = pp.properties;
 			}).bind(this));
 		}
-		
+
 		var defaultPosition = 0;
 		WAPAMA.Log.debug("Start to load each stencil");
 		// set the total count of all the stencils
@@ -428,7 +428,7 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
         	defaultPosition++;
             // instantiate normally.
         	try {
-        	    var oStencil = new WAPAMA.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this, pps, defaultPosition);      
+        	    var oStencil = new WAPAMA.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this, pps, defaultPosition);
         	    this._stencils[oStencil.id()] = oStencil;
         	    this._availableStencils[oStencil.id()] = oStencil;
         	} catch(e) {
@@ -441,16 +441,16 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
         	    }
         	}
         }).bind(this));
-        
+
 
 		//store stencil set
 		WAPAMA.Core.StencilSet._stencilSetsByNamespace[this.namespace()] = this;
 
 		//store stencil set by url
 		WAPAMA.Core.StencilSet._stencilSetsByUrl[this._source] = this;
-		
+
 		var namespace = this.namespace();
-		
+
 		//store which editorInstance loads the stencil set
 		if(WAPAMA.Core.StencilSet._StencilSetNSByEditorInstance[this._editorId]) {
 			WAPAMA.Core.StencilSet._StencilSetNSByEditorInstance[this._editorId].push(namespace);
@@ -467,11 +467,11 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
 			WAPAMA.Core.StencilSet._rulesByEditorInstance[this._editorId] = rules;
 		}
     },
-    
+
     toString: function(){
         return "StencilSet " + this.title() + " (" + this.namespace() + ")";
     },
-    
+
     /**
      * judge whether the current stencil is the last of StencilSet
      */
@@ -485,7 +485,7 @@ WAPAMA.Core.StencilSet.StencilSet = Clazz.extend({
             return false;
         }
     },
-    
+
     /**
      * Callback when stencil set loading finished
      */

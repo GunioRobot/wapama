@@ -82,9 +82,9 @@ public class EditorHandler extends HttpServlet {
     /**
      * da logger
      */
-    private static final Logger _logger = 
+    private static final Logger _logger =
         LoggerFactory.getLogger(EditorHandler.class);
-    
+
     public static IDiagramPreferenceService PREFERENCE_FACTORY = new IDiagramPreferenceService() {
 
         public IDiagramPreference createPreference(HttpServletRequest req) {
@@ -101,50 +101,50 @@ public class EditorHandler extends HttpServlet {
             };
         }
     };
-    
+
     /**
      * The base path under which the application will be made available at runtime.
      * This constant should be used throughout the application.
      */
     public static final String wapama_path = "/designer/";
-    
+
     /**
      * The designer DEV flag.
      * When set, the logging will be enabled at the javascript level
      */
     public static final String DEV = "designer.dev";
-    
+
     /**
      * The profile service, a global registry to get the
      * profiles.
      */
     private IDiagramProfileService _profileService = null;
-    
+
     /**
      * The plugin service, a global registry for all plugins.
      */
     private IDiagramPluginService _pluginService = null;
-    
+
     private List<String> _envFiles = new ArrayList<String>();
-    
-    private Map<String, List<IDiagramPlugin>> _pluginfiles = 
+
+    private Map<String, List<IDiagramPlugin>> _pluginfiles =
         new HashMap<String, List<IDiagramPlugin>>();
-    
-    private Map<String, List<IDiagramPlugin>> _uncompressedPlugins = 
+
+    private Map<String, List<IDiagramPlugin>> _uncompressedPlugins =
         new WeakHashMap<String, List<IDiagramPlugin>>();
-    
+
     /**
      * editor.html document.
      */
-    private Document _doc = null;  
-    
+    private Document _doc = null;
+
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         _profileService = ProfileServiceImpl.INSTANCE;
         _profileService.init(config.getServletContext());
         _pluginService = PluginServiceImpl.getInstance(
                 config.getServletContext());
-        
+
         String editor_file = config.
             getServletContext().getRealPath("/editor.html");
         try {
@@ -159,7 +159,7 @@ public class EditorHandler extends HttpServlet {
             throw new ServletException("Invalid editor.html, " +
                     "could not be read as a document.");
         }
-        
+
         Element root = _doc.getRootElement();
         Element head = root.getChild("head", root.getNamespace());
         if (head == null) {
@@ -167,13 +167,13 @@ public class EditorHandler extends HttpServlet {
             throw new ServletException("Invalid editor.html. " +
                     "No html or head tag");
         }
-        
-        
+
+
         try {
             initEnvFiles(getServletContext());
         } catch (IOException e) {
             throw new ServletException(e);
-        }            
+        }
     }
 
     /**
@@ -185,7 +185,7 @@ public class EditorHandler extends HttpServlet {
         // only do it the first time the servlet starts
         try {
             JSONObject obj = new JSONObject(readEnvFiles(context));
-    
+
             JSONArray array = obj.getJSONArray("files");
             for (int i = 0 ; i < array.length() ; i++) {
                 _envFiles.add(array.getString(i));
@@ -196,7 +196,7 @@ public class EditorHandler extends HttpServlet {
             throw new RuntimeException("Error initializing the " +
                 "environment of the editor");
         }
-    
+
         // generate script to setup the languages
         //_envFiles.add("i18n/translation_ja.js");
         if (System.getProperty(DEV) == null) {
@@ -235,18 +235,18 @@ public class EditorHandler extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, 
-            HttpServletResponse response) 
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
         Document doc = (Document) _doc.clone();
         String profileName = request.getParameter("profile");
         IDiagramProfile profile = _profileService.findProfile(
                 request, profileName);
         if (profile == null) {
-            _logger.error("No profile with the name " + profileName 
+            _logger.error("No profile with the name " + profileName
                     + " was registered");
             throw new IllegalArgumentException(
-                    "No profile with the name " + profileName + 
+                    "No profile with the name " + profileName +
                         " was registered");
         }
 
@@ -258,7 +258,7 @@ public class EditorHandler extends HttpServlet {
         } else {
             addScript(doc, wapama_path + "jsc/env_combined.js", true);
         }
-        
+
      // get language from cookie
         String lang = null;
         Cookie[] cookies = request.getCookies();
@@ -268,10 +268,10 @@ public class EditorHandler extends HttpServlet {
                 break;
             }
         }
- 
+
         // i18n message resource file name
         String i18nJsFile = null;
- 
+
         if ("de_DE".equals(lang)) {
             i18nJsFile = "i18n/translation_de.js";
         } else if ("ru".equals(lang)){
@@ -286,20 +286,20 @@ public class EditorHandler extends HttpServlet {
         // generate script to setup the languages
         addScript(doc, wapama_path + i18nJsFile, true);
 
-        
+
         // generate script tags for plugins.
         // they are located after the initialization script.
-        
+
         if (_pluginfiles.get(profileName) == null) {
             List<IDiagramPlugin> compressed = new ArrayList<IDiagramPlugin>();
             List<IDiagramPlugin> uncompressed = new ArrayList<IDiagramPlugin>();
             _pluginfiles.put(profileName, compressed);
             _uncompressedPlugins.put(profileName, uncompressed);
             for (String pluginName : profile.getPlugins()) {
-                IDiagramPlugin plugin = _pluginService.findPlugin(request, 
+                IDiagramPlugin plugin = _pluginService.findPlugin(request,
                         pluginName);
                 if (plugin == null) {
-                    _logger.warn("Could not find the plugin " + pluginName + 
+                    _logger.warn("Could not find the plugin " + pluginName +
                             " requested by the profile " + profile.getName());
                     continue;
                 }
@@ -309,14 +309,14 @@ public class EditorHandler extends HttpServlet {
                     uncompressed.add(plugin);
                 }
             }
-            
+
             if (System.getProperty(DEV) == null) {
                 // let's call the compression routine
-                String rs = compressJS(_pluginfiles.get(profileName), 
+                String rs = compressJS(_pluginfiles.get(profileName),
                         getServletContext());
                 try {
                     FileWriter w = new FileWriter(getServletContext().
-                            getRealPath("jsc/plugins_" + profileName 
+                            getRealPath("jsc/plugins_" + profileName
                                     + ".js"));
                     w.write(rs.toString());
                     w.close();
@@ -325,25 +325,25 @@ public class EditorHandler extends HttpServlet {
                 }
             }
         }
-        
+
         if (System.getProperty(DEV) != null) {
             for (IDiagramPlugin jsFile : _pluginfiles.get(profileName)) {
-                addScript(doc, wapama_path + "plugin/" + jsFile.getName() 
+                addScript(doc, wapama_path + "plugin/" + jsFile.getName()
                         + ".js", true);
             }
         } else {
-            addScript(doc, 
-                    wapama_path + "jsc/plugins_" + profileName + ".js", 
+            addScript(doc,
+                    wapama_path + "jsc/plugins_" + profileName + ".js",
                     false);
         }
-        
-        for (IDiagramPlugin uncompressed : 
+
+        for (IDiagramPlugin uncompressed :
                 _uncompressedPlugins.get(profileName)) {
-            addScript(doc, wapama_path + "plugin/" + uncompressed.getName() 
+            addScript(doc, wapama_path + "plugin/" + uncompressed.getName()
                     + ".js", false);
         }
-        
-        // send the updated editor.html to client 
+
+        // send the updated editor.html to client
         if(!isIE(request)){
             response.setContentType("application/xhtml+xml");
         }
@@ -357,7 +357,7 @@ public class EditorHandler extends HttpServlet {
         StringBuilder resultHtml = new StringBuilder();
         boolean tokenFound = false;
         boolean replacementMade = false;
-      
+
         IDiagramPreference pref = PREFERENCE_FACTORY.createPreference(request);
         int autoSaveInt = pref.getAutosaveInterval();
         boolean autoSaveOn = pref.isAutoSaveEnabled();
@@ -378,7 +378,7 @@ public class EditorHandler extends HttpServlet {
                 replacementMade = true;
             } else if ("autosavedefault".equals(elt)) {
                 resultHtml.append(autoSaveOn);
-                replacementMade = true;    
+                replacementMade = true;
             } else if ("profileplugins".equals(elt)) {
                 StringBuilder plugins = new StringBuilder();
                 boolean commaNeeded = false;
@@ -423,7 +423,7 @@ public class EditorHandler extends HttpServlet {
 
         response.getWriter().write(resultHtml.toString());
     }
-    
+
     /**
      * Reads the document from the file at the given path
      * @param path the path to the file
@@ -431,9 +431,9 @@ public class EditorHandler extends HttpServlet {
      * @throws JDOMException
      * @throws IOException
      */
-    private static Document readDocument(String path) 
+    private static Document readDocument(String path)
         throws JDOMException, IOException {
-        SAXBuilder builder = new SAXBuilder(false); 
+        SAXBuilder builder = new SAXBuilder(false);
 
         // no DTD validation
         builder.setValidation(false);
@@ -444,7 +444,7 @@ public class EditorHandler extends HttpServlet {
         Document anotherDocument = builder.build(new File(path));
         return anotherDocument;
     }
-    
+
     /**
      * Adds a script to the head.
      * @param doc the document to use.
@@ -460,7 +460,7 @@ public class EditorHandler extends HttpServlet {
         script.addContent("");
         // put it to the right place
         Element head = doc.getRootElement().getChild("head", nm);
-        
+
         if (isCore) {
             // then place it first.
           //insert before the last script tag.
@@ -468,20 +468,20 @@ public class EditorHandler extends HttpServlet {
         } else {
             head.addContent(script);
         }
-        
+
         return;
     }
-    
+
     /**
      * @return read the files to be placed as core scripts
      * from a configuration file in a json file.
-     * @throws IOException 
+     * @throws IOException
      */
     private static String readEnvFiles(ServletContext context) throws IOException {
         FileInputStream core_scripts = new FileInputStream(
                 context.getRealPath("/js/js_files.json"));
         try {
-            ByteArrayOutputStream stream = 
+            ByteArrayOutputStream stream =
                 new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
             int read;
@@ -497,7 +497,7 @@ public class EditorHandler extends HttpServlet {
             }
         }
     }
-    
+
     /**
      * Compress a list of js files into one combined string
      * @param a list of js files
@@ -505,7 +505,7 @@ public class EditorHandler extends HttpServlet {
      * @throws EvaluatorException
      * @throws IOException
      */
-    private static String compressJS(Collection<IDiagramPlugin> plugins, 
+    private static String compressJS(Collection<IDiagramPlugin> plugins,
             ServletContext context) {
         StringWriter sw = new StringWriter();
         for (IDiagramPlugin plugin : plugins) {
@@ -527,8 +527,8 @@ public class EditorHandler extends HttpServlet {
         }
         return sw.toString();
     }
-    
-    
+
+
     /**
      * Determine whether the browser is IE
      * @param request

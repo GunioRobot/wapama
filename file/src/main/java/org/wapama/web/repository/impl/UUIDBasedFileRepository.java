@@ -43,29 +43,29 @@ import org.wapama.web.repository.IUUIDBasedRepository;
 /**
  * @author Antoine Toulme
  * a simple implementation of the UUID repository storing files directly inside the webapp.
- * 
+ *
  * Convenient for development.
  */
 public class UUIDBasedFileRepository implements IUUIDBasedRepository {
 
     private static final Logger _logger = LoggerFactory.getLogger(UUIDBasedFileRepository.class);
-    
+
     /**
      * the path to the repository inside the servlet.
      */
     private final static String REPOSITORY_PATH = "repository";
 
     private String _repositoryPath;
-    
+
     public void configure(HttpServlet servlet) {
         _repositoryPath = servlet.getServletContext().getRealPath("/" + REPOSITORY_PATH);
     }
-    
+
     public byte[] load(HttpServletRequest req, String uuid, String extension) {
-        
+
         String filename = _repositoryPath + "/" + uuid + ".json";
         if (!new File(filename).exists()) {
-           return new byte[0]; // then return nothing. 
+           return new byte[0]; // then return nothing.
         }
         InputStream input = null;
         ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -73,7 +73,7 @@ public class UUIDBasedFileRepository implements IUUIDBasedRepository {
             input = new FileInputStream(filename);
             byte[] buffer = new byte[4096];
             int read;
-           
+
             while ((read = input.read(buffer)) != -1) {
                 output.write(buffer, 0, read);
             }
@@ -81,14 +81,14 @@ public class UUIDBasedFileRepository implements IUUIDBasedRepository {
             //unlikely since we just checked.
             _logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
-            
+
         } catch (IOException e) {
             _logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
         } finally {
             if (input != null) { try { input.close();} catch(Exception e) {} }
         }
-        
+
         return output.toByteArray();
     }
 
@@ -107,7 +107,7 @@ public class UUIDBasedFileRepository implements IUUIDBasedRepository {
         	writeFile(svg, _repositoryPath + "/" + uuid + ".svg");
         }
     }
-    
+
     private static void writeFile(String contents, String filename) {
         BufferedWriter writer = null;
         try {

@@ -44,7 +44,7 @@ import org.eclipse.bpmn2.RootElement;
 
 /**
  * @author Antoine Toulme
- * 
+ *
  * a marshaller to transform BPMN 2.0 elements into JSON format.
  *
  */
@@ -60,9 +60,9 @@ public class Bpmn2JsonMarshaller {
 
     private void marshallDefinitions(Definitions def, JsonGenerator generator) throws JsonGenerationException, IOException {
         generator.writeStartObject();
-        
+
         generator.writeObjectField("resourceId", def.getId());
-        
+
         /*
          *  "properties":{"id":"",
                "name":"",
@@ -87,8 +87,8 @@ public class Bpmn2JsonMarshaller {
         props.put("typelanguage", def.getTypeLanguage());
         marshallProperties(props, generator);
         marshallStencil("BPMNDiagram", generator);
-        
-        
+
+
         generator.writeArrayFieldStart("childShapes");
         for (RootElement rootElement : def.getRootElements()) {
             if (rootElement instanceof CallableElement) {
@@ -98,15 +98,15 @@ public class Bpmn2JsonMarshaller {
             }
         }
         generator.writeEndArray();
-        
-        
+
+
         generator.writeEndObject();
     }
 
     private void marshallCallableElement(CallableElement callableElement, JsonGenerator generator) throws JsonGenerationException, IOException {
         generator.writeStartObject();
         generator.writeObjectField("resourceId", callableElement.getId());
-        
+
         if (callableElement instanceof Choreography) {
             marshallChoreography((Choreography) callableElement, generator);
         } else if (callableElement instanceof Conversation) {
@@ -123,20 +123,20 @@ public class Bpmn2JsonMarshaller {
     }
 
     private void marshallProcess(Process process, JsonGenerator generator) {
-        throw new UnsupportedOperationException("TODO"); //TODO!        
+        throw new UnsupportedOperationException("TODO"); //TODO!
     }
 
     private void marshallGlobalTask(GlobalTask globalTask, JsonGenerator generator) {
         if (globalTask instanceof GlobalBusinessRuleTask) {
-            
+
         } else if (globalTask instanceof GlobalManualTask) {
-            
+
         } else if (globalTask instanceof GlobalScriptTask) {
-            
+
         } else if (globalTask instanceof GlobalUserTask) {
-            
+
         } else {
-            
+
         }
     }
 
@@ -151,7 +151,7 @@ public class Bpmn2JsonMarshaller {
     private void marshallChoreography(Choreography callableElement, JsonGenerator generator) {
         throw new UnsupportedOperationException("TODO"); //TODO!
     }
-    
+
     private void marshallProperties(Map<String, Object> properties, JsonGenerator generator) throws JsonGenerationException, IOException {
         generator.writeObjectFieldStart("properties");
         for (Entry<String, Object> entry : properties.entrySet()) {
@@ -159,11 +159,11 @@ public class Bpmn2JsonMarshaller {
         }
         generator.writeEndObject();
     }
-    
+
     private void marshallStencil(String stencilId, JsonGenerator generator) throws JsonGenerationException, IOException {
         generator.writeObjectFieldStart("stencil");
         generator.writeObjectField("id", stencilId);
         generator.writeEndObject();
     }
-    
+
 }

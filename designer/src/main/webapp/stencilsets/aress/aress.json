@@ -58,18 +58,18 @@
 				shape.getIncomingShapes(function(s) {
 					if(s.getStencil().id() === "http://b3mn.org/stencilset/b3mn#Association") {
 						var dockedShape = s.getDockers().first().getDockedShape();
-						if(dockedShape && 
+						if(dockedShape &&
 						   dockedShape.getStencil().id() ==="http://b3mn.org/stencilset/b3mn#DataObject") {
 							dataobjects++;
 						}
 					}
 				});
-				
+
 				data.push({name:"dataobjects",
 						   prefix:"raziel",
-						   value:dataobjects, 
+						   value:dataobjects,
 						   type: 'literal'});
-				
+
 				data.each(function(triple) {
 					if(triple.prefix==="raziel" && triple.name==="outgoing") {
 						var og = shape.getCanvas().getChildShapeByResourceId(triple.value);
@@ -78,7 +78,7 @@
 						}
 					}
 				});
-				
+
 				return data;
 			},
 			"deserialize": function(shape, data) {
@@ -106,7 +106,7 @@
 				},
 				{
 					"id":"state",
-					"prefix":"raziel",					
+					"prefix":"raziel",
 					"type":"Choice",
 					"title":"State",
 					"value":"",
@@ -184,18 +184,18 @@
 				shape.getIncomingShapes(function(s) {
 					if(s.getStencil().id() === "http://b3mn.org/stencilset/b3mn#Association") {
 						var dockedShape = s.getDockers().first().getDockedShape();
-						if(dockedShape && 
+						if(dockedShape &&
 						   dockedShape.getStencil().id() ==="http://b3mn.org/stencilset/b3mn#DataObject") {
 							dataobjects++;
 						}
 					}
 				});
-				
+
 				data.push({name:"dataobjects",
 						   prefix:"raziel",
-						   value:dataobjects, 
+						   value:dataobjects,
 						   type: 'literal'});
-				
+
 				data.each(function(triple) {
 					if(triple.prefix==="raziel" && triple.name==="outgoing") {
 						var og = shape.getCanvas().getChildShapeByResourceId(triple.value);
@@ -204,7 +204,7 @@
 						}
 					}
 				});
-				
+
 				return data;
 			},
 			"deserialize": function(shape, data) {
@@ -242,7 +242,7 @@
 				},
 				{
 					"id":"state",
-					"prefix":"raziel",					
+					"prefix":"raziel",
 					"type":"Choice",
 					"title":"State",
 					"value":"",
@@ -329,10 +329,10 @@
 						incomingNum++;
 					}
 				});
-				
+
 				data.push({name:"ports",
 						   prefix:"raziel",
-						   value:incomingNum, 
+						   value:incomingNum,
 						   type: 'literal'});
 				return data;
 			},
@@ -364,7 +364,7 @@
 						incomingNum++;
 					}
 				});
-				
+
 				data.push({name:"ports",
 						   prefix:"raziel",
 						   value:incomingNum,
@@ -399,7 +399,7 @@
 						incomingNum++;
 					}
 				});
-				
+
 				data.push({name:"ports",
 						   prefix:"raziel",
 						   value:incomingNum,
@@ -432,18 +432,18 @@
 				shape.getIncomingShapes(function(s) {
 					if(s.getStencil().id() === "http://b3mn.org/stencilset/b3mn#Association") {
 						var dockedShape = s.getDockers().first().getDockedShape();
-						if(dockedShape && 
+						if(dockedShape &&
 						   dockedShape.getStencil().id() ==="http://b3mn.org/stencilset/b3mn#DataObject") {
 							dataobjects++;
 						}
 					}
 				});
-				
+
 				data.push({name:"dataobjects",
 						   prefix:"raziel",
 						   value:dataobjects,
 						   type:'literal'});
-						   
+
 				data.each(function(triple) {
 					if(triple.prefix==="raziel" && triple.name==="outgoing") {
 						var og = shape.getCanvas().getChildShapeByResourceId(triple.value);
@@ -452,7 +452,7 @@
 						}
 					}
 				});
-				
+
 				return data;
 			},
 			"deserialize": function(shape, data) {
@@ -567,7 +567,7 @@
 				},
 				{
 					"id":"state",
-					"prefix":"raziel",					
+					"prefix":"raziel",
 					"type":"Choice",
 					"title":"State",
 					"value":"",
@@ -656,10 +656,10 @@
 			"groups":["Startevents"],
 			"description":"An event without incoming edges.",
 			"view":"node.event.start.svg",
-			"icon":"new_startevent.png",		
+			"icon":"new_startevent.png",
 			"roles": [
 				"SFSource",
-				"PoolChild", 
+				"PoolChild",
 				"ProcessChild"
 			],
 			"properties": [
@@ -694,11 +694,11 @@
 			"groups":["Intermediate events"],
 			"description":"",
 			"view":"node.event.timer.intermediate.svg",
-			"icon":"new_timerevent.png",		
+			"icon":"new_timerevent.png",
 			"roles": [
 				"SFSource",
 				"SFTarget",
-				"PoolChild", 
+				"PoolChild",
 				"ProcessChild",
 				"TimerIncomings"
 			],
@@ -711,7 +711,7 @@
 						   		   type:'resource'});
 					}
 				});
-				
+
 				return data;
 			},
 			"properties": [
@@ -903,17 +903,17 @@
 				});
 				return data;
 			},
-			"layout":function(shape) {		
+			"layout":function(shape) {
 				var pools = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/b3mn#Pool");
 				});
-				
+
 				if(pools.length > 0) {
-				
+
 					pools = pools.sortBy(function(pool) {
 						return pool.bounds.upperLeft().y;
 					});
-					
+
 					var shapeWidth = shape.bounds.width();
 					var shapeHeight = 0;
 					var topBound = 0;
@@ -927,7 +927,7 @@
 						lr.x = shapeWidth;
 						pool.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, shape.bounds.lowerRight().x, upl.y + shapeHeight);
 				}
@@ -1075,7 +1075,7 @@
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				]
 			},
@@ -1085,7 +1085,7 @@
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				]
 			},
@@ -1127,7 +1127,7 @@
 				]
 			}
 		],
-		canConnect: function(args) { 
+		canConnect: function(args) {
 			if(args.result) {
 				if(args.sourceShape && args.sourceStencil.roles().member(args.sourceStencil.namespace() + "Gateway")) {
 					if(args.sourceShape.getIncomingShapes().length > 1 &&
@@ -1142,7 +1142,7 @@
 					}
 				}
 			}
-			return args.result; 
+			return args.result;
 		}
 	}
 }

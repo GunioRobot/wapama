@@ -38,7 +38,7 @@ WAPAMA.Plugins.ShapeRepository = {
 		this._canAttach  = undefined;
 
 		this.shapeList = new Ext.tree.TreeNode({
-			
+
 		})
 
 		var panel = new Ext.tree.TreePanel({
@@ -51,22 +51,22 @@ WAPAMA.Plugins.ShapeRepository = {
 			anchors: '0, -30'
 		})
 		this.facade.addToRegion(null, "west", panel, WAPAMA.I18N.ShapeRepository.title);
-	
-		
+
+
 		// Create a Drag-Zone for Drag'n'Drop
 		var DragZone = new Ext.dd.DragZone(this.shapeList.getUI().getEl(), {shadow: !Ext.isMac});
 		DragZone.afterDragDrop = this.drop.bind(this, DragZone);
 		DragZone.beforeDragOver = this.beforeDragOver.bind(this, DragZone);
 		DragZone.beforeDragEnter = function(){this._lastOverElement = false; return true}.bind(this);
-		
+
 		// Load all Stencilssets
 		this.setStencilSets();
-		
+
 		this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_STENCIL_SET_LOADED, this.setStencilSets.bind(this));
 
 	},
-	
-	
+
+
 	/**
 	 * Load all stencilsets in the shaperepository
 	 */
@@ -80,86 +80,86 @@ WAPAMA.Plugins.ShapeRepository = {
 
 		// Go thru all Stencilsets and stencils
 		this.facade.getStencilSets().values().each((function(sset) {
-			
+
 			// For each Stencilset create and add a new Tree-Node
 			var stencilSetNode
-			
+
 			var typeTitle = sset.title();
 			var extensions = sset.extensions();
 //			if (extensions && extensions.size() > 0) {
 //				typeTitle += " / " + WAPAMA.Core.StencilSet.getTranslation(extensions.values()[0], "title");
-//			} 
-			
+//			}
+
 			this.shapeList.appendChild(stencilSetNode = new Ext.tree.TreeNode({
 				text:typeTitle, 			// Stencilset Name
 				allowDrag:false,
-        		allowDrop:false,           
+        		allowDrop:false,
 				iconCls:'headerShapeRepImg',
 	            cls:'headerShapeRep',
 				singleClickExpand:true}));
 			stencilSetNode.render();
-			stencilSetNode.expand();				
+			stencilSetNode.expand();
 			// Get Stencils from Stencilset
 			var stencils = sset.stencils(this.facade.getCanvas().getStencil(),
-										 this.facade.getRules());	
+										 this.facade.getRules());
 			var treeGroups = new Hash();
-			
+
 			// Sort the stencils according to their position and add them to the repository
 			stencils = stencils.sortBy(function(value) { return value.position(); } );
 			stencils.each((function(value) {
-				
+
 				// Show stencils in no group if there is less than 10 shapes
 				if(stencils.length <= WAPAMA.CONFIG.MAX_NUM_SHAPES_NO_GROUP) {
-					this.createStencilTreeNode(stencilSetNode, value);	
-					return;					
+					this.createStencilTreeNode(stencilSetNode, value);
+					return;
 				}
 				if (value.hidden()) {
 					return;
 				}
-				
+
 				// Get the groups name
 				var groups = value.groups();
-				
+
 				// For each Group-Entree
 				groups.each((function(group) {
-					
+
 					// If there is a new group
 					if(!treeGroups[group]) {
 						// Create a new group
 						treeGroups[group] = new Ext.tree.TreeNode({
 							text:group,					// Group-Name
 							allowDrag:false,
-        					allowDrop:false,            
+        					allowDrop:false,
 							iconCls:'headerShapeRepImg', // Css-Class for Icon
 				            cls:'headerShapeRepChild',  // CSS-Class for Stencil-Group
 							singleClickExpand:true});
 						// Add the Group to the ShapeRepository
 						stencilSetNode.appendChild(treeGroups[group]);
-						treeGroups[group].render();	
+						treeGroups[group].render();
 					}
-					
+
 					// Create the Stencil-Tree-Node
-					this.createStencilTreeNode(treeGroups[group], value);	
-					
+					this.createStencilTreeNode(treeGroups[group], value);
+
 				}).bind(this));
-				
+
 				// If there is no group
 				if(groups.length == 0) {
 					// Create the Stencil-Tree-Node
-					this.createStencilTreeNode(stencilSetNode, value);						
+					this.createStencilTreeNode(stencilSetNode, value);
 				}
 
 				// sort the groups
 				stencilSetNode.sort(function(a, b) {
 					return a.text > b.text ? 1 : a.text < b.text ? -1 : 0;
 				});
-	
+
 			}).bind(this));
 		}).bind(this));
-			
+
 		if (this.shapeList.firstChild.firstChild) {
 			this.shapeList.firstChild.firstChild.expand(false, true);
-		}	
+		}
 	},
 
 	createStencilTreeNode: function(parentTreeNode, stencil) {
@@ -168,10 +168,10 @@ WAPAMA.Plugins.ShapeRepository = {
 		var unserializable = stencil._jsonStencil.unserializable;
 		// get Modeling Only attribute
 		var modelingOnly = stencil._jsonStencil.modelingonly;
-		
+
 		// css class for each shapes in the Tree-Entree
 		var cssClass;
-		
+
 		// if the shape is not executeable, make the color looks dim.
 		if (modelingOnly) {
 			cssClass = 'x-tree-node-italic ShapeRepEntree';
@@ -191,42 +191,42 @@ WAPAMA.Plugins.ShapeRepository = {
 				cls:		cssClass				// CSS-Class for the Tree-Entree
 				});
 
-		parentTreeNode.appendChild(newElement);		
-		newElement.render();	
-				
+		parentTreeNode.appendChild(newElement);
+		newElement.render();
+
 		var ui = newElement.getUI();
-		
+
 		// Set the tooltip
 		ui.elNode.setAttributeNS(null, "title", stencil.description());
-		
+
 		// Register the Stencil on Drag and Drop
 		Ext.dd.Registry.register(ui.elNode, {
 				node: 		ui.node,
 		        handles: 	[ui.elNode, ui.textNode].concat($A(ui.elNode.childNodes)), // Set the Handles
 		        isHandle: 	false,
-				type:		stencil.id(),			// Set Type of stencil 
+				type:		stencil.id(),			// Set Type of stencil
 				namespace:	stencil.namespace()		// Set Namespace of stencil
 				});
-								
+
 	},
-	
+
 	drop: function(dragZone, target, event) {
-		
+
 		this._lastOverElement = undefined;
-		
+
 		// Hide the highlighting
 		this.facade.raiseEvent({type: WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'shapeRepo.added'});
 		this.facade.raiseEvent({type: WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'shapeRepo.attached'});
-		
+
 		// Check if drop is allowed
 		var proxy = dragZone.getProxy()
 		if(proxy.dropStatus == proxy.dropNotAllowed) { return }
-		
+
 		// Check if there is a current Parent
 		if(!this._currentParent) { return }
-		
+
 		var option = Ext.dd.Registry.getHandle(target.DDM.currentTarget);
-		
+
 		var xy = event.getXY();
 		var pos = {x: xy[0], y: xy[1]};
 
@@ -246,15 +246,15 @@ WAPAMA.Plugins.ShapeRepository = {
 
 		// Set position
 		option['position'] = pos
-		
+
 		// Set parent
 		if( this._canAttach &&  this._currentParent instanceof WAPAMA.Core.Node ){
-			option['parent'] = undefined;	
+			option['parent'] = undefined;
 		} else {
 			option['parent'] = this._currentParent;
 		}
-		
-		
+
+
 		var commandClass = WAPAMA.Core.Command.extend({
 			construct: function(option, currentParent, canAttach, position, facade){
 				this.option = option;
@@ -265,7 +265,7 @@ WAPAMA.Plugins.ShapeRepository = {
 				this.selection = this.facade.getSelection();
 				this.shape;
 				this.parent;
-			},			
+			},
 			execute: function(){
 				if (!this.shape) {
 					this.shape 	= this.facade.createShape(option);
@@ -273,60 +273,60 @@ WAPAMA.Plugins.ShapeRepository = {
 				} else {
 					this.parent.add(this.shape);
 				}
-					
-				
-				
+
+
+
 				if( this.canAttach &&  this.currentParent instanceof WAPAMA.Core.Node && this.shape.dockers.length > 0){
-					
+
 					var docker = this.shape.dockers[0];
-		
+
 					if( this.currentParent.parent instanceof WAPAMA.Core.Node ) {
 						this.currentParent.parent.add( docker.parent );
 					}
-												
+
 					docker.bounds.centerMoveTo( this.position );
 					docker.setDockedShape( this.currentParent );
-					//docker.update();	
+					//docker.update();
 				}
-		
+
 				//this.currentParent.update();
 				//this.shape.update();
 
 				this.facade.setSelection([this.shape]);
 				this.facade.getCanvas().update();
-				
+
 				// make the node (been hidden since created) visible after update
 				if (this.shape instanceof WAPAMA.Core.Node) {
 					this.shape.setVisible(true);
 				}
 				this.facade.updateSelection();
-				
+
 				this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_DROP_SHAPE, shape:this.shape});
-				
+
 			},
 			rollback: function(){
 				this.facade.deleteShape(this.shape);
-				
+
 				//this.currentParent.update();
 
 				this.facade.setSelection(this.selection.without(this.shape));
 				this.facade.getCanvas().update();
-				
+
 				// make the node (been hidden since created) visible after update
 				if (this.shape instanceof WAPAMA.Core.Node) {
 					this.shape.setVisible(true);
 				}
 				this.facade.updateSelection();
-				
+
 			}
 		});
-							
-		var position = this.facade.eventCoordinates( event.browserEvent );	
-					
+
+		var position = this.facade.eventCoordinates( event.browserEvent );
+
 		var command = new commandClass(option, this._currentParent, this._canAttach, position, this.facade);
-		
+
 		this.facade.executeCommands([command]);
-		
+
 		this._currentParent = undefined;
 	},
 
@@ -336,21 +336,21 @@ WAPAMA.Plugins.ShapeRepository = {
 		var aShapes = this.facade.getCanvas().getAbstractShapesAtPosition( coord );
 
 		if(aShapes.length <= 0) {
-			
+
 				var pr = dragZone.getProxy();
 				pr.setStatus(pr.dropNotAllowed);
 				pr.sync();
-				
+
 				return false;
-		}	
-		
+		}
+
 		var el = aShapes.last();
-	
-		
+
+
 		if(aShapes.lenght == 1 && aShapes[0] instanceof WAPAMA.Core.Canvas) {
-			
+
 			return false;
-			
+
 		} else {
 			// check containment rules
 			var option = Ext.dd.Registry.getHandle(target.DDM.currentTarget);
@@ -360,31 +360,31 @@ WAPAMA.Plugins.ShapeRepository = {
 			var stencil = stencilSet.stencil(option.type);
 
 			if(stencil.type() === "node") {
-				
+
 				var parentCandidate = aShapes.reverse().find(function(candidate) {
-					return (candidate instanceof WAPAMA.Core.Canvas 
+					return (candidate instanceof WAPAMA.Core.Canvas
 							|| candidate instanceof WAPAMA.Core.Node
 							|| candidate instanceof WAPAMA.Core.Edge);
 				});
-				
+
 				if(  parentCandidate !== this._lastOverElement){
-					
+
 					this._canAttach  = undefined;
 					this._canContain = undefined;
-					
+
 				}
-				
+
 				if( parentCandidate ) {
-					//check containment rule					
-						
+					//check containment rule
+
 					if (!(parentCandidate instanceof WAPAMA.Core.Canvas) && parentCandidate.isPointOverOffset(coord.x, coord.y) && this._canAttach == undefined) {
-					
+
 						this._canAttach = this.facade.getRules().canConnect({
 												sourceShape: parentCandidate,
 												edgeStencil: stencil,
 												targetStencil: stencil
 											});
-						
+
 						if( this._canAttach ){
 							// Show Highlight
 							this.facade.raiseEvent({
@@ -394,61 +394,61 @@ WAPAMA.Plugins.ShapeRepository = {
 								style: WAPAMA.CONFIG.SELECTION_HIGHLIGHT_STYLE_RECTANGLE,
 								color: WAPAMA.CONFIG.SELECTION_VALID_COLOR
 							});
-							
+
 							this.facade.raiseEvent({
 								type: WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE,
 								highlightId: "shapeRepo.added"
 							});
-							
+
 							this._canContain	= undefined;
-						} 					
-						
+						}
+
 					}
-					
+
 					if(!(parentCandidate instanceof WAPAMA.Core.Canvas) && !parentCandidate.isPointOverOffset(coord.x, coord.y)){
-						this._canAttach 	= this._canAttach == false ? this._canAttach : undefined;						
+						this._canAttach 	= this._canAttach == false ? this._canAttach : undefined;
 					}
-					
+
 					if( this._canContain == undefined && !this._canAttach) {
-											
+
 						this._canContain = this.facade.getRules().canContain({
-															containingShape:parentCandidate, 
+															containingShape:parentCandidate,
 															containedStencil:stencil
 															});
-															
+
 						// Show Highlight
 						this.facade.raiseEvent({
-															type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW, 
+															type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW,
 															highlightId:'shapeRepo.added',
 															elements:	[parentCandidate],
 															color:		this._canContain ? WAPAMA.CONFIG.SELECTION_VALID_COLOR : WAPAMA.CONFIG.SELECTION_INVALID_COLOR
-														});	
+														});
 						this.facade.raiseEvent({
 															type: 		WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE,
 															highlightId:"shapeRepo.attached"
-														});						
+														});
 					}
-						
-				
-					
+
+
+
 					this._currentParent = this._canContain || this._canAttach ? parentCandidate : undefined;
 					this._lastOverElement = parentCandidate;
 					var pr = dragZone.getProxy();
 					pr.setStatus(this._currentParent ? pr.dropAllowed : pr.dropNotAllowed );
 					pr.sync();
-	
-				} 
+
+				}
 			} else { //Edge
 				this._currentParent = this.facade.getCanvas();
 				var pr = dragZone.getProxy();
 				pr.setStatus(pr.dropAllowed);
 				pr.sync();
-			}		
+			}
 		}
-		
-		
+
+
 		return false
-	}	
+	}
 }
 
 WAPAMA.Plugins.ShapeRepository = Clazz.extend(WAPAMA.Plugins.ShapeRepository);

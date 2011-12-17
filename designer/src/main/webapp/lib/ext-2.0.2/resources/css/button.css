@@ -2,7 +2,7 @@
  * Ext JS Library 2.0.2
  * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
- * 
+ *
  * http://extjs.com/license
  */
 
@@ -40,7 +40,7 @@
  e.g.
  .my-class .x-btn-text { background-image: url(foo.gif); }
  */
- 
+
 .x-btn-icon .x-btn-center .x-btn-text{
 	background-position: center;
 	background-repeat: no-repeat;
@@ -59,7 +59,7 @@
 }
 /*
  Button class for icon and text. Add this class (x-btn-text-icon) and a class with a background-image
- to your button for both text and icon. 
+ to your button for both text and icon.
 */
 
 .x-btn-text-icon .x-btn-center .x-btn-text{

@@ -19,7 +19,7 @@
 				 raiseEvent({type:'layout.rows', target:shape.rootNode,shape:shape,marginTop:50,marginLeft:50,spacingX:30,spacingY:30});
  			},*/
  			"layout": [
- 				{ 
+ 				{
  					"type": 'layout.rows',
 					"marginTop": 50,
 					"marginLeft":50,
@@ -88,7 +88,7 @@
 					"wrapLines":true
 				}
 			]
-		},	
+		},
  		{
 			"type": "node",
 			"id":"Input",
@@ -105,7 +105,7 @@
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -339,11 +339,11 @@
 				"core_form_controls",
 				"controls_morph"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -538,7 +538,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"100"
-				}	
+				}
 			]
 		},
 		{
@@ -553,11 +553,11 @@
 				"core_form_controls",
 				"controls_morph"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -764,7 +764,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"100"
-				}	
+				}
 			]
 		},
 		{
@@ -779,11 +779,11 @@
 				"core_form_controls",
 				"controls_morph"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -957,11 +957,11 @@
 				"core_form_controls",
 				"controls_morph"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -1156,7 +1156,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"100"
-				}		
+				}
 			]
 		},
 		{
@@ -1171,11 +1171,11 @@
 				"core_form_controls",
 				"controls_morph"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -1394,7 +1394,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"100"
-				}			
+				}
 			]
 		},
 		{
@@ -1408,19 +1408,19 @@
 			"roles": [
 				"core_form_controls"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
-						
+
 						var ul = label.bounds.upperLeft();
 						var lr = label.bounds.lowerRight();
 						ul.y = 2;
 						lr.y = 2 + label.bounds.height();
-						
+
 						if((shape.bounds.width()-4)<label.bounds.width()) {
 							var sul = shape.bounds.upperLeft();
 							var slr = shape.bounds.lowerRight();
@@ -1612,19 +1612,19 @@
 			"roles": [
 				"core_form_controls"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
-						
+
 						var ul = label.bounds.upperLeft();
 						var lr = label.bounds.lowerRight();
 						ul.y = 2;
 						lr.y = 2 + label.bounds.height();
-						
+
 						if((shape.bounds.width()-4)<label.bounds.width()) {
 							var sul = shape.bounds.upperLeft();
 							var slr = shape.bounds.lowerRight();
@@ -2008,18 +2008,18 @@
 				"list_ui_common_container",
 				"controls_morph"
 			],
-			/*"layout":function(shape) {	
-		
+			/*"layout":function(shape) {
+
 				var items = shape.getChildNodes(false).findAll(function(node) {
 					return ((node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Item")||(node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Choices")||(node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Itemset"));
 				});
-				
+
 				if(items.length > 0) {
-				
+
 					items = items.sortBy(function(item) {
 						return item.bounds.upperLeft().y;
 					});
-					
+
 					var shapeWidth = shape.bounds.width();
 					var shapeHeight = 0;
 					items.each(function(item) {
@@ -2038,15 +2038,15 @@
 						lr.x = shapeWidth;
 						item.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, shape.bounds.lowerRight().x, upl.y + shapeHeight + 5);
 				}
-				
+
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -2058,7 +2058,7 @@
 						label.bounds.set(ul, lr);
 					});
 				}
-				
+
  			},*/
  			"layout" : [{"type" : "layout.xforms.item"}],
 			"properties": [
@@ -2276,18 +2276,18 @@
 				"list_ui_common_container",
 				"controls_morph"
 			],
-			/*"layout":function(shape) {	
-		
+			/*"layout":function(shape) {
+
 				var items = shape.getChildNodes(false).findAll(function(node) {
 					return ((node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Item")||(node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Choices")||(node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Itemset"));
 				});
-				
+
 				if(items.length > 0) {
-				
+
 					items = items.sortBy(function(item) {
 						return item.bounds.upperLeft().y;
 					});
-					
+
 					var shapeWidth = shape.bounds.width();
 					var shapeHeight = 0;
 					items.each(function(item) {
@@ -2306,15 +2306,15 @@
 						lr.x = shapeWidth;
 						item.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, shape.bounds.lowerRight().x, upl.y + shapeHeight + 5);
 				}
-				
+
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -2326,7 +2326,7 @@
 						label.bounds.set(ul, lr);
 					});
 				}
-				
+
  			},*/
  			"layout" : [{"type" : "layout.xforms.item"}],
 			"properties": [
@@ -2559,11 +2559,11 @@
 			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:'layout.rows',shape:shape,marginTop:50,marginLeft:10,spacingX:30,spacingY:30,exclude:["http://b3mn.org/stencilset/xforms#Label"]});
- 				
+
  				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -2577,7 +2577,7 @@
 				}
  			},*/
  			"layout": [
- 				{ 
+ 				{
  					"type": 'layout.rows',
 					"marginTop"	: 	50,
 					"marginLeft":	50,
@@ -2775,7 +2775,7 @@
 				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:10,spacingX:30,spacingY:30});
  			},*/
  			"layout": [
- 				{ 
+ 				{
  					"type": 'layout.rows',
 					"marginTop"	: 	30,
 					"marginLeft":	10,
@@ -2821,20 +2821,20 @@
 				"additional_form_controls",
 				"case_container"
 			],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var cases = shape.getChildNodes(false);
-				
+
 				var maxWidth = 0;
 				cases.each(function(c) {
 					if(c.bounds.width()>maxWidth) maxWidth = c.bounds.width();
 				});
 
 				if(cases.length > 0) {
-					
+
 					cases = cases.sortBy(function(c) {
 						return c.bounds.upperLeft().y;
 					});
-					
+
 					var shapeHeight = 5;
 					cases.each(function(c) {
 						var ul = c.bounds.upperLeft();
@@ -2846,13 +2846,13 @@
 						lr.x = maxWidth;
 						c.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, upl.x + maxWidth, upl.y + shapeHeight + 20);
 				}
  			},*/
  			"layout": [
- 				{ 
+ 				{
  					"type": 'layout.xforms.case'
  				}
  			],
@@ -3040,7 +3040,7 @@
 				raiseEvent({type:'layout.rows',shape:shape,marginTop:30,marginLeft:10,spacingX:30,spacingY:30});
  			},*/
  			"layout": [
- 				{ 
+ 				{
  					"type": 'layout.rows',
 					"marginTop"	: 	30,
 					"marginLeft":	10,
@@ -3542,11 +3542,11 @@
 				"list_ui_common",
 				"labeled"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -3611,11 +3611,11 @@
 				"list_ui_common",
 				"labeled"
 			],
-			/*"layout":function(shape) {	
+			/*"layout":function(shape) {
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -3657,7 +3657,7 @@
 						"type":"String",
 						"value":"",
 						"width":100,
-						"optional":false 
+						"optional":false
 					},
 					{
 						"id":"value",
@@ -3665,7 +3665,7 @@
 						"type":"String",
 						"value":"",
 						"width":100,
-						"optional":true 
+						"optional":true
 					},
 					],
 				},
@@ -3804,18 +3804,18 @@
 				"list_ui_common_container",
 				"labeled"
 			],
-			/*"layout":function(shape) {	
-		
+			/*"layout":function(shape) {
+
 				var items = shape.getChildNodes(false).findAll(function(node) {
 					return ((node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Item")||(node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Choices")||(node.getStencil().id()==="http://b3mn.org/stencilset/xforms#Itemset"));
 				});
-				
+
 				if(items.length > 0) {
-				
+
 					items = items.sortBy(function(item) {
 						return item.bounds.upperLeft().y;
 					});
-					
+
 					var shapeWidth = shape.bounds.width();
 					var shapeHeight = 0;
 					items.each(function(item) {
@@ -3834,15 +3834,15 @@
 						lr.x = shapeWidth;
 						item.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, shape.bounds.lowerRight().x, upl.y + shapeHeight + 5);
 				}
-				
+
 				var labels = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/xforms#Label");
 				});
-				
+
 				if(labels.length > 0) {
 					labels.each(function(label) {
 						var ul = label.bounds.upperLeft();
@@ -3854,7 +3854,7 @@
 						label.bounds.set(ul, lr);
 					});
 				}
-				
+
  			},*/
  			"layout":[{"type":"layout.xforms.item"}],
 			"properties": [
@@ -3885,15 +3885,15 @@
 				"action",
 				"actions_morph"
 			],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var actions = shape.getChildNodes(false);
 
 				if(actions.length > 0) {
-					
+
 					actions = actions.sortBy(function(action) {
 						return action.bounds.upperLeft().y;
 					});
-					
+
 					var shapeHeight = 5;
 					actions.each(function(action) {
 						var ul = action.bounds.upperLeft();
@@ -3905,7 +3905,7 @@
 						lr.x = 2 + action.bounds.width();
 						action.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					var lor = shape.bounds.lowerRight();
 					shape.bounds.set(upl.x, upl.y, lor.x, upl.y + shapeHeight + 15);
@@ -3960,7 +3960,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":"50"
-				}		
+				}
 			]
 		},
 		{
@@ -5323,7 +5323,7 @@
 				}
 			]
 		}
-	],	
+	],
 	"rules": {
 		"containmentRules": [
 			{

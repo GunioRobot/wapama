@@ -44,16 +44,16 @@ import org.wapama.web.stencilset.IDiagramStencilSetService;
 public class StencilSetServiceServlet extends HttpServlet {
 
 private static final Logger _logger = LoggerFactory.getLogger(StencilSetServiceServlet.class);
-    
+
     private static final long serialVersionUID = -2024110864538877629L;
-    
+
     private IDiagramStencilSetService _pluginService;
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         _pluginService = new StencilSetServiceImpl(config.getServletContext());
     }
-    
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestURI = req.getRequestURI();
         // urls should be of type: /designer/stencilset/bpmn2.0
@@ -63,7 +63,7 @@ private static final Logger _logger = LoggerFactory.getLogger(StencilSetServiceS
             throw new IllegalArgumentException("No name provided");
         }
         String name = segments[3];
-        
+
         IDiagramStencilSet stencilset = _pluginService.findStencilSet(req, name);
         if (stencilset == null) {
             throw new IllegalArgumentException("No stencilset by the name of " + name);
@@ -76,7 +76,7 @@ private static final Logger _logger = LoggerFactory.getLogger(StencilSetServiceS
             input = stencilset.getContents();
             resp.setContentType("application/json");
         }
-        
+
         try {
             byte[] buffer = new byte[4096];
             int read;

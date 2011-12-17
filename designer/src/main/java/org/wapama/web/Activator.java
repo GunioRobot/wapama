@@ -40,7 +40,7 @@ import org.wapama.web.profile.impl.ProfileServiceImpl;
 
 /**
  * @author Antoine Toulme
- * 
+ *
  * This activator is called when the bundle starts to register services for the bundle.
  *
  */
@@ -106,7 +106,7 @@ public class Activator implements BundleActivator {
                     IFilterFactory.class.getName(), cust);
             tracker.open();
         }
-        
+
         {
         	ServiceReference[] sRefs = context.getServiceReferences(IDiagramProfileFactory.class.getName(), null);
 	        if (sRefs != null) {
@@ -116,13 +116,13 @@ public class Activator implements BundleActivator {
 	            }
 	        }
 	        ServiceTrackerCustomizer cust = new ServiceTrackerCustomizer() {
-	
+
 	            public void removedService(ServiceReference reference, Object service) {
 	            }
-	
+
 	            public void modifiedService(ServiceReference reference, Object service) {
 	            }
-	
+
 	            public Object addingService(ServiceReference reference) {
 	                IDiagramProfileFactory service = (IDiagramProfileFactory) context.getService(reference);
 	                ProfileServiceImpl.INSTANCE.getFactories().add(service);

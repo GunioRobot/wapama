@@ -28,19 +28,19 @@
 	WAPAMA.Plugins = new Object();
 
 /**
- * The UML plugin provides layout methods referring to the UML stencilset. 
- * 
+ * The UML plugin provides layout methods referring to the UML stencilset.
+ *
  * @class WAPAMA.Plugins.UML
  * @extends Clazz
  * @param {Object} facade The facade of the editor
  */
-WAPAMA.Plugins.UML = 
+WAPAMA.Plugins.UML =
 /** @lends WAPAMA.Plugins.UML.prototype */
 {
 	/**
 	 * Creates a new instance of the UML plugin and registers it on the
 	 * layout events listed in the UML stencil set.
-	 * 
+	 *
 	 * @constructor
 	 * @param {Object} facade The facade of the editor
 	 */
@@ -54,7 +54,7 @@ WAPAMA.Plugins.UML =
 		this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_LOADED, this.addReadingDirectionOnLoad.bind(this));
 
 	},
-	
+
 	/**
 	 * Add reading direction on load.
 	 *
@@ -71,24 +71,24 @@ WAPAMA.Plugins.UML =
 			}
 		}.bind(this));
 	},
-	
+
 	/**
 	 * calculates the height of a text, taking line breaks into consideration
 	 *
 	 * @param {Object} labelElement the label
 	 * @param {String} the label test
 	 */
-	
+
 	calculateLabelHeight : function (labelElement, labelValue) {
 		var fontSize = labelElement.getFontSize();
 		var newlineOccurences = 1;
-		
+
 		labelValue.scan('\n', function() { newlineOccurences += 1; });
-		
+
 		// 0.75 account for padding around the label
 		return newlineOccurences * fontSize + 0.75;
 	},
-	
+
 	/**
 	 * Add Reading Direction to the name label after it has been changed
 	 */
@@ -97,7 +97,7 @@ WAPAMA.Plugins.UML =
 			this.addReadingDirection(event.elements[0]);
 		}
 	},
-	
+
 	/**
 	 * Layout class shapes.
 	 *   - make text italic when abstract
@@ -105,19 +105,19 @@ WAPAMA.Plugins.UML =
 	 */
 	handleLayoutClass : function(event) {
 		var shape = event.shape;
-		
+
 		if (shape.propertiesChanged["wapama-abstract"] == true) {
 			var className = event.shape.getLabels().find(
 					function(label) { return label.id == (event.shape.id + "className") }
 				);
-			
+
 			if (shape.properties["wapama-abstract"] == true) {
 				className.node.setAttribute("font-style", "italic");
 			} else {
 				className.node.setAttribute("font-style", "none");
 			}
 		}
-		
+
 		if (shape.propertiesChanged["wapama-attributes"] == true || shape.propertiesChanged["wapama-methods"]) {
 			var attributesValue = event.shape.properties["wapama-attributes"];
 			var methodsValue = event.shape.properties["wapama-methods"];
@@ -130,18 +130,18 @@ WAPAMA.Plugins.UML =
 			var separator = event.shape._svgShapes.find(
 					function(element) { return element.element.id == (event.shape.id + "separator") }
 				).element;
-					
-					
+
+
 			var attributesHeight = this.calculateLabelHeight(attributes, attributesValue);
 			var methodsHeight = this.calculateLabelHeight(methods, methodsValue);
-			
+
 			// 24px account for the class name
 			var distanceTilSeparator = 24 + attributesHeight + 2;
 			var distanceTilBottom = distanceTilSeparator + methodsHeight + 2;
-			
+
 			separator.setAttribute("y1", distanceTilSeparator);
 			separator.setAttribute("y2", distanceTilSeparator);
-			
+
 			// realign methods label (so that wapama' internal references are correct)
 			methods.y = distanceTilSeparator + 3;
 			methods.node.setAttribute("y", distanceTilSeparator + 3);
@@ -149,58 +149,58 @@ WAPAMA.Plugins.UML =
 			for (var i = 0; i < methods.node.childElementCount; i++) {
 				methods.node.childNodes[i].setAttribute("y", distanceTilSeparator + 2);
 			}
-			
+
 			// resize shape
 			shape.bounds.set(
-				shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				shape.bounds.b.x, 
+				shape.bounds.a.x,
+				shape.bounds.a.y,
+				shape.bounds.b.x,
 				shape.bounds.a.y + distanceTilBottom + 5
 			);
 		}
 	},
-	
+
 	/**
 	 * Layout the interface and enumeration shape. Resize according to their content.
 	 */
 	handleLayoutList : function(event) {
 		var shape = event.shape;
-		
+
 		if (shape.propertiesChanged["wapama-items"] == true) {
 			var itemsValue = shape.properties["wapama-items"];
 			var items = shape.getLabels().find(
 					function(label) { return label.id == (event.shape.id + "items") }
 				);
-			
+
 			var itemsHeight = this.calculateLabelHeight(items, itemsValue);
-		
+
 			var distanceTilBottom = 32 + itemsHeight + 2;
-			
+
 			// resize shape
 			shape.bounds.set(
-				shape.bounds.a.x, 
-				shape.bounds.a.y, 
-				shape.bounds.b.x, 
+				shape.bounds.a.x,
+				shape.bounds.a.y,
+				shape.bounds.b.x,
 				shape.bounds.a.y + distanceTilBottom + 5
 			);
 		}
 	},
-	
+
 	/**
 	 * Draws the reading direction arrow when an association is changed.
 	 */
 	handleLayoutAssociation : function(event) {
 		this.addReadingDirection(event.shape);
 	},
-	
+
 	/**
 	 * Adds the reading direction to the "name" label of an association.
-	 */ 
+	 */
 	addReadingDirection : function(shape) {
 		var name = shape.getLabels().find(
 					function(label) { return label.id == (shape.id + "name") }
 				);
-		
+
 		if (shape.properties["wapama-direction"] == "left") {
 			name.text("◀ " + shape.properties["wapama-name"]);
 		}
@@ -210,11 +210,11 @@ WAPAMA.Plugins.UML =
 		else {
 			name.text(shape.properties["wapama-name"]);
 		}
-		
+
 		name.update();
 	},
-	
-	
+
+
 	/**
 	 * Resizes the qualifier box of a qualified association according to its content.
 	 */
@@ -223,7 +223,7 @@ WAPAMA.Plugins.UML =
 		var qualifier = shape.getLabels().find(
 					function(label) { return label.id == (event.shape.id + "qualifier") }
 				);
-		
+
 		var size = qualifier._estimateTextWidth(shape.properties["wapama-qualifier"], 12);
 		// enforce minimum size, looks bad otherwise
 		if (size < 40) size = 40;

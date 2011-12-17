@@ -32,7 +32,7 @@ import org.eclipse.bpmn2.BaseElement;
  *
  */
 public interface BpmnMarshallerHelper {
-    
+
     /**
      * Applies the set of properties from the json model to the BPMN 2 element.
      * @param baseElement the base element to be customized.

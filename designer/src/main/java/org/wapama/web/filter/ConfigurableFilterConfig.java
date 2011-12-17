@@ -36,13 +36,13 @@ import javax.servlet.ServletContext;
  */
 @SuppressWarnings("rawtypes")
 public class ConfigurableFilterConfig implements FilterConfig {
-    
+
     private Map<String, String> _parameters = new HashMap<String, String>();
-    
+
     private String _name;
 
     private ServletContext _servletContext;
-    
+
     public ConfigurableFilterConfig(FilterConfig config) {
         Enumeration parameters = config.getInitParameterNames();
         while(parameters.hasMoreElements()) {
@@ -51,11 +51,11 @@ public class ConfigurableFilterConfig implements FilterConfig {
         }
         _name = config.getFilterName();
         _servletContext = config.getServletContext();
-        
+
     }
 
-    /** 
-     * Returns the filter-name of this filter as defined in the deployment descriptor. 
+    /**
+     * Returns the filter-name of this filter as defined in the deployment descriptor.
      */
     public String getFilterName() {
         return _name;
@@ -67,9 +67,9 @@ public class ConfigurableFilterConfig implements FilterConfig {
      *
      *
      * @return      a {@link ServletContext} object, used
-     *          by the caller to interact with its servlet 
+     *          by the caller to interact with its servlet
      *                  container
-     * 
+     *
      * @see     ServletContext
      *
      */
@@ -78,14 +78,14 @@ public class ConfigurableFilterConfig implements FilterConfig {
     }
 
     /**
-     * Returns a <code>String</code> containing the value of the 
-     * named initialization parameter, or <code>null</code> if 
+     * Returns a <code>String</code> containing the value of the
+     * named initialization parameter, or <code>null</code> if
      * the parameter does not exist.
      *
      * @param name  a <code>String</code> specifying the name
      *          of the initialization parameter
      *
-     * @return      a <code>String</code> containing the value 
+     * @return      a <code>String</code> containing the value
      *          of the initialization parameter
      *
      */
@@ -95,12 +95,12 @@ public class ConfigurableFilterConfig implements FilterConfig {
 
     /**
      * Returns the names of the filter's initialization parameters
-     * as an <code>Enumeration</code> of <code>String</code> objects, 
+     * as an <code>Enumeration</code> of <code>String</code> objects,
      * or an empty <code>Enumeration</code> if the filter has
      * no initialization parameters.
      *
-     * @return      an <code>Enumeration</code> of <code>String</code> 
-     *          objects containing the names of the filter's 
+     * @return      an <code>Enumeration</code> of <code>String</code>
+     *          objects containing the names of the filter's
      *          initialization parameters
      *
      *
@@ -118,7 +118,7 @@ public class ConfigurableFilterConfig implements FilterConfig {
                 return keys.pop();
             }};
     }
-    
+
     /**
      * Sets the value of a parameter
      * @param name the name of the parameter
@@ -127,10 +127,10 @@ public class ConfigurableFilterConfig implements FilterConfig {
     public void setParameter(String name, String value) {
         _parameters.put(name, value);
     }
-    
+
     /**
      * Sets the name of the filter.
-     * @param name 
+     * @param name
      */
     public void setFilterName(String name) {
         _name = name;

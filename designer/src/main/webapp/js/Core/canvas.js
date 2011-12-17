@@ -53,24 +53,24 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 		arguments.callee.$.construct.apply(this, arguments);
 
 		if(!(options && options.width && options.height)) {
-		
+
 			WAPAMA.Log.fatal("Canvas is missing mandatory parameters options.width and options.height.");
 			return;
 		}
-			
+
 		//TODO: set document resource id
 		this.resourceId = options.id;
 
 		this.nodes = [];
-		
+
 		this.edges = [];
-		
+
 		//init svg document
 		this.rootNode = WAPAMA.Editor.graft("http://www.w3.org/2000/svg", options.parentNode,
 			['svg', {id: this.id, width: options.width, height: options.height},
 				['defs', {}]
 			]);
-			
+
 		this.rootNode.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
 		this.rootNode.setAttribute("xmlns:svg", "http://www.w3.org/2000/svg");
 
@@ -80,7 +80,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 
 		this._htmlContainer = WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", options.parentNode,
 			['div', {id: "wapama_canvas_htmlContainer", style:"position:absolute; top:5px"}]);
-		
+
 		this.node = WAPAMA.Editor.graft("http://www.w3.org/2000/svg", this.rootNode,
 			['g', {},
 				['g', {"class": "stencils"},
@@ -90,7 +90,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 				],
 				['g', {"class":"svgcontainer"}]
 			]);
-		
+
 		/*
 		var off = 2 * WAPAMA.CONFIG.GRID_DISTANCE;
 		var size = 3;
@@ -98,11 +98,11 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 		for(var i = 0; i <= options.width; i += off)
 			for(var j = 0; j <= options.height; j += off)
 				d = d + "M" + (i - size) + " " + j + " l" + (2*size) + " 0 m" + (-size) + " " + (-size) + " l0 " + (2*size) + " m0" + (-size) + " ";
-							
+
 		WAPAMA.Editor.graft("http://www.w3.org/2000/svg", this.node.firstChild.firstChild,
 			['path', {d:d , stroke:'#000000', 'stroke-width':'0.15px'},]);
 		*/
-		
+
 		//Global definition of default font for shapes
 		//Definitions in the SVG definition of a stencil will overwrite these settings for
 		// that stencil.
@@ -117,7 +117,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			this.node.setAttributeNS(null, 'font-family', 'Verdana');
 			this.node.setAttributeNS(null, 'font-size', WAPAMA.CONFIG.LABEL_DEFAULT_LINE_HEIGHT);
 		}*/
-		
+
 		this.node.setAttributeNS(null, 'stroke', 'none');
 		this.node.setAttributeNS(null, 'font-family', 'Verdana, sans-serif');
 		this.node.setAttributeNS(null, 'font-size-adjust', 'none');
@@ -125,43 +125,43 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 		this.node.setAttributeNS(null, 'font-variant', 'normal');
 		this.node.setAttributeNS(null, 'font-weight', 'normal');
 		this.node.setAttributeNS(null, 'line-heigth', 'normal');
-		
+
 		this.node.setAttributeNS(null, 'font-size', WAPAMA.CONFIG.LABEL_DEFAULT_LINE_HEIGHT);
-			
+
 		this.bounds.set(0,0,options.width, options.height);
-		
+
 		this.addEventHandlers(this.rootNode.parentNode);
-		
+
 		//disable context menu
 		this.rootNode.oncontextmenu = function() {return false;};
 	},
-	
+
 	focus: function(){
-		
+
 	},
-	
+
 	update: function() {
-		
+
 		this.nodes.each(function(node) {
 			this._traverseForUpdate(node);
 		}.bind(this));
-		
+
 		// call stencil's layout callback
 		// (needed for row layouting of xforms)
 		//this.getStencil().layout(this);
-		
+
 		var layoutEvents = this.getStencil().layout();
-		
+
 		if(layoutEvents) {
 			layoutEvents.each(function(event) {
-		
+
 				// setup additional attributes
 				event.shape = this;
 				event.forceExecution = true;
 				event.target = this.rootNode;
-				
+
 				// do layouting
-				
+
 				this._delegateEvent(event);
 			}.bind(this))
 		}
@@ -180,16 +180,16 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 		if(svgHeightAttr != "undefined") {
 			svgHeightAttr.nodeValue = currentHeight;
 		}
-		
+
 		this.nodes.invoke("_update");
-		
+
 		this.edges.invoke("_update", true);
-		
+
 		/*this.children.each(function(child) {
 			child._update();
 		});*/
 	},
-	
+
 	_traverseForUpdate: function(shape) {
 		var childRet = shape.isChanged;
 		shape.getChildNodes(false, function(child) {
@@ -197,7 +197,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 				childRet = true;
 			}
 		}.bind(this));
-		
+
 		if(childRet) {
 			shape.layout();
 			return true;
@@ -205,15 +205,15 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			return false;
 		}
 	},
-	
+
 	layout: function() {
-		
-		
-		
+
+
+
 	},
-	
+
 	/**
-	 * 
+	 *
 	 * @param {Object} deep
 	 * @param {Object} iterator
 	 */
@@ -227,18 +227,18 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 					iterator(uiObject);
 				}
 				result.push(uiObject);
-				
+
 				if(deep && uiObject instanceof WAPAMA.Core.Shape) {
 					result = result.concat(uiObject.getChildNodes(deep, iterator));
 				}
 			});
-	
+
 			return result;
 		}
 	},
-	
+
 	/**
-	 * buggy crap! use base class impl instead! 
+	 * buggy crap! use base class impl instead!
 	 * @param {Object} iterator
 	 */
 /*	getChildEdges: function(iterator) {
@@ -247,10 +247,10 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 				iterator(edge);
 			});
 		}
-		
+
 		return this.edges.clone();
 	},
-*/	
+*/
 	/**
 	 * Overrides the UIObject.add method. Adds uiObject to the correct sub node.
 	 * @param {UIObject} uiObject
@@ -285,11 +285,11 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 				}
 
 				uiObject.bounds.registerCallback(this._changedCallback);
-					
+
 				if(this.eventHandlerCallback)
 					this.eventHandlerCallback({type:WAPAMA.CONFIG.EVENT_SHAPEADDED,shape:uiObject})
 			} else {
-				
+
 				WAPAMA.Log.warn("add: WAPAMA.Core.UIObject is already a child of this object.");
 			}
 		} else {
@@ -331,10 +331,10 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			WAPAMA.Log.warn("remove: WAPAMA.Core.UIObject is not a child of this object.");
 		}
 	},
-    
+
     /**
      * Creates shapes out of the given collection of shape objects and adds them to the canvas.
-     * @example 
+     * @example
      * canvas.addShapeObjects({
          bounds:{ lowerRight:{ y:510, x:633 }, upperLeft:{ y:146, x:210 } },
          resourceId:"wapama_F0715955-50F2-403D-9851-C08CFE70F8BD",
@@ -346,37 +346,37 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
          outgoing:[{resourceId: 'aShape'}],
          target: {resourceId: 'aShape'}
        });
-     * @param {Object} shapeObjects 
+     * @param {Object} shapeObjects
      * @param {Function} [eventHandler] An event handler passed to each newly created shape (as eventHandlerCallback)
      * @return {Array} A collection of WAPAMA.Core.Shape
      * @methodOf WAPAMA.Core.Canvas.prototype
      */
     addShapeObjects: function(shapeObjects, eventHandler){
         if(!shapeObjects) return;
-        
+
         /*FIXME This implementation is very evil! At first, all shapes are created on
           canvas. In a second step, the attributes are applied. There must be a distinction
           between the configuration phase (where the outgoings, for example, are just named),
           and the creation phase (where the outgoings are evaluated). This must be reflected
           in code to provide a nicer API/ implementation!!! */
-        
+
         var addShape = function(shape, parent){
             // Try to create a new Shape
             try {
                 // Create a new Stencil
                 var stencil = WAPAMA.Core.StencilSet.stencil(this.getStencil().namespace() + shape.stencil.id );
-    
+
                 // Create a new Shape
                 var ShapeClass = (stencil.type() == "node") ? WAPAMA.Core.Node : WAPAMA.Core.Edge;
                 var newShape = new ShapeClass(
                   {'eventHandlerCallback': eventHandler},
                   stencil, shape.resourceId);
-                
+
                 // Set parent to json object to be used later
-                // Due to the nested json structure, normally shape.parent is not set/ must not be set. 
+                // Due to the nested json structure, normally shape.parent is not set/ must not be set.
                 // In special cases, it can be easier to set this directly instead of a nested structure.
                 shape.parent = "#" + ((shape.parent && shape.parent.resourceId) || parent.resourceId);
-                
+
                 // Add the shape to the canvas
                 this.add( newShape );
 
@@ -389,13 +389,13 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
                 WAPAMA.Log.warn(e);
             }
         }.bind(this);
-        
+
         /** Builds up recursively a flatted array of shapes, including a javascript object and json representation
          * @param {Object} shape Any object that has Object#childShapes
          */
         var addChildShapesRecursively = function(shape){
             var addedShapes = [];
-            
+
             shape.childShapes.each(function(childShape){
   			  /*
   			   *  workaround for Chrome, for some reason an undefined shape is given
@@ -406,15 +406,15 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
   			  }
               addedShapes = addedShapes.concat(addChildShapesRecursively(childShape));
             });
-            
+
             return addedShapes;
         }.bind(this);
 
         var shapes = addChildShapesRecursively({
-            childShapes: shapeObjects, 
+            childShapes: shapeObjects,
             resourceId: this.resourceId
         });
-                    
+
 
         // prepare deserialisation parameter
         shapes.each(
@@ -427,7 +427,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
                       value: shape.json.properties[field]
                     });
                   }
-                  
+
                   // Outgoings
                   shape.json.outgoing.each(function(out){
                     properties.push({
@@ -436,8 +436,8 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
                       value: "#"+out.resourceId
                     });
                   });
-                  
-                  // Target 
+
+                  // Target
                   // (because of a bug, the first outgoing is taken when there is no target,
                   // can be removed after some time)
                   if(shape.object instanceof WAPAMA.Core.Edge) {
@@ -450,7 +450,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 	                    });
 	                  }
                   }
-                  
+
                   // Bounds
                   if (shape.json.bounds) {
                       properties.push({
@@ -459,7 +459,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
                           value: shape.json.bounds.upperLeft.x + "," + shape.json.bounds.upperLeft.y + "," + shape.json.bounds.lowerRight.x + "," + shape.json.bounds.lowerRight.y
                       });
                   }
-                  
+
                   //Dockers [{x:40, y:50}, {x:30, y:60}] => "40 50 30 60  #"
                   if(shape.json.dockers){
                     properties.push({
@@ -470,44 +470,44 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
                       }) + " #"
                     });
                   }
-                  
+
                   //Parent
                   properties.push({
                     prefix: 'raziel',
                     name: 'parent',
                     value: shape.json.parent
                   });
-            
+
                   shape.__properties = properties;
 	         }.bind(this)
         );
-  
+
         // Deserialize the properties from the shapes
         // This can't be done earlier because Shape#deserialize expects that all referenced nodes are already there
-        
+
         // first, deserialize all nodes
         shapes.each(function(shape) {
         	if(shape.object instanceof WAPAMA.Core.Node) {
         		shape.object.deserialize(shape.__properties);
         	}
         });
-        
+
         // second, deserialize all edges
         shapes.each(function(shape) {
         	if(shape.object instanceof WAPAMA.Core.Edge) {
         		shape.object.deserialize(shape.__properties);
         	}
         });
-       
+
         return shapes.pluck("object");
     },
-    
+
     absoluteBounds: function() {
     	return new WAPAMA.Core.Bounds(0, 0,
     			this.getHTMLContainer().parentNode.offsetWidth,
     			this.getHTMLContainer().parentNode.offsetHeight);
     },
-    
+
     /**
      * Updates the size of the canvas, regarding to the containg shapes.
      */
@@ -520,7 +520,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
     		var b = shape.bounds;
     		maxWidth    = Math.max( maxWidth, b.lowerRight().x + offset)
     		maxHeight   = Math.max( maxHeight, b.lowerRight().y + offset)
-    	}); 
+    	});
     	if( this.bounds.width() < maxWidth || this.bounds.height() < maxHeight ){
     		this.setSize({width: Math.max(this.bounds.width(), maxWidth), height: Math.max(this.bounds.height(), maxHeight)})
     	}
@@ -529,14 +529,14 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 	getRootNode: function() {
 		return this.rootNode;
 	},
-	
+
 	getSvgContainer: function() {
 		return this.node.childNodes[1];
 	},
-	
+
 	getHTMLContainer: function() {
 		return this._htmlContainer;
-	},	
+	},
 
 	/**
 	 * Return all elements of the same highest level
@@ -556,7 +556,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 				parentShape = parentShape.parent
 			}
 			return true;
-		});		
+		});
 
 	},
 
@@ -568,7 +568,7 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			this.bounds.set(0, 0, size.width, size.height);
 		}
 	},
-	
+
 	/**
 	 * Returns an SVG document of the current process.
 	 * @param {Boolean} escapeText Use true, if you want to parse it with an XmlParser,
@@ -577,9 +577,9 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 	getSVGRepresentation: function(escapeText) {
 		// Get the serialized svg image source
         var svgClone = this.getRootNode().cloneNode(true);
-		
+
 		this._removeInvisibleElements(svgClone);
-		
+
 		var x1, y1, x2, y2;
 		try {
 			var bb = this.getRootNode().childNodes[1].getBBox();
@@ -605,9 +605,9 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 				}
 			});
 		}
-		
+
 		var margin = 50;
-		
+
 		var width, height, tx, ty;
 		if(x1 == undefined) {
 			width = 0;
@@ -620,18 +620,18 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			tx = -x1+margin/2;
 			ty = -y1+margin/2;
 		}
-		 
-		
-		
+
+
+
         // Set the width and height
         svgClone.setAttributeNS(null, 'width', width + margin);
         svgClone.setAttributeNS(null, 'height', height + margin);
-		
+
 		svgClone.childNodes[1].firstChild.setAttributeNS(null, 'transform', 'translate(' + tx + ", " + ty + ')');
-		
+
 		//remove scale factor
 		svgClone.childNodes[1].removeAttributeNS(null, 'transform');
-		
+
 		try{
 			var svgCont = svgClone.childNodes[1].childNodes[1];
 			svgCont.parentNode.removeChild(svgCont);
@@ -641,33 +641,33 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			$A(svgClone.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'tspan')).each(function(elem) {
 				elem.textContent = elem.textContent.escapeHTML();
 			});
-			
+
 			$A(svgClone.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'text')).each(function(elem) {
 				if(elem.childNodes.length == 0)
 					elem.textContent = elem.textContent.escapeHTML();
 			});
 		}
-		
+
 		// generating absolute urls for the pdf-exporter
 		$A(svgClone.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'image')).each(function(elem) {
 			var href = elem.getAttributeNS("http://www.w3.org/1999/xlink","href");
-			
+
 			if(!href.match("^(http|https)://")) {
 				href = window.location.protocol + "//" + window.location.host + href;
 				elem.setAttributeNS("http://www.w3.org/1999/xlink", "href", href);
 			}
 		});
-		
-		
+
+
 		// escape all links
 		$A(svgClone.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'a')).each(function(elem) {
 			elem.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", (elem.getAttributeNS("http://www.w3.org/1999/xlink","href")||"").escapeHTML());
 		});
-		
+
         return svgClone;
 	},
-	
-	/**   
+
+	/**
 	* Removes all nodes (and its children) that has the
 	* attribute visibility set to "hidden"
 	*/
@@ -680,12 +680,12 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 				element.removeChild(child);
 			} else {
 				this._removeInvisibleElements(child);
-				index++; 
+				index++;
 			}
 		}
-		
+
 	},
-	
+
 	/**
 	 * This method checks all shapes on the canvas and removes all shapes that
 	 * contain invalid bounds values or dockers values(NaN)
@@ -729,15 +729,15 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			this.eventHandlerCallback(event, this);
 		}
 	},
-	
+
 	toString: function() { return "Canvas " + this.id },
-    
+
     /**
      * Calls {@link WAPAMA.Core.AbstractShape#toJSON} and adds some stencil set information.
      */
     toJSON: function() {
         var json = arguments.callee.$.toJSON.apply(this, arguments);
-        
+
 //		if(WAPAMA.CONFIG.STENCILSET_HANDLER.length > 0) {
 //			json.stencilset = {
 //				url: this.getStencil().stencilSet().namespace()
@@ -746,10 +746,10 @@ WAPAMA.Core.Canvas = WAPAMA.Core.AbstractShape.extend({
 			json.stencilset = {
 				url: this.getStencil().stencilSet().source(),
 				namespace: this.getStencil().stencilSet().namespace()
-	        };	
+	        };
 //		}
-        
-        
+
+
         return json;
     }
  });

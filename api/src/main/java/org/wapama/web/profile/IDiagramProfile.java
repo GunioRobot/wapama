@@ -24,14 +24,14 @@ package org.wapama.web.profile;
 import java.util.Collection;
 
 /**
- * A profile for the editor to choose which stencilset 
+ * A profile for the editor to choose which stencilset
  * and which plugins should be loaded.
- * 
+ *
  * @author Antoine Toulme
  *
  */
 public interface IDiagramProfile {
-    
+
     /**
      * @return the name of the profile
      * it will be passed by the user when opening the editor.
@@ -46,31 +46,31 @@ public interface IDiagramProfile {
      * @return the stencil set used by the profile.
      */
     public String getStencilSet();
-    
+
     /**
      * @return the stencil set extensions used by the profile
      */
     public Collection<String> getStencilSetExtensions();
-    
+
     public String getSerializedModelExtension();
-    
+
     /**
      * @return the plugins to load for the profile.
      */
     public Collection<String> getPlugins();
-    
+
     /**
      * @return a marshaller to transform the json into the final model.
      */
     public IDiagramMarshaller createMarshaller();
-    
+
     /**
      * Parser to produce the final model to be saved.
      * @author Antoine Toulme
      *
      */
     public interface IDiagramMarshaller {
-        
+
         /**
          * @param jsonModel the model
          * @return the string representation of the serialized model.

@@ -26,7 +26,7 @@ import javax.servlet.ServletException;
 
 /**
  * @author Antoine Toulme
- * 
+ *
  * the interface for creating servlet filters.
  *
  */
@@ -37,11 +37,11 @@ public interface IFilterFactory {
      * @return a servlet filter
      */
     public Filter createFilter();
-    
+
     /**
      * Initiates the filter config.
-     * 
-     * @param config a configurable FilterConfig object to let the user 
+     *
+     * @param config a configurable FilterConfig object to let the user
      * change settings, since he didn't have access to web.xml.
      * @throws ServletException
      */

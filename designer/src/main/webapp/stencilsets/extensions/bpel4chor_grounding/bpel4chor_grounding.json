@@ -30,7 +30,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true 
+							"optional":true
 						},
 						{
 							"id":"WSDLproperty",
@@ -38,14 +38,14 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true 
+							"optional":true
 						}
 					]
 				}
 			]
 		}
 	],
-	"properties": [		
+	"properties": [
 		{
 			"roles": [
 				"participant"
@@ -108,7 +108,7 @@
 	"rules": {
 		"connectionRules": [],
 		"cardinalityRules":[
-			{	
+			{
 				"role":"properties",
 				"maximumOccurrence":1
 			}

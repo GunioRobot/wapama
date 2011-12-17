@@ -3,22 +3,22 @@
 	"namespace":"http://b3mn.org/stencilset/uml2.2#",
 	"description":"Stencil set for UML 2.2 class diagrams.",
 	"stencils": [
-		
+
 		{
 			"type":        "node",
 			"id":          "Diagram",
-			"title":       "Diagram",	
+			"title":       "Diagram",
 			"groups":      ["Diagram"],
 			"description": "UML Diagram",
 			"view":        "diagram.svg",
 			"icon":        "diagram.png",
 			"roles":       []
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "SimpleClass",
-			"title":       "Simple Class",	
+			"title":       "Simple Class",
 			"groups":      ["Class"],
 			"description": "Simple Class",
 			"view":        "classes/simple_class.svg",
@@ -34,11 +34,11 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "ComplexClass",
-			"title":       "Complex Class",	
+			"title":       "Complex Class",
 			"groups":      ["Class"],
 			"description": "Complex Class",
 			"view":        "classes/complex_class.svg",
@@ -54,11 +54,11 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "Note",
-			"title":       "Note",	
+			"title":       "Note",
 			"groups":      ["Annotation"],
 			"description": "Note",
 			"view":        "annotations/note.svg",
@@ -75,7 +75,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "UndirectedAssociation",
@@ -119,7 +119,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "DirectedAssociation",
@@ -163,7 +163,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "UnnavigableDirectedAssociation",
@@ -207,7 +207,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Generalization",
@@ -237,7 +237,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Realization",
@@ -267,7 +267,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Dependency",
@@ -297,7 +297,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Aggregation",
@@ -341,7 +341,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Composition",
@@ -385,7 +385,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Annotation Edge",
@@ -397,9 +397,9 @@
 			"roles" : ["annotationEdge"]
 		}
 	],
-	
+
 	"rules": {
-		
+
 		"morphingRules": [
 			{
 				"role" : "ClassMorph",
@@ -414,7 +414,7 @@
 				"baseMorphs" : ["UndirectedAssociation", "DirectedAssociation", "UnnavigableDirectedAssociation"]
 			}
 		],
-		
+
 		"connectionRules": [
 			{
 				"role" : "edge",
@@ -440,7 +440,7 @@
 			  ]
 			}
  		],
-		
+
 		"containmentRules":	[
 			{
 				"role" : "Diagram",

@@ -22,7 +22,7 @@
  * DEALINGS IN THE SOFTWARE.
  **/
 
-if(!WAPAMA.Plugins) 
+if(!WAPAMA.Plugins)
 	WAPAMA.Plugins = new Object();
 
 WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
@@ -48,40 +48,40 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		this.containmentParentNode;				// the current future parent node for the dragged shapes
 		this.isAddingAllowed 	= false;		// flag, if adding current selected shapes to containmentParentNode is allowed
 		this.isAttachingAllowed = false;		// flag, if attaching to the current shape is allowed
-		
+
 		this.callbackMouseMove	= this.handleMouseMove.bind(this);
 		this.callbackMouseUp	= this.handleMouseUp.bind(this);
-		
-		// Get the SVG-Containernode 
+
+		// Get the SVG-Containernode
 		var containerNode = this.facade.getCanvas().getSvgContainer();
-		
+
 		// Create the Selected Rectangle in the SVG
 		this.selectedRect = new WAPAMA.Plugins.SelectedRect(containerNode);
-		
+
 		// Show grid line if enabled
 		if (WAPAMA.CONFIG.SHOW_GRIDLINE) {
 			this.vLine = new WAPAMA.Plugins.GridLine(containerNode, WAPAMA.Plugins.GridLine.DIR_VERTICAL);
 			this.hLine = new WAPAMA.Plugins.GridLine(containerNode, WAPAMA.Plugins.GridLine.DIR_HORIZONTAL);
 		}
-		
+
 		// Get a HTML-ContainerNode
 		containerNode = this.facade.getCanvas().getHTMLContainer();
-		
+
 		this.scrollNode = this.facade.getCanvas().rootNode.parentNode.parentNode;
-		
+
 		// Create the southeastern button for resizing
 		this.resizerSE = new WAPAMA.Plugins.Resizer(containerNode, "southeast", this.facade);
 		this.resizerSE.registerOnResize(this.onResize.bind(this)); // register the resize callback
 		this.resizerSE.registerOnResizeEnd(this.onResizeEnd.bind(this)); // register the resize end callback
 		this.resizerSE.registerOnResizeStart(this.onResizeStart.bind(this)); // register the resize start callback
-		
-		
+
+
 		// Create the northwestern button for resizing
 		this.resizerNW = new WAPAMA.Plugins.Resizer(containerNode, "northwest", this.facade);
 		this.resizerNW.registerOnResize(this.onResize.bind(this)); // register the resize callback
 		this.resizerNW.registerOnResizeEnd(this.onResizeEnd.bind(this)); // register the resize end callback
 		this.resizerNW.registerOnResizeStart(this.onResizeStart.bind(this)); // register the resize start callback
-		
+
 		// For the Drag and Drop
 		// Register on MouseDown-Event on a Shape
 		this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_MOUSEDOWN, this.handleMouseDown.bind(this));
@@ -95,7 +95,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		// If the selection Bounds not intialized and the uiObj is not member of current selectio
 		// then return
 		if(!this.dragBounds || !this.currentShapes.member(uiObj) || !this.toMoveShapes.length) {return};
-		
+
 		// Start Dragging
 		this.dragEnable = true;
 		this.dragIntialized = true;
@@ -111,13 +111,13 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		this.offSetPosition =  {
 			x: Event.pointerX(event) - (upL.x * this.faktorXY.x),
 			y: Event.pointerY(event) - (upL.y * this.faktorXY.y)};
-		
+
 		this.offsetScroll	= {x:this.scrollNode.scrollLeft,y:this.scrollNode.scrollTop};
-			
+
 		// Register on Global Mouse-MOVE Event
-		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEMOVE, this.callbackMouseMove, false);	
+		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEMOVE, this.callbackMouseMove, false);
 		// Register on Global Mouse-UP Event
-		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEUP, this.callbackMouseUp, true);			
+		document.documentElement.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEUP, this.callbackMouseUp, true);
 
 		return;
 	},
@@ -127,13 +127,13 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 	 *
 	 */
 	handleMouseUp: function(event) {
-		
+
 		//disable containment highlighting
 		this.facade.raiseEvent({
 									type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE,
 									highlightId:"dragdropresize.contain"
 								});
-								
+
 		this.facade.raiseEvent({
 									type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE,
 									highlightId:"dragdropresize.attached"
@@ -141,24 +141,24 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 
 		// If Dragging is finished
 		if(this.dragEnable) {
-		
+
 			// and update the current selection
 			if(!this.dragIntialized) {
-				
+
 				// Do Method after Dragging
-				this.afterDrag();	
-				
-				// Check if the Shape is allowed to dock to the other Shape						
+				this.afterDrag();
+
+				// Check if the Shape is allowed to dock to the other Shape
 				if ( 	this.isAttachingAllowed &&
 						this.toMoveShapes.length == 1 && this.toMoveShapes[0] instanceof WAPAMA.Core.Node  &&
 						this.toMoveShapes[0].dockers.length > 0) {
-					
-					// Get the position and the docker					
-					var position 	= this.facade.eventCoordinates( event );	
+
+					// Get the position and the docker
+					var position 	= this.facade.eventCoordinates( event );
 					var docker 		= this.toMoveShapes[0].dockers[0];
 
 
-			
+
 					//Command-Pattern for dragging several Shapes
 					var dockCommand = WAPAMA.Core.Command.extend({
 						construct: function(docker, position, newDockedShape, facade){
@@ -170,17 +170,17 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 							this.oldDockedShape	= docker.getDockedShape();
 							this.oldParent 		= docker.parent.parent || facade.getCanvas();
 							this.facade			= facade;
-							
+
 							if( this.oldDockedShape ){
 								this.oldPosition = docker.parent.absoluteBounds().center();
 							}
-							
-						},			
+
+						},
 						execute: function(){
 							this.dock( this.newDockedShape, this.newParent,  this.newPosition );
-							
+
 							// Raise Event for having the docked shape on top of the other shape
-							this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_ARRANGEMENT_TOP, excludeCommand: true})									
+							this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_ARRANGEMENT_TOP, excludeCommand: true})
 						},
 						rollback: function(){
 							this.dock( this.oldDockedShape, this.oldParent, this.oldPosition );
@@ -188,42 +188,42 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 						dock:function( toDockShape, parent, pos ){
 							// Add to the same parent Shape
 							parent.add( this.docker.parent )
-							
-							
+
+
 							// Set the Docker to the new Shape
 							this.docker.setDockedShape( undefined );
-							this.docker.bounds.centerMoveTo( pos )				
-							this.docker.setDockedShape( toDockShape );	
+							this.docker.bounds.centerMoveTo( pos )
+							this.docker.setDockedShape( toDockShape );
 							//this.docker.update();
-							
-							this.facade.setSelection( [this.docker.parent] );	
+
+							this.facade.setSelection( [this.docker.parent] );
 							this.facade.getCanvas().update();
 							this.facade.updateSelection();
-																												
-											
+
+
 						}
 					});
-			
+
 					// Instanziate the dockCommand
 					var commands = [new dockCommand(docker, position, this.containmentParentNode, this.facade)];
-					this.facade.executeCommands(commands);	
-						
-					
-				// Check if adding is allowed to the other Shape	
+					this.facade.executeCommands(commands);
+
+
+				// Check if adding is allowed to the other Shape
 				} else if( this.isAddingAllowed ) {
-					
-				
+
+
 					// Refresh all Shapes --> Set the new Bounds
 					this.refreshSelectedShapes();
-					
+
 				}
-				
+
 				this.facade.updateSelection();
-							
+
 				//this.currentShapes.each(function(shape) {shape.update()})
 				// Raise Event: Dragging is finished
 				this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_DRAGDROP_END});
-			}	
+			}
 
 			if (this.vLine)
 				this.vLine.hide();
@@ -231,14 +231,14 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 				this.hLine.hide();
 		}
 
-		// Disable 
-		this.dragEnable = false;	
-		
+		// Disable
+		this.dragEnable = false;
+
 
 		// UnRegister on Global Mouse-UP/-Move Event
-		document.documentElement.removeEventListener(WAPAMA.CONFIG.EVENT_MOUSEUP, this.callbackMouseUp, true);	
-		document.documentElement.removeEventListener(WAPAMA.CONFIG.EVENT_MOUSEMOVE, this.callbackMouseMove, false);				
-			
+		document.documentElement.removeEventListener(WAPAMA.CONFIG.EVENT_MOUSEUP, this.callbackMouseUp, true);
+		document.documentElement.removeEventListener(WAPAMA.CONFIG.EVENT_MOUSEMOVE, this.callbackMouseMove, false);
+
 		return;
 	},
 
@@ -254,16 +254,16 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			// Raise Event: Drag will be started
 			this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_DRAGDROP_START});
 			this.dragIntialized = false;
-			
+
 			// And hide the resizers and the highlighting
 			this.resizerSE.hide();
 			this.resizerNW.hide();
-			
+
 			// if only edges are selected, containmentParentNode must be the canvas
 			this._onlyEdges = this.currentShapes.all(function(currentShape) {
 				return (currentShape instanceof WAPAMA.Core.Edge);
 			});
-			
+
 //			/* If only edges are selected, check if they are movable. An Edge is
 //			 * movable in case it is not docked
 //			 */
@@ -275,23 +275,23 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 //					}
 //				}.bind(this));
 //			}
-			
+
 			// Do method before Drag
 			this.beforeDrag();
-			
+
 			this._currentUnderlyingNodes = [];
-			
+
 		}
 
-		
+
 		// Calculate the new position
 		var position = {
 			x: Event.pointerX(event) - this.offSetPosition.x,
 			y: Event.pointerY(event) - this.offSetPosition.y}
 
-		position.x 	-= this.offsetScroll.x - this.scrollNode.scrollLeft; 
+		position.x 	-= this.offsetScroll.x - this.scrollNode.scrollLeft;
 		position.y 	-= this.offsetScroll.y - this.scrollNode.scrollTop;
-		
+
 		// If not the Control-Key are pressed
 		var modifierKeyPressed = event.shiftKey || event.ctrlKey;
 		if(WAPAMA.CONFIG.GRID_ENABLED && !modifierKeyPressed) {
@@ -304,7 +304,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 				this.hLine.hide();
 		}
 
-		// Adjust the point by the zoom faktor 
+		// Adjust the point by the zoom faktor
 		position.x /= this.faktorXY.x;
 		position.y /= this.faktorXY.y;
 
@@ -315,45 +315,45 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		// Set that the position is not bigger than the canvas
 		var c = this.facade.getCanvas();
 		position.x = Math.min( c.bounds.width() - this.dragBounds.width(), 		position.x)
-		position.y = Math.min( c.bounds.height() - this.dragBounds.height(), 	position.y)	
-						
+		position.y = Math.min( c.bounds.height() - this.dragBounds.height(), 	position.y)
+
 		offset = {x: position.x - this.dragBounds.upperLeft().x , y : position.y - this.dragBounds.upperLeft().y};
 		this.dragBounds.moveBy(offset);
-		
+
 		this.facade.raiseEvent({
 			type		: WAPAMA.CONFIG.EVENT_DRAG_TRACKER_DRAG,
 			shapes		: this.currentShapes,
 			bounds      : this.dragBounds
 		});
-		
-		
+
+
 
 		// Update all selected shapes and the selection rectangle
 		//this.refreshSelectedShapes();
-		
+
 		this.resizeRectangle(this.dragBounds);
 		this.isAttachingAllowed = false;
 
 		//check, if a node can be added to the underlying node
 		var underlyingNodes = $A(this.facade.getCanvas().getAbstractShapesAtPosition(this.facade.eventCoordinates(event)));
-		
+
 		var checkIfAttachable = this.toMoveShapes.length == 1 && this.toMoveShapes[0] instanceof WAPAMA.Core.Node && this.toMoveShapes[0].dockers.length > 0
 		checkIfAttachable	= checkIfAttachable && underlyingNodes.length != 1
-		
-			
+
+
 		if(		!checkIfAttachable &&
 				underlyingNodes.length === this._currentUnderlyingNodes.length  &&
 				underlyingNodes.all(function(node, index){return this._currentUnderlyingNodes[index] === node}.bind(this))) {
-					
+
 			return
-			
+
 		} else if(this._onlyEdges) {
-			
+
 			this.isAddingAllowed = true;
 			this.containmentParentNode = this.facade.getCanvas();
-			
+
 		} else {
-		
+
 			/* Check the containment and connection rules */
 			var options = {
 				event : event,
@@ -361,14 +361,14 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 				checkIfAttachable : checkIfAttachable
 			};
 			this.checkRules(options);
-							
+
 		}
-		
+
 		this._currentUnderlyingNodes = underlyingNodes.reverse();
-		
+
 		//visualize the containment result
 		if( this.isAttachingAllowed ) {
-			
+
 			this.facade.raiseEvent({
 									type: 			WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW,
 									highlightId: 	"dragdropresize.attached",
@@ -376,15 +376,15 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 									style: 			WAPAMA.CONFIG.SELECTION_HIGHLIGHT_STYLE_RECTANGLE,
 									color: 			WAPAMA.CONFIG.SELECTION_VALID_COLOR
 								});
-								
+
 		} else {
-			
+
 			this.facade.raiseEvent({
 									type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE,
 									highlightId:"dragdropresize.attached"
 								});
 		}
-		
+
 		if( !this.isAttachingAllowed ){
 			if( this.isAddingAllowed ) {
 
@@ -409,14 +409,14 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			this.facade.raiseEvent({
 									type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE,
 									highlightId:"dragdropresize.contain"
-								});			
-		}	
+								});
+		}
 
 		// Stop the Event
 		//Event.stop(event);
 		return;
 	},
-	
+
 //	/**
 //	 * Rollbacks the docked shape of an edge, if the edge is not movable.
 //	 */
@@ -426,7 +426,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 //			el.docker.setReferencePoint(el.refPoint);
 //		})
 //	},
-	
+
 	/**
 	 *  Checks the containment and connection rules for the selected shapes.
 	 */
@@ -435,33 +435,33 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		var underlyingNodes = options.underlyingNodes;
 		var checkIfAttachable = options.checkIfAttachable;
 		var noEdges = options.noEdges;
-		
+
 		//get underlying node that is not the same than one of the currently selected shapes or
 		// a child of one of the selected shapes with the highest z Order.
 		// The result is a shape or the canvas
 		this.containmentParentNode = underlyingNodes.reverse().find((function(node) {
-			return (node instanceof WAPAMA.Core.Canvas) || 
-					(((node instanceof WAPAMA.Core.Node) || ((node instanceof WAPAMA.Core.Edge) && !noEdges)) 
-					&& (!(this.currentShapes.member(node) || 
+			return (node instanceof WAPAMA.Core.Canvas) ||
+					(((node instanceof WAPAMA.Core.Node) || ((node instanceof WAPAMA.Core.Edge) && !noEdges))
+					&& (!(this.currentShapes.member(node) ||
 							this.currentShapes.any(function(shape) {
 								return (shape.children.length > 0 && shape.getChildNodes(true).member(node));
 							}))));
 		}).bind(this));
-								
+
 		if( checkIfAttachable &&  this.containmentParentNode){
-				
+
 			this.isAttachingAllowed	= this.facade.getRules().canConnect({
-												sourceShape:	this.containmentParentNode, 
-												edgeShape:		this.toMoveShapes[0], 
+												sourceShape:	this.containmentParentNode,
+												edgeShape:		this.toMoveShapes[0],
 												targetShape:	this.toMoveShapes[0]
-												});						
-			
+												});
+
 			if ( this.isAttachingAllowed	) {
 				var point = this.facade.eventCoordinates(event);
 				this.isAttachingAllowed	= this.containmentParentNode.isPointOverOffset( point.x, point.y );
-			}						
+			}
 		}
-		
+
 		if( !this.isAttachingAllowed ){
 			//check all selected shapes, if they can be added to containmentParentNode
 			this.isAddingAllowed = this.toMoveShapes.all((function(currentShape) {
@@ -470,27 +470,27 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 					this.containmentParentNode === currentShape.parent) {
 					return true;
 				} else if(this.containmentParentNode !== currentShape) {
-					
+
 					if(!(this.containmentParentNode instanceof WAPAMA.Core.Edge) || !noEdges) {
-					
+
 						if(this.facade.getRules().canContain({containingShape:this.containmentParentNode,
-															  containedShape:currentShape})) {	  	
+															  containedShape:currentShape})) {
 							return true;
 						}
 					}
 				}
 				return false;
-			}).bind(this));				
+			}).bind(this));
 		}
-		
-		if(!this.isAttachingAllowed && !this.isAddingAllowed && 
+
+		if(!this.isAttachingAllowed && !this.isAddingAllowed &&
 				(this.containmentParentNode instanceof WAPAMA.Core.Edge)) {
 			options.noEdges = true;
 			options.underlyingNodes.reverse();
-			this.checkRules(options);			
+			this.checkRules(options);
 		}
 	},
-	
+
 	/**
 	 * Redraw the selected Shapes.
 	 *
@@ -512,15 +512,15 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		if( this._undockedEdgesCommand instanceof WAPAMA.Core.Command ){
 			commands.unshift( this._undockedEdgesCommand );
 		}
-		// Execute the commands			
-		this.facade.executeCommands( commands );	
+		// Execute the commands
+		this.facade.executeCommands( commands );
 
 		// copy the bounds to the old bounds
 		if( this.dragBounds )
 			this.oldDragBounds = this.dragBounds.clone();
 
 	},
-	
+
 	/**
 	 * Callback for Resize
 	 *
@@ -528,44 +528,44 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 	onResize: function(bounds) {
 		// If the selection bounds not initialized, return
 		if(!this.dragBounds) {return}
-		
+
 		this.dragBounds = bounds;
 		this.isResizing = true;
 
-		// Update the rectangle 
+		// Update the rectangle
 		this.resizeRectangle(this.dragBounds);
 	},
-	
+
 	onResizeStart: function() {
 		this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_RESIZE_START});
 	},
 
 	onResizeEnd: function() {
-		
+
 		if (!(this.currentShapes instanceof Array)||this.currentShapes.length<=0) {
 			return;
 		}
-		
+
 		// If Resizing finished, the Shapes will be resize
 		if(this.isResizing) {
-			
+
 			var commandClass = WAPAMA.Core.Command.extend({
 				construct: function(shape, newBounds, plugin){
 					this.shape = shape;
 					this.oldBounds = shape.bounds.clone();
 					this.newBounds = newBounds;
 					this.plugin = plugin;
-				},			
+				},
 				execute: function(){
 					this.shape.bounds.set(this.newBounds.a, this.newBounds.b);
 					this.update(this.getOffset(this.oldBounds, this.newBounds));
-					
+
 				},
 				rollback: function(){
 					this.shape.bounds.set(this.oldBounds.a, this.oldBounds.b);
 					this.update(this.getOffset(this.newBounds, this.oldBounds))
 				},
-				
+
 				getOffset:function(b1, b2){
 					return {
 						x: b2.a.x - b1.a.x,
@@ -578,40 +578,40 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 					this.shape.getLabels().each(function(label) {
 						label.changed();
 					});
-					
+
 					var allEdges = [].concat(this.shape.getIncomingShapes())
 						.concat(this.shape.getOutgoingShapes())
 						// Remove all edges which are included in the selection from the list
 						.findAll(function(r){ return r instanceof WAPAMA.Core.Edge }.bind(this))
-												
+
 					this.plugin.layoutEdges(this.shape, allEdges, offset);
 					this.plugin.doLayout([this.shape]);
 					this.plugin.facade.setSelection([this.shape]);
 					this.plugin.facade.getCanvas().update();
 					this.plugin.facade.updateSelection();
-					
+
 				}
 			});
-			
+
 			var bounds = this.dragBounds.clone();
 			// FIXME are we only resizing one element ?
 			var shape = this.currentShapes[0];
-			
+
 			if(shape.parent) {
 				var parentPosition = shape.parent.absoluteXY();
 				bounds.moveBy(-parentPosition.x, -parentPosition.y);
 			}
-				
+
 			var command = new commandClass(shape, bounds, this);
-			
+
 			this.facade.executeCommands([command]);
-			
+
 			this.isResizing = false;
-			
+
 			this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_RESIZE_END, shapes:[shape]});
 		}
 	},
-	
+
 
 	/**
 	 * Prepare the Dragging
@@ -622,7 +622,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		var undockEdgeCommand = WAPAMA.Core.Command.extend({
 			construct: function(moveShapes){
 				this.dockers = moveShapes.collect(function(shape){ return shape instanceof WAPAMA.Core.Controls.Docker ? {docker:shape, dockedShape:shape.getDockedShape(), refPoint:shape.referencePoint} : undefined }).compact();
-			},			
+			},
 			execute: function(){
 				this.dockers.each(function(el){
 					el.docker.setDockedShape(undefined);
@@ -636,14 +636,14 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 				})
 			}
 		});
-		
+
 		this._undockedEdgesCommand = new undockEdgeCommand( this.toMoveShapes );
-		this._undockedEdgesCommand.execute();	
-		
+		this._undockedEdgesCommand.execute();
+
 	},
 
 	hideAllLabels: function(shape) {
-			
+
 			// Hide all labels from the shape
 			shape.getLabels().each(function(label) {
 				label.hide();
@@ -671,12 +671,12 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 	 *
 	 */
 	afterDrag: function(){
-				
+
 	},
 
 	/**
 	 * Show all Labels at these shape
-	 * 
+	 *
 	 */
 	showAllLabels: function(shape) {
 
@@ -690,7 +690,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			//shape.getAllDockedShapes().each(function(dockedShape) {
 			var allDockedShapes = shape.getAllDockedShapes()
 			for(var i=0; i<allDockedShapes.length ;i++){
-				var dockedShape = allDockedShapes[i];				
+				var dockedShape = allDockedShapes[i];
 				var labels = dockedShape.getLabels();
 				if(labels.length > 0) {
 					labels.each(function(label) {
@@ -702,7 +702,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			// Do this recursive
 			//shape.children.each((function(value) {
 			for(var i=0; i<shape.children.length ;i++){
-				var value = shape.children[i];	
+				var value = shape.children[i];
 				if(value instanceof WAPAMA.Core.Shape)
 					this.showAllLabels(value);
 			}//).bind(this));
@@ -726,9 +726,9 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 	onSelectionChanged: function(event) {
 		this.resizerSE.onSelectionChanged(event);
 		this.resizerNW.onSelectionChanged(event);
-		
+
 		var elements = event.elements;
-		
+
 		// Reset the drag-variables
 		this.dragEnable = false;
 		this.dragIntialized = false;
@@ -751,24 +751,24 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			// Get all shapes with the highest parent in object hierarchy (canvas is the top most parent)
 			var topLevelElements = this.facade.getCanvas().getShapesWithSharedParent(elements);
 			this.toMoveShapes = topLevelElements;
-			
-			this.toMoveShapes = this.toMoveShapes.findAll( function(shape) { return shape instanceof WAPAMA.Core.Node && 
-																			(shape.dockers.length === 0 || !elements.member(shape.dockers.first().getDockedShape()))});		
-																			
+
+			this.toMoveShapes = this.toMoveShapes.findAll( function(shape) { return shape instanceof WAPAMA.Core.Node &&
+																			(shape.dockers.length === 0 || !elements.member(shape.dockers.first().getDockedShape()))});
+
 			elements.each((function(shape){
 				if(!(shape instanceof WAPAMA.Core.Edge)) {return}
-				
-				var dks = shape.getDockers() 
-								
+
+				var dks = shape.getDockers()
+
 				var hasF = elements.member(dks.first().getDockedShape());
-				var hasL = elements.member(dks.last().getDockedShape());	
-						
+				var hasL = elements.member(dks.last().getDockedShape());
+
 //				if(!hasL) {
 //					this.toMoveShapes.push(dks.last());
 //				}
 //				if(!hasF){
 //					this.toMoveShapes.push(dks.first())
-//				} 
+//				}
 				/* Enable movement of undocked edges */
 				if(!hasF && !hasL) {
 					var isUndocked = !dks.first().getDockedShape() && !dks.last().getDockedShape()
@@ -776,13 +776,13 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 						this.toMoveShapes = this.toMoveShapes.concat(dks);
 					}
 				}
-				
+
 				if( shape.dockers.length > 2 && hasF && hasL){
 					this.toMoveShapes = this.toMoveShapes.concat(dks.findAll(function(el,index){ return index > 0 && index < dks.length-1}))
 				}
-				
+
 			}).bind(this));
-			
+
 			// Calculate the new area-bounds of the selection
 			var newBounds = undefined;
 			this.toMoveShapes.each(function(value) {
@@ -791,7 +791,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 					/* Get the Shape */
 					shape = value.parent;
 				}
-				
+
 				if(!newBounds){
 					newBounds = shape.absoluteBounds();
 				}
@@ -799,7 +799,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 					newBounds.include(shape.absoluteBounds());
 				}
 			}.bind(this));
-			
+
 			if(!newBounds){
 				elements.each(function(value){
 					if(!newBounds) {
@@ -809,7 +809,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 					}
 				});
 			}
-			
+
 			// Set the new bounds
 			this.dragBounds = newBounds;
 			this.oldDragBounds = newBounds.clone();
@@ -817,7 +817,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			// Update and show the rectangle
 			this.resizeRectangle(newBounds);
 			this.selectedRect.show();
-			
+
 			// Show the resize button, if there is only one element and this is resizeable
 			if(elements.length == 1 && elements[0].isResizable) {
 				var aspectRatio = elements[0].getStencil().fixedAspectRatio() ? elements[0].bounds.width() / elements[0].bounds.height() : undefined;
@@ -838,7 +838,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 
 				if (this.distPointTimeout)
 					window.clearTimeout(this.distPointTimeout)
-				
+
 				this.distPointTimeout = window.setTimeout(function(){
 					// Get all the shapes, there will consider at snapping
 					// Consider only those elements who shares the same parent element
@@ -850,7 +850,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 						}
 						return true;
 					})
-					
+
 					// The current selection will delete from this array
 					//elements.each(function(shape) {
 					//	distShapes = distShapes.without(shape);
@@ -880,7 +880,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 							});
 						}
 					}).bind(this));
-					
+
 				}.bind(this), 10)
 
 
@@ -896,7 +896,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 
 		// Get the current Bounds
 		var bounds = this.dragBounds;
-		
+
 		var point = {};
 
 		var ulThres = 6;
@@ -904,14 +904,14 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 		var lrThres = 6;
 
 		var scale = this.vLine ? this.vLine.getScale() : 1;
-		
+
 		var ul = { x: (position.x/scale), y: (position.y/scale)};
 		var c = { x: (position.x/scale) + (bounds.width()/2), y: (position.y/scale) + (bounds.height()/2)};
 		var lr = { x: (position.x/scale) + (bounds.width()), y: (position.y/scale) + (bounds.height())};
 
 		var offsetX, offsetY;
 		var gridX, gridY;
-		
+
 		// For each distant point
 		this.distPoints.each(function(value) {
 
@@ -926,7 +926,7 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 				x = value.lr.x-lr.x;
 				gx = value.lr.x;
 			} */
-			
+
 
 			if (Math.abs(value.c.y-c.y) < cThres){
 				y = value.c.y-c.y;
@@ -951,10 +951,10 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 					gridY = gy;
 			}
 		});
-		
-		
+
+
 		if (offsetX !== undefined) {
-			ul.x += offsetX;	
+			ul.x += offsetX;
 			ul.x *= scale;
 			if (this.vLine&&gridX)
 				this.vLine.update(gridX);
@@ -963,8 +963,8 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			if (this.vLine)
 				this.vLine.hide()
 		}
-		
-		if (offsetY !== undefined) {	
+
+		if (offsetY !== undefined) {
 			ul.y += offsetY;
 			ul.y *= scale;
 			if (this.hLine&&gridY)
@@ -974,12 +974,12 @@ WAPAMA.Plugins.DragDropResize = WAPAMA.Plugins.AbstractPlugin.extend({
 			if (this.hLine)
 				this.hLine.hide();
 		}
-		
+
 		return ul;
 	},
-	
+
 	showGridLine: function(){
-		
+
 	},
 
 
@@ -1038,14 +1038,14 @@ WAPAMA.Plugins.SelectedRect = Clazz.extend({
 
 
 WAPAMA.Plugins.GridLine = Clazz.extend({
-	
+
 	construct: function(parentId, direction) {
 
 		if (WAPAMA.Plugins.GridLine.DIR_HORIZONTAL !== direction && WAPAMA.Plugins.GridLine.DIR_VERTICAL !== direction) {
 			direction = WAPAMA.Plugins.GridLine.DIR_HORIZONTAL
 		}
-		
-	
+
+
 		this.parent = $(parentId);
 		this.direction = direction;
 		this.node = WAPAMA.Editor.graft("http://www.w3.org/2000/svg", this.parent,
@@ -1076,19 +1076,19 @@ WAPAMA.Plugins.GridLine = Clazz.extend({
 			return 1;
 		}
 	},
-	
+
 	update: function(pos) {
-		
+
 		if (this.direction === WAPAMA.Plugins.GridLine.DIR_HORIZONTAL) {
-			var y = pos instanceof Object ? pos.y : pos; 
+			var y = pos instanceof Object ? pos.y : pos;
 			var cWidth = this.parent.parentNode.parentNode.width.baseVal.value/this.getScale();
 			this.line.setAttributeNS(null, 'd', 'M 0 '+y+ ' L '+cWidth+' '+y);
 		} else {
-			var x = pos instanceof Object ? pos.x : pos; 
+			var x = pos instanceof Object ? pos.x : pos;
 			var cHeight = this.parent.parentNode.parentNode.height.baseVal.value/this.getScale();
 			this.line.setAttributeNS(null, 'd', 'M'+x+ ' 0 L '+x+' '+cHeight);
 		}
-		
+
 		this.show();
 	}
 
@@ -1120,27 +1120,27 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 
 		this.minSize = undefined;
 		this.maxSize = undefined;
-		
+
 		this.aspectRatio = undefined;
 
 		this.resizeCallbacks 		= [];
 		this.resizeStartCallbacks 	= [];
 		this.resizeEndCallbacks 	= [];
 		this.hide();
-		
+
 		// Calculate the Offset
 		this.scrollNode = this.node.parentNode.parentNode.parentNode;
 
 
 	},
-	
+
 	/**
 	 * On the Selection-Changed
 	 *
 	 */
 	onSelectionChanged: function(event) {
 		var elements = event.elements;
-		
+
 		// If there is no elements
 		if(!elements || elements.length == 0) {
 			// Hide all things and reset all variables
@@ -1156,11 +1156,11 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 		this.dragEnable = true;
 
 		this.offsetScroll	= {x:this.scrollNode.scrollLeft,y:this.scrollNode.scrollTop};
-			
+
 		this.offSetPosition =  {
 			x: Event.pointerX(event) - this.position.x,
 			y: Event.pointerY(event) - this.position.y};
-		
+
 		this.resizeStartCallbacks.each((function(value) {
 			value(this.bounds);
 		}).bind(this));
@@ -1173,12 +1173,12 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 		this.resizeEndCallbacks.each((function(value) {
 			value(this.bounds);
 		}).bind(this));
-				
+
 	},
 
 	handleMouseMove: function(event) {
 		if(!this.dragEnable) { return }
-		
+
 		if(event.shiftKey || event.ctrlKey) {
 			this.aspectRatio = this.bounds.width() / this.bounds.height();
 		} else {
@@ -1190,17 +1190,17 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 			y: Event.pointerY(event) - this.offSetPosition.y}
 
 
-		position.x 	-= this.offsetScroll.x - this.scrollNode.scrollLeft; 
+		position.x 	-= this.offsetScroll.x - this.scrollNode.scrollLeft;
 		position.y 	-= this.offsetScroll.y - this.scrollNode.scrollTop;
-		
+
 		position.x  = Math.min( position.x, this.facade.getCanvas().bounds.width())
 		position.y  = Math.min( position.y, this.facade.getCanvas().bounds.height())
-		
+
 		var offset = {
 			x: position.x - this.position.x,
 			y: position.y - this.position.y
 		};
-		
+
 		if(this.aspectRatio) {
 			// fixed aspect ratio
 			newAspectRatio = (this.bounds.width()+offset.x) / (this.bounds.height()+offset.y);
@@ -1210,7 +1210,7 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 				offset.y = (this.bounds.width()+offset.x) / this.aspectRatio - this.bounds.height();
 			}
 		}
-		
+
 		// respect minimum and maximum sizes of stencil
 		if(this.orientation==="northwest") {
 			if(this.bounds.width()-offset.x > this.maxSize.width) {
@@ -1263,7 +1263,7 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 		} else { // defaults to southeast
 			this.bounds.extend(offset);
 		}
-		
+
 		this.facade.raiseEvent({
 			type		: WAPAMA.CONFIG.EVENT_DRAG_TRACKER_RESIZE,
 			shapes		: this.currentShapes,
@@ -1278,13 +1278,13 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 		Event.stop(event);
 
 	},
-	
+
 	registerOnResizeStart: function(callback) {
 		if(!this.resizeStartCallbacks.member(callback)) {
 			this.resizeStartCallbacks.push(callback);
 		}
 	},
-	
+
 	unregisterOnResizeStart: function(callback) {
 		if(this.resizeStartCallbacks.member(callback)) {
 			this.resizeStartCallbacks = this.resizeStartCallbacks.without(callback);
@@ -1296,13 +1296,13 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 			this.resizeEndCallbacks.push(callback);
 		}
 	},
-	
+
 	unregisterOnResizeEnd: function(callback) {
 		if(this.resizeEndCallbacks.member(callback)) {
 			this.resizeEndCallbacks = this.resizeEndCallbacks.without(callback);
 		}
 	},
-		
+
 	registerOnResize: function(callback) {
 		if(!this.resizeCallbacks.member(callback)) {
 			this.resizeCallbacks.push(callback);
@@ -1335,7 +1335,7 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 
 		this.minSize = min;
 		this.maxSize = max;
-		
+
 		this.aspectRatio = aspectRatio;
 
 		this.update();
@@ -1352,10 +1352,10 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 		if(this.bounds.height() > this.maxSize.height)	{ this.bounds.set(upL.x, upL.y, upL.x + this.bounds.width(), upL.y + this.maxSize.height)};
 
 		var a = this.canvasNode.getScreenCTM();
-		
+
 		upL.x *= a.a;
 		upL.y *= a.d;
-		
+
 		if(this.orientation==="northwest") {
 			upL.x -= 13;
 			upL.y -= 26;
@@ -1363,7 +1363,7 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 			upL.x +=  (a.a * this.bounds.width()) + 3 ;
 			upL.y +=  (a.d * this.bounds.height())  + 3;
 		}
-		
+
 		this.position = upL;
 
 		this.node.style.left = this.position.x + "px";
@@ -1375,8 +1375,8 @@ WAPAMA.Plugins.Resizer = Clazz.extend({
 
 /**
  * Implements a Command to move shapes
- * 
- */ 
+ *
+ */
 WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 	construct: function(moveShapes, offset, newLocation, parent, selectedShapes, plugin, doLayout){
 		this.moveShapes = moveShapes;
@@ -1389,13 +1389,13 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 		this.newParents	= moveShapes.collect(function(t){ return parent || t.parent });
 		this.oldParents	= moveShapes.collect(function(shape){ return shape.parent });
 		this.dockedNodes= moveShapes.findAll(function(shape){ return shape instanceof WAPAMA.Core.Node && shape.dockers.length == 1}).collect(function(shape){ return {docker:shape.dockers[0], dockedShape:shape.dockers[0].getDockedShape(), refPoint:shape.dockers[0].referencePoint} });
-	},			
+	},
 	execute: function(){
-		this.dockAllShapes()				
+		this.dockAllShapes()
 		// Moves by the offset
 		this.move( this.offset, this.newLocation, this.doLayout);
 		// Addes to the new parents
-		this.addShapeToParent( this.newParents ); 
+		this.addShapeToParent( this.newParents );
 		// Set the selection to the current selection
 		this.selectCurrentShapes();
 		this.plugin.facade.getCanvas().update();
@@ -1406,40 +1406,40 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 		var offset = { x:-this.offset.x, y:-this.offset.y };
 		this.move( offset );
 		// Addes to the old parents
-		this.addShapeToParent( this.oldParents ); 
-		this.dockAllShapes(true)	
-		
+		this.addShapeToParent( this.oldParents );
+		this.dockAllShapes(true)
+
 		// Set the selection to the current selection
 		this.selectCurrentShapes();
 		this.plugin.facade.getCanvas().update();
 		this.plugin.facade.updateSelection();
-		
+
 	},
 	move:function(offset, newLocation, doLayout){
-		
+
 		// Move all Shapes by these offset
 		for(var i=0; i<this.moveShapes.length ;i++){
-			var value = this.moveShapes[i];		
+			var value = this.moveShapes[i];
 			if (offset) {
 				value.bounds.moveBy(offset);
 			} else {
 				value.bounds.moveTo(newLocation);
 			}
 			if (value instanceof WAPAMA.Core.Node) {
-				
+
 				(value.dockers||[]).each(function(d){
 					if (offset) {
 						d.bounds.moveBy(offset);
 					}
 				})
-				
+
 				// Update all Dockers of Child shapes
-				/*var childShapesNodes = value.getChildShapes(true).findAll(function(shape){ return shape instanceof WAPAMA.Core.Node });							
-				var childDockedShapes = childShapesNodes.collect(function(shape){ return shape.getAllDockedShapes() }).flatten().uniq();							
-				var childDockedEdge = childDockedShapes.findAll(function(shape){ return shape instanceof WAPAMA.Core.Edge });							
-				childDockedEdge = childDockedEdge.findAll(function(shape){ return shape.getAllDockedShapes().all(function(dsh){ return childShapesNodes.include(dsh) }) });							
+				/*var childShapesNodes = value.getChildShapes(true).findAll(function(shape){ return shape instanceof WAPAMA.Core.Node });
+				var childDockedShapes = childShapesNodes.collect(function(shape){ return shape.getAllDockedShapes() }).flatten().uniq();
+				var childDockedEdge = childDockedShapes.findAll(function(shape){ return shape instanceof WAPAMA.Core.Edge });
+				childDockedEdge = childDockedEdge.findAll(function(shape){ return shape.getAllDockedShapes().all(function(dsh){ return childShapesNodes.include(dsh) }) });
 				var childDockedDockers = childDockedEdge.collect(function(shape){ return shape.dockers }).flatten();
-				
+
 				for (var j = 0; j < childDockedDockers.length; j++) {
 					var docker = childDockedDockers[j];
 					if (!docker.getDockedShape() && !this.moveShapes.include(docker)) {
@@ -1447,20 +1447,20 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 						//docker.update();
 					}
 				}*/
-				
-				
+
+
 				var allEdges = [].concat(value.getIncomingShapes())
 					.concat(value.getOutgoingShapes())
 					// Remove all edges which are included in the selection from the list
 					.findAll(function(r){ return	r instanceof WAPAMA.Core.Edge && !this.moveShapes.any(function(d){ return d == r || (d instanceof WAPAMA.Core.Controls.Docker && d.parent == r)}) }.bind(this))
 					// Remove all edges which are between the node and a node contained in the selection from the list
-					.findAll(function(r){ return 	(r.dockers.first().getDockedShape() == value || !this.moveShapes.include(r.dockers.first().getDockedShape())) &&  
+					.findAll(function(r){ return 	(r.dockers.first().getDockedShape() == value || !this.moveShapes.include(r.dockers.first().getDockedShape())) &&
 													(r.dockers.last().getDockedShape() == value || !this.moveShapes.include(r.dockers.last().getDockedShape()))}.bind(this))
-													
+
 				// Layout all outgoing/incoming edges
 				this.plugin.layoutEdges(value, allEdges, offset);
-				
-				
+
+
 				var allSameEdges = [].concat(value.getIncomingShapes())
 					.concat(value.getOutgoingShapes())
 					// Remove all edges which are included in the selection from the list
@@ -1475,8 +1475,8 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 							docker.bounds.moveBy(offset);
 						}
 					}
-				}	
-				
+				}
+
 				/*var i=-1;
 				var nodes = value.getChildShapes(true);
 				var allEdges = [];
@@ -1491,7 +1491,7 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 				}*/
 			}
 		}
-		
+
 		if (doLayout) {
 			this.plugin.doLayout(this.moveShapes);
 		}
@@ -1500,7 +1500,7 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 		// Undock all Nodes
 		for (var i = 0; i < this.dockedNodes.length; i++) {
 			var docker = this.dockedNodes[i].docker;
-			
+
 			docker.setDockedShape( shouldDocked ? this.dockedNodes[i].dockedShape : undefined )
 			if (docker.getDockedShape()) {
 				docker.setReferencePoint(this.dockedNodes[i].refPoint);
@@ -1508,15 +1508,15 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 			}
 		}
 	},
-	
+
 	addShapeToParent:function( parents ){
-		
-		// For every Shape, add this and reset the position		
+
+		// For every Shape, add this and reset the position
 		for(var i=0; i<this.moveShapes.length ;i++){
 			var currentShape = this.moveShapes[i];
 			if(currentShape instanceof WAPAMA.Core.Node &&
 			   currentShape.parent !== parents[i]) {
-				
+
 				// Calc the new position
 				var unul = parents[i].absoluteXY();
 				var csul = currentShape.absoluteXY();
@@ -1540,12 +1540,12 @@ WAPAMA.Core.Command.Move = WAPAMA.Core.Command.extend({
 				} else {
 					currentShape.bounds.moveTo(x, y);
 				}
-				
-			} 
-			
+
+			}
+
 			// Update the shape
 			//currentShape.update();
-			
+
 		}
 	},
 	selectCurrentShapes:function(){

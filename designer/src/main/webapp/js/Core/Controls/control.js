@@ -34,6 +34,6 @@ if(!WAPAMA.Core.Controls) {WAPAMA.Core.Controls = {};}
  * @classDescription Abstract base class for all Controls.
  */
 WAPAMA.Core.Controls.Control = WAPAMA.Core.UIObject.extend({
-	
+
 	toString: function() { return "Control " + this.id; }
  });

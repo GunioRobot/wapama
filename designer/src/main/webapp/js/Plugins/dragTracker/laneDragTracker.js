@@ -25,14 +25,14 @@ if(!WAPAMA.Plugins) { WAPAMA.Plugins = {} }
 if(!WAPAMA.Plugins.DragTracker) { WAPAMA.Plugins.DragTracker = {} }
 
 new function(){
-	
+
 	/**
 	 * Lane drag tracker is an implementation to help drag lanes inside pools.
 	 * @class WAPAMA.Plugins.DragTracker.LaneLayouter
 	 * @author Antoine Toulme
 	 */
 	WAPAMA.Plugins.DragTracker.LaneDragTracker = WAPAMA.Plugins.AbstractDragTracker.extend({
-		
+
 		shapes : ["Lane"],
 
 		/**
@@ -43,7 +43,7 @@ new function(){
 		 */
 		drag : function(shapes, bounds) {
 			shape = shapes.first();
-			
+
 			var righty = bounds.lowerRight().y;
 			var lefty = bounds.upperLeft().y;
 			if (righty > shape.parent.absoluteBounds().lowerRight().y) {
@@ -54,9 +54,9 @@ new function(){
 				righty = lefty + shape.bounds.height();
 			}
 			bounds.set(shape.parent.absoluteBounds().upperLeft().x + 30, lefty, shape.parent.absoluteBounds().lowerRight().x, righty);
-			
+
 		},
-	
+
 		/**
 		 * Callback to change the size delta depending on the positions.
 		 * @param shapes the shapes being resized
@@ -74,7 +74,7 @@ new function(){
 			}
 			bounds.set(shape.parent.absoluteBounds().upperLeft().x + 30, lefty, shape.parent.absoluteBounds().lowerRight().x, righty);
 		},
-		
+
 		newShape: function(shape) {
 			//we create our own command for resizing. It's a bit awkward to recreate commands
 			//for such things, and that begs for a nice framework.
@@ -84,17 +84,17 @@ new function(){
 					this.oldBounds = shape.bounds.clone();
 					this.newBounds = newBounds;
 					this.plugin = plugin;
-				},			
+				},
 				execute: function(){
 					this.shape.bounds.set(this.newBounds.a, this.newBounds.b);
 					this.update(this.getOffset(this.oldBounds, this.newBounds));
-					
+
 				},
 				rollback: function(){
 					this.shape.bounds.set(this.oldBounds.a, this.oldBounds.b);
 					this.update(this.getOffset(this.newBounds, this.oldBounds))
 				},
-				
+
 				getOffset:function(b1, b2){
 					return {
 						x: b2.a.x - b1.a.x,
@@ -112,8 +112,8 @@ new function(){
 					this.plugin.facade.updateSelection();
 				}
 			});
-			
-			
+
+
 			var righty = shape.bounds.lowerRight().y;
 			if (righty > shape.parent.absoluteBounds().height()) {
 				righty = shape.parent.absoluteBounds().height();
@@ -128,6 +128,6 @@ new function(){
 			this.doLayout([shape]);
 		}
 	});
-	
-	
+
+
 }()

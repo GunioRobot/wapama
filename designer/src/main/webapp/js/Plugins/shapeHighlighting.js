@@ -23,58 +23,58 @@
  **/
 
 if(!WAPAMA.Plugins)
-	WAPAMA.Plugins = new Object(); 
+	WAPAMA.Plugins = new Object();
 
 WAPAMA.Plugins.ShapeHighlighting = Clazz.extend({
 
 	construct: function(facade) {
-		
+
 		this.parentNode = facade.getCanvas().getSvgContainer();
-		
+
 		// The parent Node
 		this.node = WAPAMA.Editor.graft("http://www.w3.org/2000/svg", this.parentNode,
 					['g']);
 
 		this.highlightNodes = {};
-		
+
 		facade.registerOnEvent(WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW, this.setHighlight.bind(this));
-		facade.registerOnEvent(WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, this.hideHighlight.bind(this));		
+		facade.registerOnEvent(WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, this.hideHighlight.bind(this));
 
 	},
 
 	setHighlight: function(options) {
 		if(options && options.highlightId){
 			var node = this.highlightNodes[options.highlightId];
-			
+
 			if(!node){
 				node= WAPAMA.Editor.graft("http://www.w3.org/2000/svg", this.node,
 					['path', {
 						"stroke-width": 2.0, "fill":"none"
-						}]);	
-			
+						}]);
+
 				this.highlightNodes[options.highlightId] = node;
 			}
 
 			if(options.elements && options.elements.length > 0) {
-				
+
 				this.setAttributesByStyle( node, options );
 				this.show(node);
-			
+
 			} else {
-			
-				this.hide(node);			
-			
+
+				this.hide(node);
+
 			}
-			
+
 		}
 	},
-	
+
 	hideHighlight: function(options) {
 		if(options && options.highlightId && this.highlightNodes[options.highlightId]){
 			this.hide(this.highlightNodes[options.highlightId]);
-		}		
+		}
 	},
-	
+
 	hide: function(node) {
 		node.setAttributeNS(null, 'display', 'none');
 	},
@@ -82,50 +82,50 @@ WAPAMA.Plugins.ShapeHighlighting = Clazz.extend({
 	show: function(node) {
 		node.setAttributeNS(null, 'display', '');
 	},
-	
+
 	setAttributesByStyle: function( node, options ){
-		
+
 		// If the style say, that it should look like a rectangle
 		if( options.style && options.style == WAPAMA.CONFIG.SELECTION_HIGHLIGHT_STYLE_RECTANGLE ){
-			
+
 			// Set like this
 			var bo = options.elements[0].absoluteBounds();
-			
+
 			var strWidth = options.strokewidth ? options.strokewidth 	: WAPAMA.CONFIG.BORDER_OFFSET
-			
+
 			node.setAttributeNS(null, "d", this.getPathRectangle( bo.a, bo.b , strWidth ) );
 			node.setAttributeNS(null, "stroke", 		options.color 		? options.color 		: WAPAMA.CONFIG.SELECTION_HIGHLIGHT_COLOR);
 			node.setAttributeNS(null, "stroke-opacity", options.opacity 	? options.opacity 		: 0.2);
 			node.setAttributeNS(null, "stroke-width", 	strWidth);
-						
-		} else if(options.elements.length == 1 
+
+		} else if(options.elements.length == 1
 					&& options.elements[0] instanceof WAPAMA.Core.Edge &&
 					options.highlightId != "selection") {
-			
+
 			/* Highlight containment of edge's childs */
 			node.setAttributeNS(null, "d", this.getPathEdge(options.elements[0].dockers));
 			node.setAttributeNS(null, "stroke", options.color ? options.color : WAPAMA.CONFIG.SELECTION_HIGHLIGHT_COLOR);
 			node.setAttributeNS(null, "stroke-opacity", options.opacity ? options.opacity : 0.2);
 			node.setAttributeNS(null, "stroke-width", 	WAPAMA.CONFIG.OFFSET_EDGE_BOUNDS);
-			
+
 		}else {
 			// If not, set just the corners
 			node.setAttributeNS(null, "d", this.getPathByElements(options.elements));
 			node.setAttributeNS(null, "stroke", options.color ? options.color : WAPAMA.CONFIG.SELECTION_HIGHLIGHT_COLOR);
 			node.setAttributeNS(null, "stroke-opacity", options.opacity ? options.opacity : 1.0);
 			node.setAttributeNS(null, "stroke-width", 	options.strokewidth ? options.strokewidth 	: 2.0);
-						
+
 		}
 	},
-	
+
 	getPathByElements: function(elements){
 		if(!elements || elements.length <= 0) {return undefined}
-		
+
 		// Get the padding and the size
 		var padding = WAPAMA.CONFIG.SELECTED_AREA_PADDING;
-		
+
 		var path = ""
-		
+
 		// Get thru all Elements
 		elements.each((function(element) {
 			if(!element) {return}
@@ -134,28 +134,28 @@ WAPAMA.Plugins.ShapeHighlighting = Clazz.extend({
 			bounds.widen(padding)
 			var a = bounds.upperLeft();
 			var b = bounds.lowerRight();
-			
+
 			path = path + this.getPath(a ,b);
-												
+
 		}).bind(this));
 
 		return path;
-		
+
 	},
 
 	getPath: function(a, b){
-				
+
 		return this.getPathCorners(a, b);
-	
+
 	},
-			
+
 	getPathCorners: function(a, b){
 
 		var size = WAPAMA.CONFIG.SELECTION_HIGHLIGHT_SIZE;
-				
+
 		var path = ""
 
-		// Set: Upper left 
+		// Set: Upper left
 		path = path + "M" + a.x + " " + (a.y + size) + " l0 -" + size + " l" + size + " 0 ";
 		// Set: Lower left
 		path = path + "M" + a.x + " " + (b.y - size) + " l0 " + size + " l" + size + " 0 ";
@@ -163,18 +163,18 @@ WAPAMA.Plugins.ShapeHighlighting = Clazz.extend({
 		path = path + "M" + b.x + " " + (b.y - size) + " l0 " + size + " l-" + size + " 0 ";
 		// Set: Upper right
 		path = path + "M" + b.x + " " + (a.y + size) + " l0 -" + size + " l-" + size + " 0 ";
-		
+
 		return path;
 	},
-	
+
 	getPathRectangle: function(a, b, strokeWidth){
 
 		var size = WAPAMA.CONFIG.SELECTION_HIGHLIGHT_SIZE;
 
 		var path 	= ""
 		var offset 	= strokeWidth / 2.0;
-		 
-		// Set: Upper left 
+
+		// Set: Upper left
 		path = path + "M" + (a.x + offset) + " " + (a.y);
 		path = path + " L" + (a.x + offset) + " " + (b.y - offset);
 		path = path + " L" + (b.x - offset) + " " + (b.y - offset);
@@ -183,23 +183,23 @@ WAPAMA.Plugins.ShapeHighlighting = Clazz.extend({
 
 		return path;
 	},
-	
+
 	getPathEdge: function(edgeDockers) {
 		var length = edgeDockers.length;
-		var path = "M" + edgeDockers[0].bounds.center().x + " " 
+		var path = "M" + edgeDockers[0].bounds.center().x + " "
 					+  edgeDockers[0].bounds.center().y;
-		
+
 		for(i=1; i<length; i++) {
 			var dockerPoint = edgeDockers[i].bounds.center();
 			path = path + " L" + dockerPoint.x + " " +  dockerPoint.y;
 		}
-		
+
 		return path;
 	}
-	
+
 });
 
- 
+
 WAPAMA.Plugins.HighlightingSelectedShapes = Clazz.extend({
 
 	construct: function(facade) {
@@ -209,7 +209,7 @@ WAPAMA.Plugins.HighlightingSelectedShapes = Clazz.extend({
 
 		// Register on Dragging-Events for show/hide of ShapeMenu
 		//this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_DRAGDROP_START, this.hide.bind(this));
-		//this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_DRAGDROP_END,  this.show.bind(this));		
+		//this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_DRAGDROP_END,  this.show.bind(this));
 	},
 
 	/**
@@ -219,7 +219,7 @@ WAPAMA.Plugins.HighlightingSelectedShapes = Clazz.extend({
 	onSelectionChanged: function(event) {
 		if(event.elements && event.elements.length > 1) {
 			this.facade.raiseEvent({
-										type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW, 
+										type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW,
 										highlightId:'selection',
 										elements:	event.elements.without(event.subSelection),
 										color:		WAPAMA.CONFIG.SELECTION_HIGHLIGHT_COLOR,
@@ -228,19 +228,19 @@ WAPAMA.Plugins.HighlightingSelectedShapes = Clazz.extend({
 
 			if(event.subSelection){
 				this.facade.raiseEvent({
-											type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW, 
+											type:		WAPAMA.CONFIG.EVENT_HIGHLIGHT_SHOW,
 											highlightId:'subselection',
 											elements:	[event.subSelection],
 											color:		WAPAMA.CONFIG.SELECTION_HIGHLIGHT_COLOR,
 											opacity: 	this.opacityFull
-										});	
+										});
 			} else {
-				this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'subselection'});				
-			}						
-			
+				this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'subselection'});
+			}
+
 		} else {
 			this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'selection'});
 			this.facade.raiseEvent({type:WAPAMA.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'subselection'});
-		}		
+		}
 	}
 });

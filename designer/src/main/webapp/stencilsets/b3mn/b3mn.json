@@ -252,7 +252,7 @@
 			"description":"An event without incoming edges.",
 			"view":"node.event.start.svg",
 			"icon":"new_event_start.png",
-			"intersectionType":"ellipse",			
+			"intersectionType":"ellipse",
 			"roles": [
 				"tsg_ts",
 				"st_gs",
@@ -566,7 +566,7 @@
 			]
 		}
 	],
-	
+
 	"rules": {
 		"connectionRules": [
 			{
@@ -594,7 +594,7 @@
 						"to":["IntermediateEvent"]
 					}
 				]
-			}	
+			}
 		],
 		"cardinalityRules": [
 			{
@@ -604,7 +604,7 @@
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				],
 				incomingEdges: []
@@ -616,14 +616,14 @@
 					{
 						role:"SequenceFlow",
 						maximum:2,
-						
+
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
 						maximum:2,
-						
+
 					}
 				]
 			}

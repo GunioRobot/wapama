@@ -7,7 +7,7 @@ var test =
 		{
 			"type":			"node",
 			"id":			"Diagram",
-			"title":		"Diagram",	
+			"title":		"Diagram",
 			"groups":		["Diagram"],
 			"description":	"UML Diagram",
 			"view":			"diagram/node.diagram.svg",
@@ -17,25 +17,25 @@ var test =
 		{
 			"type":			"node",
 			"id":			"Class",
-			"title":		"Class",	
+			"title":		"Class",
 			"groups":		["Class Diagram"],
 			"description":	"UML Class shape",
 			"view":			"classdiagram/node.class.svg",
 			"icon":			"classdiagram/class.png",
 			"roles":		[],
 			"properties": [
-				
-			
-			
+
+
+
 			]
 		}
 	],
 	"rules":{
 		"connectionRules": [
 		],
-		
+
 		"containmentRules":	[
-			
+
 		]
 	}
 }

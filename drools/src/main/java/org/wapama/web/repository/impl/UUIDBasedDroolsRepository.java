@@ -33,15 +33,15 @@ import org.wapama.web.repository.IUUIDBasedRepository;
 
 
 /**
- * 
+ *
  * @author  Tihomir Surdilovic
  * @author Antoine Toulme
  *   added copyright and comments
- * 
+ *
  * The implementation of the UUID repository for Drools Guvnor.
- * 
+ *
  * Guvnor saves the model using an external frame that loads the frame.
- * 
+ *
  *
  */
 public class UUIDBasedDroolsRepository implements IUUIDBasedRepository {
@@ -49,15 +49,15 @@ public class UUIDBasedDroolsRepository implements IUUIDBasedRepository {
     /**
      * Logger for this class.
      */
-    private static final Logger _logger = 
+    private static final Logger _logger =
         LoggerFactory.getLogger(UUIDBasedDroolsRepository.class);
-    
+
     /**
      * Configure the repository in the context of the servlet
      * @param servlet the servlet which will use this repository.
      */
     public void configure(HttpServlet servlet) {
-        
+
     }
 
     /**
@@ -77,12 +77,12 @@ public class UUIDBasedDroolsRepository implements IUUIDBasedRepository {
      * @param json the json model
      * @param svg the svg representation of the model
      * @param profile the profile
-     * @throws DiagramValidationException 
+     * @throws DiagramValidationException
      */
     public void save(HttpServletRequest req, String uuid, String json,
-            String svg, IDiagramProfile profile, Boolean autosave) 
+            String svg, IDiagramProfile profile, Boolean autosave)
             throws DiagramValidationException {
-   
+
     }
-    
+
 }

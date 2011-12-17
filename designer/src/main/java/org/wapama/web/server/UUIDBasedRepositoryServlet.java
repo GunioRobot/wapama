@@ -68,14 +68,14 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
      * da logger
      */
     private static final Logger _logger = LoggerFactory.getLogger(UUIDBasedRepositoryServlet.class);
-    
+
     /**
      * The class name of the default repository.
      */
     private static final String DEFAULT_REPOSITORY = "org.wapama.web.repository.impl.UUIDBasedFileRepository";
     /**
      * The default factory for creation of repositories.
-     * 
+     *
      * The factory uses the initialization parameter repositoryClass
      * to know which class to instantiate.
      * The class is loaded using the current thread context class loader,
@@ -89,7 +89,7 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
          * @return a new IUUIDBasedRepository object
          */
         @SuppressWarnings("rawtypes")
-        public IUUIDBasedRepository createRepository(ServletConfig config) 
+        public IUUIDBasedRepository createRepository(ServletConfig config)
             throws ServletException {
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
             if (cl == null) {
@@ -106,26 +106,26 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
             } catch (Exception e) {
                 throw new IllegalArgumentException(e.getMessage(), e);
             }
-           
+
         }
-        
+
     };
-    
+
     /**
      * The factory used in an OSGi context.
-     * 
+     *
      * The factory looks for a registered IUUIDBasedRepositoryService using
-     * the current BundleContext. 
+     * the current BundleContext.
      * If none is found, it will throw a UnavailableException.
      * The first one found will otherwise be used to create the repository.
      */
     private static IUUIDBasedRepositoryService _osgiFactory = new IUUIDBasedRepositoryService() {
-        
+
         /**
          * @param config
          *   the servlet config to help create the repository
          * @return a new IUUIDBasedRepository object
-         * @throws ServletException 
+         * @throws ServletException
          */
         public IUUIDBasedRepository createRepository(ServletConfig config) throws ServletException {
             BundleContext bundleContext = ((BundleReference) getClass().
@@ -137,23 +137,23 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
                 throw new UnavailableException(
                         "No service registered for IUUIDBasedRepositoryService", 0);
             }
-            IUUIDBasedRepositoryService service = (IUUIDBasedRepositoryService) 
+            IUUIDBasedRepositoryService service = (IUUIDBasedRepositoryService)
                 bundleContext.getService(ref);
             return service.createRepository(config);
         }
     };
-    
+
     /**
      * The repository used to save and load models.
      */
     private IUUIDBasedRepository _repository;
-    
-    
+
+
     /**
      * Initiates the repository servlet.
-     * 
+     *
      * The behavior is based on the initialization parameters read from web.xml
-     * 
+     *
      * repositoryServiceType:
      * -null
      * The classloader of the class is investigated to see if we are operating
@@ -162,9 +162,9 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
      * We will use the _factory static field to create the repository.
      * -osgi
      * We will use the _osgiFactory to create the repository.
-     * 
+     *
      * Please refer to the documentation of both fields for further information.
-     * 
+     *
      */
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -173,7 +173,7 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
             String repoType = config.getInitParameter("repositoryServiceType");
             if (repoType == null) {
                 // look up the current class loader
-                if (UUIDBasedRepositoryServlet.class.getClassLoader() 
+                if (UUIDBasedRepositoryServlet.class.getClassLoader()
                         instanceof BundleReference) {
                     repoType = "osgi";
                 } else {
@@ -188,7 +188,7 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
                 throw new IllegalArgumentException("Invalid value for init " +
                 		"parameter repositoryServiceType : " + repoType);
             }
-            
+
             _repository.configure(this);
         } catch (Exception e) {
             if (e instanceof ServletException) {
@@ -196,9 +196,9 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
             }
             throw new ServletException(e);
         }
-        
+
     }
-    
+
     /**
      * This method populates the response with the contents of the model.
      * It expects two parameters to be passed via the request, uuid and profile.
@@ -223,22 +223,22 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
     /**
      * This method saves the model contents based on the json sent as the
      * body of the request.
-     * 
+     *
      * The json should look like:
-     * 
+     *
      * { "data" : ....,
      *   "svg" : <svg>...</svg>,
      *   "uuid" : "1234",
      *   "profile" : "default"
      * }
-     * 
+     *
      * The data is the json representation of the model.
      * The svg represents the graphical model as a SVG format.
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
-        
+
         BufferedReader reader = req.getReader();
         StringWriter reqWriter = new StringWriter();
         char[] buffer = new char[4096];
@@ -246,11 +246,11 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
         while ((read = reader.read(buffer)) != -1) {
             reqWriter.write(buffer, 0, read);
         }
-        
+
         String data = reqWriter.toString();
         try {
             JSONObject jsonObject = new JSONObject(data);
-            
+
             String json = (String) jsonObject.get("data");
             String svg = (String) jsonObject.get("svg");
             String uuid = (String) jsonObject.get("uuid");
@@ -261,7 +261,7 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
                 _logger.debug("Calling UUIDBasedRepositoryServlet doPost()...");
                 _logger.debug("autosave: " + autosave);
             }
-            
+
             IDiagramProfile profile = getProfile(req, profileName);
             if (_logger.isDebugEnabled()) {
                 _logger.debug("Begin saving the diagram");
@@ -278,7 +278,7 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
             resp.getWriter().write(e.getErrorJsonStr());
         }
     }
-    
+
     /**
      * FIXME this needs to go as it duplicates part of the functionality for
      * profiles resolution. We should only write this code once.
@@ -304,5 +304,5 @@ public class UUIDBasedRepositoryServlet extends HttpServlet {
         }
         return profile;
     }
-    
+
 }

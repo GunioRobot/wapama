@@ -39,7 +39,7 @@ public interface IDiagramProfileService {
      * @return the profile with the name in the context of that request
      */
     public IDiagramProfile findProfile(HttpServletRequest request, String name);
-    
+
     /**
      * @param request the context
      * @return the profiles for the given context.

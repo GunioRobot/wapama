@@ -23,25 +23,25 @@
 
 if (!WAPAMA.Plugins) {
 	WAPAMA.Plugins = {};
-}  
+}
 
 if (!WAPAMA.Config) {
 	WAPAMA.Config = {};
-} 
+}
 
 WAPAMA.UI.overrideButton();
 
 WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
-	
+
     facade: undefined,
     // true to enable the "Autosave" button, disable while autosaving
     autosaveEnabled : true,
     // true to enable the "Autosave" button, disable while autosaving
     saveModal : undefined,
-	
+
     construct: function(facade){
 		this.facade = facade;
-		
+
 		//capability to set autosave on or off
 		if (WAPAMA.CONFIG.UUID_AUTOSAVE_DEFAULT === undefined) {
 			WAPAMA.CONFIG.UUID_AUTOSAVE_DEFAULT = true;
@@ -53,14 +53,14 @@ WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
 			autosaveicon = WAPAMA.PATH + "images/disk_multiple.png";
 			autosavetip = WAPAMA.I18N.Save.autosaveDesc_on;
 		}
-					
+
 		autosavecfg = {
 			'name': WAPAMA.I18N.Save.autosave,
 			'group': WAPAMA.I18N.Save.group,
 			'functionality': function(context) {
 			   this.setautosave(WAPAMA.CONFIG.UUID_AUTOSAVE_INTERVAL);
 			   if (this.autosaving) {
-				   context.setIcon(WAPAMA.PATH + "images/disk_multiple.png", context); 
+				   context.setIcon(WAPAMA.PATH + "images/disk_multiple.png", context);
 				   context.setTooltip(WAPAMA.I18N.Save.autosaveDesc_on, context);
 			   } else {
 				   context.setIcon(WAPAMA.PATH + "images/disk_multiple_disabled.png", context);
@@ -77,14 +77,14 @@ WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
 			'maxShape': 0
 		};
 		this.facade.offer(autosavecfg);
-		
+
 		// let's set autosave on.
 		this.autosaveFunction = function() { if (/*savePlugin.changeDifference != 0*/true) { this._save(true, false); }}.bind(this, autosavecfg);
 		this.setautosave(WAPAMA.CONFIG.UUID_AUTOSAVE_INTERVAL);
-		
+
 		this.facade.registerOnEvent(WAPAMA.CONFIG.SAVE_EVENT, function(event){ this._save(false, event.onClose); }.bind(this));
 	},
-	
+
 	/**
 	 * Switches autosave on or off.
 	 * @param savePlugin the button.
@@ -93,17 +93,17 @@ WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
 		if (this.autosaving === undefined) {
 			this.autosaving = !WAPAMA.CONFIG.UUID_AUTOSAVE_DEFAULT;
 		}
-		
+
 		value = !this.autosaving;
 		if (value) {
 			this.autosaveInternalId = self.setInterval(this.autosaveFunction, interval);
 		} else {
 			self.clearInterval(this.autosaveInternalId);
 		}
-		
+
 		this.autosaving = value;
 	},
-	
+
 	/**
 	 * Saves data by calling the backend.
 	 * @param asave determine whether the function is invoked by autosave
@@ -129,7 +129,7 @@ WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
 					property=property[1];
 					shape.propertyNames[property._jsonProp.id]=property._jsonProp.title
 				});
-				
+
 				for (var property in shape.properties) {
 					shape.properties[property] = String(shape.properties[property]).gsub("<", "&lt;");
 					shape.properties[property] = String(shape.properties[property]).gsub(">", "&gt;");
@@ -147,7 +147,7 @@ WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
                 method: 'POST',
                 asynchronous: true,
                 contentType: "text/json; charset=UTF-8",
-                postBody: WAPAMA.UI.encode({data: serializedDOM, svg : svgDOM, uuid: WAPAMA.UUID, //rdf: rdf, 
+                postBody: WAPAMA.UI.encode({data: serializedDOM, svg : svgDOM, uuid: WAPAMA.UUID, //rdf: rdf,
                     profile: WAPAMA.PROFILE, savetype: asave}),
 				onSuccess : (function(transport) {
 					// end saving, the "loading" icon return to normal
@@ -209,13 +209,13 @@ WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
                 });
 
 				WAPAMA.UI.alert(WAPAMA.I18N.Wapama.title, WAPAMA.I18N.Save.noRights);
-				
+
 				WAPAMA.log.warn("Saving failed (403): " + transport.responseText);
 			}).bind(this)
 		});
 		return true;
 	},
-	
+
     /**
      * Shows the saving status
      * @param asave True: autosave | False: save
@@ -233,7 +233,7 @@ WAPAMA.Plugins.UUIDRepositorySave = WAPAMA.Plugins.AbstractPlugin.extend({
             this.saveModal = WAPAMA.UI.showSavingMask();
         }
     },
-	
+
 	/**
 	 * Shows the saving status
 	 * @param asave True: autosave | False: save

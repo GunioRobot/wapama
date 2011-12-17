@@ -107,7 +107,7 @@
 					"wrapLines":true
 				}
 			]
-		},			
+		},
  		{
 			"type": "node",
 			"id":"Task",
@@ -444,7 +444,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -616,7 +616,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -750,7 +750,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -934,7 +934,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},	
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1044,7 +1044,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},	
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1213,7 +1213,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1417,7 +1417,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1561,7 +1561,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1693,7 +1693,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1815,7 +1815,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1928,7 +1928,7 @@
 			"groups":["Startevents"],
 			"description":"An event without incoming edges.",
 			"view":"node.event.start.svg",
-			"icon":"new_startevent.png",		
+			"icon":"new_startevent.png",
 			"roles": [
 				"sequence_start",
 				"to_task_event",
@@ -1992,7 +1992,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2196,7 +2196,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2293,7 +2293,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2401,7 +2401,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2499,7 +2499,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2597,7 +2597,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2823,7 +2823,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2931,7 +2931,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3028,7 +3028,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3136,7 +3136,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3244,7 +3244,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3363,7 +3363,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3472,7 +3472,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3862,7 +3862,7 @@
 					"optional":true,
 					"length":""
 				}
-				
+
 			]
 		},
 		{
@@ -3979,10 +3979,10 @@
 							"refToView":"templeadsto"
 						}
 					]
-					
+
 				}
-				
-				
+
+
 			]
 		},
 		{
@@ -4060,8 +4060,8 @@
 					"optional":true,
 					"length":""
 				}
-				
-				
+
+
 			]
 		},
 		{
@@ -4412,9 +4412,9 @@
 				}
 			]
 		}
-		
+
 	],
-	
+
 	"rules": {
 		"connectionRules": [
 			{
@@ -4607,14 +4607,14 @@
 					{
 						"role":"SequenceFlow",
 						"maximum":"1"
-						
+
 					}
 				],
 				"incomingEdges": [
 					{
 						"role":"SequenceFlow",
 						"maximum":"0"
-						
+
 					}
 				]
 			},
@@ -4625,14 +4625,14 @@
 					{
 						"role":"SequenceFlow",
 						"maximum":"0"
-						
+
 					}
 				],
 				"incomingEdges": [
 					{
 						"role":"SequenceFlow",
 						"maximum":"1"
-						
+
 					}
 				]
 			}
@@ -4663,13 +4663,13 @@
 				]
 			}
 		]
-//		canConnect: function(args) { 
+//		canConnect: function(args) {
 //			if(args.result) {
 //				if(args.sourceShape.parent.parent.id == args.targetShape.parent.parent.id) {
 //						args.result = false;
 //				}
 //			}
-//			return args.result; 
+//			return args.result;
 //		}
 	}
 }

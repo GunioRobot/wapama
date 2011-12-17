@@ -31,10 +31,10 @@ if(!WAPAMA.Core.SVG) {WAPAMA.Core.SVG = {};}
 
 /**
  * @classDescription Class for adding text to a shape.
- * 
+ *
  */
 WAPAMA.Core.SVG.Label = Clazz.extend({
-	
+
 	_characterSets:[
 		"%W",
 		"@",
@@ -55,52 +55,52 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 	 * Constructor
 	 * @param options {Object} :
 	 * 	textElement
-	 * 
+	 *
 	 */
 	construct: function(options) {
 		arguments.callee.$.construct.apply(this, arguments);
-		
+
 		if(!options.textElement) {
-			throw "Label: No parameter textElement." 
+			throw "Label: No parameter textElement."
 		} else if (!WAPAMA.Editor.checkClassType( options.textElement, SVGTextElement ) ) {
-			throw "Label: Parameter textElement is not an SVGTextElement."	
+			throw "Label: Parameter textElement is not an SVGTextElement."
 		}
-		
+
 		this.invisibleRenderPoint = -5000;
-		
+
 		this.node = options.textElement;
-		
-		
+
+
 		this.node.setAttributeNS(null, 'stroke-width', '0pt');
 		this.node.setAttributeNS(null, 'letter-spacing', '-0.01px');
-		
+
 		this.shapeId = options.shapeId;
-		
+
 		this.id;
-		
+
 		this.fitToElemId;
-		
+
 		this.edgePosition;
-		
+
 		this.x;
 		this.y;
 		this.oldX;
 		this.oldY;
-		
+
 		this.isVisible = true;
-		
+
 		this._text;
 		this._verticalAlign;
 		this._horizontalAlign;
 		this._rotate;
 		this._rotationPoint;
-		
+
 		//this.anchors = [];
 		this.anchorLeft;
 		this.anchorRight;
 		this.anchorTop;
 		this.anchorBottom;
-		
+
 		this._isChanged = true;
 
 		//if the text element already has an id, don't change it.
@@ -108,21 +108,21 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 		if(_id) {
 			this.id = _id;
 		}
-		
-		//initialization	
-		
+
+		//initialization
+
 		//set referenced element the text is fit to
 		this.fitToElemId = this.node.getAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, 'fittoelem');
 		if(this.fitToElemId)
 			this.fitToElemId = this.shapeId + this.fitToElemId;
-		
-		//set alignment	
+
+		//set alignment
 		var alignValues = this.node.getAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, 'align');
 		if(alignValues) {
 			alignValues = alignValues.replace(/,/g, " ");
 			alignValues = alignValues.split(" ");
 			alignValues = alignValues.without("");
-			
+
 			alignValues.each((function(alignValue) {
 				switch (alignValue) {
 					case 'top':
@@ -138,27 +138,27 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 				}
 			}).bind(this));
 		}
-		
+
 		//set edge position (only in case the label belongs to an edge)
 		this.edgePosition = this.node.getAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, 'edgePosition');
 		if(this.edgePosition) {
 			this.edgePosition = this.edgePosition.toLowerCase();
 		}
-		
-		
+
+
 		//get offset top
 		this.offsetTop = this.node.getAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, 'offsetTop') || WAPAMA.CONFIG.OFFSET_EDGE_LABEL_TOP;
 		if(this.offsetTop) {
 			this.offsetTop = parseInt(this.offsetTop);
 		}
-		
+
 		//get offset top
 		this.offsetBottom = this.node.getAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, 'offsetBottom') || WAPAMA.CONFIG.OFFSET_EDGE_LABEL_BOTTOM;
 		if(this.offsetBottom) {
 			this.offsetBottom = parseInt(this.offsetBottom);
 		}
-		
-				
+
+
 		//set rotation
 		var rotateValue = this.node.getAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, 'rotate');
 		if(rotateValue) {
@@ -170,13 +170,13 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 		} else {
 			this._rotate = 0;
 		}
-		
+
 		//anchors
 		var anchorAttr = this.node.getAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, "anchors");
 		if(anchorAttr) {
 			anchorAttr = anchorAttr.replace("/,/g", " ");
 			var anchors = anchorAttr.split(" ").without("");
-			
+
 			for(var i = 0; i < anchors.length; i++) {
 				switch(anchors[i].toLowerCase()) {
 					case "left":
@@ -194,7 +194,7 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 				}
 			}
 		}
-		
+
 		//if no alignment defined, set default alignment
 		if(!this._verticalAlign) { this._verticalAlign = 'bottom'; }
 		if(!this._horizontalAlign) { this._horizontalAlign = 'left'; }
@@ -206,7 +206,7 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 		} else {
 			//TODO error
 		}
-		
+
 		var yValue = this.node.getAttributeNS(null, 'y');
 		if(yValue) {
 			this.y = parseFloat(yValue);
@@ -214,15 +214,15 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 		} else {
 			//TODO error
 		}
-		
+
 		//set initial text
 		this.text(this.node.textContent);
 	},
-	
+
 	changed: function() {
 		this._isChanged = true;
 	},
-	
+
 	/**
 	 * Update the SVG text element.
 	 */
@@ -230,13 +230,13 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 		if(this._isChanged || this.x !== this.oldX || this.y !== this.oldY) {
 			if (this.isVisible) {
 				this._isChanged = false;
-				
+
 				this.node.setAttributeNS(null, 'x', this.x);
 				this.node.setAttributeNS(null, 'y', this.y);
-				
+
 				//this.node.setAttributeNS(null, 'font-size', this._fontSize);
 				//this.node.setAttributeNS(WAPAMA.CONFIG.NAMESPACE_WAPAMA, 'align', this._horizontalAlign + " " + this._verticalAlign);
-				
+
 				//set horizontal alignment
 				switch (this._horizontalAlign) {
 					case 'left':
@@ -249,31 +249,31 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 						this.node.setAttributeNS(null, 'text-anchor', 'end');
 						break;
 				}
-				
+
 				this.oldX = this.x;
 				this.oldY = this.y;
-				
+
 				//set rotation
 				if (this._rotate !== undefined) {
-					if (this._rotationPoint) 
+					if (this._rotationPoint)
 						this.node.setAttributeNS(null, 'transform', 'rotate(' + this._rotate + ' ' + this._rotationPoint.x + ' ' + this._rotationPoint.y + ')');
-					else 
+					else
 						this.node.setAttributeNS(null, 'transform', 'rotate(' + this._rotate + ' ' + this.x + ' ' + this.y + ')');
 				}
-				
+
 				var textLines = this._text.split("\n");
-				while (textLines.last() == "") 
+				while (textLines.last() == "")
 					textLines.pop();
-				
+
 				this.node.textContent = "";
-				
+
 				if (this.node.ownerDocument) {
 					textLines.each((function(textLine, index){
 						var tspan = this.node.ownerDocument.createElementNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'tspan');
 						tspan.textContent = textLine;
 						tspan.setAttributeNS(null, 'x', this.invisibleRenderPoint);
 						tspan.setAttributeNS(null, 'y', this.invisibleRenderPoint);
-						
+
 						/*
 						 * Chrome's getBBox() method fails, if a text node contains an empty tspan element.
 						 * So, we add a whitespace to such a tspan element.
@@ -281,19 +281,19 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 						if(tspan.textContent === "") {
 							tspan.textContent = " ";
 						}
-						
+
 						//append tspan to text node
 						this.node.appendChild(tspan);
 					}).bind(this));
-					
+
 					//Work around for Mozilla bug 293581
 					if (this.isVisible) {
 						this.node.setAttributeNS(null, 'visibility', 'hidden');
 					}
-					
-					if (this.fitToElemId) 
+
+					if (this.fitToElemId)
 						window.setTimeout(this._checkFittingToReferencedElem.bind(this), 0);
-					else 
+					else
 						window.setTimeout(this._positionText.bind(this), 0);
 				}
 			} else {
@@ -301,44 +301,44 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 			}
 		}
 	},
-	
+
 	_checkFittingToReferencedElem: function() {
 		try {
 			var tspans = $A(this.node.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'tspan'));
-			
+
 			//only do this in firefox 3. all other browsers do not support word wrapping!!!!!
 			//if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1)>=3) {
 				var newtspans = [];
-				
+
 				var refNode = this.node.ownerDocument.getElementById(this.fitToElemId);
-				
+
 				if (refNode) {
-				
+
 					var refbb = refNode.getBBox();
-					
+
 					var fontSize = this.getFontSize();
-					
+
 					for (var j = 0; j < tspans.length; j++) {
 						var tspan = tspans[j];
-						
+
 						var textLength = this._getRenderedTextLength(tspan, undefined, undefined, fontSize);
-						
+
 						/* Depending on the rotation of the text element, take
 						 * the width or height as reference respectively. */
-						var refBoxLength = (this._rotate != 0 
-								&& this._rotate % 180 != 0 
-								&& this._rotate % 90 == 0 ? 
+						var refBoxLength = (this._rotate != 0
+								&& this._rotate % 180 != 0
+								&& this._rotate % 90 == 0 ?
 										refbb.height : refbb.width);
-						
+
 						if (textLength > refBoxLength) {
-						
+
 							var startIndex = 0;
 							var lastSeperatorIndex = 0;
-							
+
 							var numOfChars = this.getTrimmedTextLength(tspan.textContent);
 							for (var i = 0; i < numOfChars; i++) {
 								var sslength = this._getRenderedTextLength(tspan, startIndex, i-startIndex, fontSize);
-								
+
 								if (sslength > refBoxLength - 3) {
 									var newtspan = this.node.ownerDocument.createElementNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'tspan');
 									if (lastSeperatorIndex <= startIndex) {
@@ -349,16 +349,16 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 									else {
 										newtspan.textContent = tspan.textContent.slice(startIndex, ++lastSeperatorIndex);
 									}
-									
+
 									newtspan.setAttributeNS(null, 'x', this.invisibleRenderPoint);
 									newtspan.setAttributeNS(null, 'y', this.invisibleRenderPoint);
-									
+
 									//insert tspan to text node
 									//this.node.insertBefore(newtspan, tspan);
 									newtspans.push(newtspan);
-									
+
 									startIndex = lastSeperatorIndex;
-									
+
 								}
 								else {
 									var curChar = tspan.textContent.charAt(i);
@@ -372,16 +372,16 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 									}
 								}
 							}
-							
+
 							tspan.textContent = tspan.textContent.slice(startIndex);
 						}
-						
+
 						newtspans.push(tspan);
 					}
-					
-					while (this.node.hasChildNodes()) 
+
+					while (this.node.hasChildNodes())
 						this.node.removeChild(this.node.childNodes[0]);
-					
+
 					while (newtspans.length > 0) {
 						this.node.appendChild(newtspans.shift());
 					}
@@ -390,10 +390,10 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 		} catch (e) {
 			//console.log(e);
 		}
-		
+
 		window.setTimeout(this._positionText.bind(this), 0);
 	},
-	
+
 	/**
 	 * This is a work around method for Mozilla bug 293581.
 	 * Before the method getComputedTextLength works, the text has to be rendered.
@@ -401,13 +401,13 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 	_positionText: function() {
 		try {
 			var tspans = this.node.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'tspan');
-			
-			var fontSize = this.getFontSize(this.node); 
-			
+
+			var fontSize = this.getFontSize(this.node);
+
 			var invalidTSpans = [];
-			
+
 			$A(tspans).each((function(tspan, index){
-				
+
 				if(tspan.textContent.trim() === "") {
 					invalidTSpans.push(tspan);
 				} else {
@@ -426,30 +426,30 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 							dy += fontSize;
 							break;
 					}
-					
+
 					tspan.setAttributeNS(null, 'dy', dy);
-					
+
 					tspan.setAttributeNS(null, 'x', this.x);
 					tspan.setAttributeNS(null, 'y', this.y);
 				}
-				
+
 			}).bind(this));
-			
+
 			invalidTSpans.each(function(tspan) {
 				this.node.removeChild(tspan)
 			}.bind(this));
-			
+
 		} catch(e) {
 			//console.log(e);
 			this._isChanged = true;
 		}
-		
-		
+
+
 		if(this.isVisible) {
 			this.node.setAttributeNS(null, 'visibility', 'inherit');
-		}				
+		}
 	},
-	
+
 	/**
 	 * Returns the text length of the text content of an SVG tspan element.
 	 * For all browsers but Firefox 3 the values are estimated.
@@ -476,7 +476,7 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 			}
 		}
 	},
-	
+
 	/**
 	 * Estimates the text width for a string.
 	 * Used for word wrapping in all browser but FF3.
@@ -487,10 +487,10 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 		for(var i = 0; i < text.length; i++) {
 			sum += this._estimateCharacterWidth(text.charAt(i));
 		}
-		
+
 		return sum*(fontSize/14.0);
 	},
-	
+
 	/**
 	 * Estimates the width of a single character for font size 14.
 	 * Used for word wrapping in all browser but FF3.
@@ -501,13 +501,13 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
  			if(this._characterSets[i].indexOf(character) >= 0) {
 				return this._characterSetValues[i];
 			}
- 		}	
+ 		}
 		return 9;
  	},
-	
+
 	getReferencedElementWidth: function() {
 		var refNode = this.node.ownerDocument.getElementById(this.fitToElemId);
-				
+
 		if (refNode) {
 			var refbb = refNode.getBBox();
 			if(refbb) {
@@ -519,7 +519,7 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 			return undefined;
 		}
 	},
-	
+
 	/**
 	 * If no parameter is provided, this method returns the current text.
 	 * @param text {String} Optional. Replaces the old text with this one.
@@ -529,7 +529,7 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 			case 0:
 				return this._text
 				break;
-			
+
 			case 1:
 				var oldText = this._text;
 				if(arguments[0]) {
@@ -541,13 +541,13 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 					this._isChanged = true;
 				}
 				break;
-				
-			default: 
+
+			default:
 				//TODO error
 				break;
 		}
 	},
-	
+
 	verticalAlign: function() {
 		switch(arguments.length) {
 			case 0:
@@ -561,13 +561,13 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 					}
 				}
 				break;
-				
+
 			default:
 				//TODO error
 				break;
 		}
 	},
-	
+
 	horizontalAlign: function() {
 		switch(arguments.length) {
 			case 0:
@@ -578,16 +578,16 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 					this._horizontalAlign = arguments[0];
 					if(this._horizontalAlign !== oldValue) {
 						this._isChanged = true;
-					}	
+					}
 				}
 				break;
-				
+
 			default:
 				//TODO error
 				break;
 		}
 	},
-	
+
 	rotate: function() {
 		switch(arguments.length) {
 			case 0:
@@ -607,24 +607,24 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 					this._rotationPoint = arguments[1];
 					this._isChanged = true;
 				}
-				
+
 		}
 	},
-	
+
 	hide: function() {
 		if(this.isVisible) {
 			this.isVisible = false;
 			this._isChanged = true;
 		}
 	},
-	
+
 	show: function() {
 		if(!this.isVisible) {
 			this.isVisible = true;
 			this._isChanged = true;
 		}
 	},
-	
+
 	/**
 	 * iterates parent nodes till it finds a SVG font-size
 	 * attribute.
@@ -633,7 +633,7 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 	getInheritedFontSize: function(node) {
 		if(!node || !node.getAttributeNS)
 			return;
-			
+
 		var attr = node.getAttributeNS(null, "font-size");
 		if(attr) {
 			return parseFloat(attr);
@@ -641,14 +641,14 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 			return this.getInheritedFontSize(node.parentNode);
 		}
 	},
-	
+
 	getFontSize: function(node) {
 		var tspans = this.node.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'tspan');
-			
+
 		//trying to get an inherited font-size attribute
 		//NO CSS CONSIDERED!
-		var fontSize = this.getInheritedFontSize(this.node); 
-		
+		var fontSize = this.getInheritedFontSize(this.node);
+
 		if (!fontSize) {
 			//because this only works in firefox 3, all other browser use the default line height
 			if (tspans[0] && /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
@@ -657,19 +657,19 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 			else {
 				fontSize = WAPAMA.CONFIG.LABEL_DEFAULT_LINE_HEIGHT;
 			}
-			
+
 			//handling of unsupported method in webkit
 			if (fontSize <= 0) {
 				fontSize = WAPAMA.CONFIG.LABEL_DEFAULT_LINE_HEIGHT;
 			}
 		}
-		
+
 		if(fontSize)
 			this.node.setAttribute("wapama:fontSize", fontSize);
-		
+
 		return fontSize;
 	},
-	
+
 	/**
 	 * Get trimmed text length for use with
 	 * getExtentOfChar and getSubStringLength.
@@ -677,7 +677,7 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 	 */
 	getTrimmedTextLength: function(text) {
 		text = text.strip().gsub('  ', ' ');
-		
+
 		var oldLength;
 		do {
 			oldLength = text.length;
@@ -686,27 +686,27 @@ WAPAMA.Core.SVG.Label = Clazz.extend({
 
 		return text.length;
 	},
-	
+
 	/**
 	 * Returns the offset from
-	 * edge to the label which is 
+	 * edge to the label which is
 	 * positioned under the edge
 	 * @return {int}
 	 */
 	getOffsetBottom: function(){
 		return this.offsetBottom;
 	},
-	
-		
+
+
 	/**
 	 * Returns the offset from
-	 * edge to the label which is 
+	 * edge to the label which is
 	 * positioned over the edge
 	 * @return {int}
 	 */
 	getOffsetTop: function(){
 		return this.offsetTop;
 	},
-	
+
 	toString: function() { return "Label " + this.id }
  });

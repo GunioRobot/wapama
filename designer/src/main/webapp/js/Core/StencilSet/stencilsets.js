@@ -40,7 +40,7 @@ if(!WAPAMA.Core.StencilSet) {WAPAMA.Core.StencilSet = {};}
 WAPAMA.Core.StencilSet._stencilSetsByNamespace = new Hash();
 
 //storage for stencil sets by url
-WAPAMA.Core.StencilSet._stencilSetsByUrl = new Hash();	
+WAPAMA.Core.StencilSet._stencilSetsByUrl = new Hash();
 
 //storage for stencil set namespaces by editor instances
 WAPAMA.Core.StencilSet._StencilSetNSByEditorInstance = new Hash();
@@ -49,9 +49,9 @@ WAPAMA.Core.StencilSet._StencilSetNSByEditorInstance = new Hash();
 WAPAMA.Core.StencilSet._rulesByEditorInstance = new Hash();
 
 /**
- * 
+ *
  * @param {String} editorId
- * 
+ *
  * @return {Hash} Returns a hash map with all stencil sets that are loaded by
  * 					the editor with the editorId.
  */
@@ -68,12 +68,12 @@ WAPAMA.Core.StencilSet.stencilSets = function(editorId) {
 };
 
 /**
- * 
+ *
  * @param {String} namespace
- * 
+ *
  * @return {WAPAMA.Core.StencilSet.StencilSet} Returns the stencil set with the specified
  * 										namespace.
- * 
+ *
  * The method can handle namespace strings like
  *  http://www.example.org/stencilset
  *  http://www.example.org/stencilset#
@@ -91,11 +91,11 @@ WAPAMA.Core.StencilSet.stencilSet = function(namespace) {
 };
 
 /**
- * 
+ *
  * @param {String} id
- * 
+ *
  * @return {WAPAMA.Core.StencilSet.Stencil} Returns the stencil specified by the id.
- * 
+ *
  * The id must be unique and contains the namespace of the stencil's stencil set.
  * e.g. http://www.example.org/stencilset#ANode
  */
@@ -112,9 +112,9 @@ WAPAMA.Core.StencilSet.stencil = function(id) {
 };
 
 /**
- * 
+ *
  * @param {String} editorId
- * 
+ *
  * @return {WAPAMA.Core.StencilSet.Rules} Returns the rules object for the editor
  * 									specified by its editor id.
  */
@@ -126,12 +126,12 @@ WAPAMA.Core.StencilSet.rules = function(editorId) {
 };
 
 /**
- * 
+ *
  * @param {String} url
  * @param {String} editorId
- * 
+ *
  * Loads a stencil set from url, if it is not already loaded.
- * It also stores which editor instance loads the stencil set and 
+ * It also stores which editor instance loads the stencil set and
  * initializes the Rules object for the editor instance.
  */
 WAPAMA.Core.StencilSet.loadStencilSet = function(wapamaEditor, url, editorId) {
@@ -140,7 +140,7 @@ WAPAMA.Core.StencilSet.loadStencilSet = function(wapamaEditor, url, editorId) {
 	if(!stencilSet) {
 		//load stencil set
 		stencilSet = new WAPAMA.Core.StencilSet.StencilSet(wapamaEditor, url, editorId);
-		
+
 
 	}
 };
@@ -151,16 +151,16 @@ WAPAMA.Core.StencilSet.loadStencilSet = function(wapamaEditor, url, editorId) {
  */
 WAPAMA.Core.StencilSet.getTranslation = function(jsonObject, name) {
 	var lang = WAPAMA.I18N.Language.toLowerCase();
-	
+
 	var result = jsonObject[name + "_" + lang];
-	
+
 	if(result)
 		return result;
-		
+
 	result = jsonObject[name + "_" + lang.substr(0, 2)];
-	
+
 	if(result)
 		return result;
-		
+
 	return jsonObject[name];
 };

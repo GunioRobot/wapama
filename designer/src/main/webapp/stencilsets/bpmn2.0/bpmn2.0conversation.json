@@ -28,7 +28,7 @@
 					"optional":true,
 					"length":"",
 					"wrapLines" : true,
-					"refToView":"text_name"	
+					"refToView":"text_name"
 				},
 				{
 					"id":"documentation",
@@ -418,9 +418,9 @@
 				"fromtoall"
 			]
 		},
-		
+
 		// Artifacts
-		
+
 		{
 			"type" : 			"node",
 			"id" : 				"Group",

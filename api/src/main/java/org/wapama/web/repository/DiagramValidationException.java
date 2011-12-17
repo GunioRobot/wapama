@@ -21,7 +21,7 @@
 ****************************************/
 package org.wapama.web.repository;
 /**
- * A customized exception that be thrown when saving a diagram but have property validation errors 
+ * A customized exception that be thrown when saving a diagram but have property validation errors
  * @author Ludwig.Xu
  *
  */

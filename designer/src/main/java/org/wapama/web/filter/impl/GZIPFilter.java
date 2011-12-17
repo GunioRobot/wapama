@@ -57,7 +57,7 @@ public class GZIPFilter implements Filter {
 		// get the final response output stream
 		chain.doFilter(request, wrapper);
 		OutputStream out = response.getOutputStream();
-		
+
 		if (!isCached(wrapper) && accepts(httpRequest, "gzip")) {
 			// start to compress
 			ByteArrayOutputStream compressed = new ByteArrayOutputStream();

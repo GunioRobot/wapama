@@ -42,7 +42,7 @@ public class LocalResource {
         localPath.append("js").append("/").append("Plugins").append("/").append(path);
         this._path = context.getRealPath(localPath.toString());
     }
-    
+
     public LocalResource(String name, String path) {
         this._name = name;
         this._path = path;

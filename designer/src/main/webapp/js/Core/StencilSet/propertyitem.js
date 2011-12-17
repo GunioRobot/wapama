@@ -51,16 +51,16 @@ WAPAMA.Core.StencilSet.PropertyItem = Clazz.extend({
 		if(!property) {
 			throw "WAPAMA.Core.StencilSet.PropertyItem(construct): Parameter property is not defined.";
 		}
-		
+
 		this._jsonItem = jsonItem;
 		this._namespace = namespace;
 		this._property = property;
-		
+
 		//init all values
 		if(!jsonItem.value) {
 			throw "WAPAMA.Core.StencilSet.PropertyItem(construct): Value is not defined.";
 		}
-		
+
 		if(this._jsonItem.refToView) {
 			if(!(this._jsonItem.refToView instanceof Array)) {
 				this._jsonItem.refToView = [this._jsonItem.refToView];
@@ -90,7 +90,7 @@ WAPAMA.Core.StencilSet.PropertyItem = Clazz.extend({
 	value: function() {
 		return this._jsonItem.value;
 	},
-	
+
 	title: function() {
 		return WAPAMA.Core.StencilSet.getTranslation(this._jsonItem, "title");
 	},
@@ -98,7 +98,7 @@ WAPAMA.Core.StencilSet.PropertyItem = Clazz.extend({
 	refToView: function() {
 		return this._jsonItem.refToView;
 	},
-	
+
 	icon: function() {
 		return (this._jsonItem.icon) ? this.property().stencil()._source + "icons/" + this._jsonItem.icon : "";
 	},

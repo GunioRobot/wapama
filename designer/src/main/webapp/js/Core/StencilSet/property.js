@@ -46,17 +46,17 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
      */
     construct: function(jsonProp, namespace, stencil){
         arguments.callee.$.construct.apply(this, arguments);
-        
+
         this._jsonProp = jsonProp || WAPAMA.Log.error("Parameter jsonProp is not defined.");
         this._namespace = namespace || WAPAMA.Log.error("Parameter namespace is not defined.");
         this._stencil = stencil || WAPAMA.Log.error("Parameter stencil is not defined.");
-        
+
         this._items = new Hash();
         this._complexItems = new Hash();
-        
+
         jsonProp.id = jsonProp.id || WAPAMA.Log.error("WAPAMA.Core.StencilSet.Property(construct): Id is not defined.");
 		jsonProp.id = jsonProp.id.toLowerCase();
-		
+
         if (!jsonProp.type) {
             WAPAMA.Log.info("Type is not defined for stencil '%0', id '%1'. Falling back to 'String'.", stencil, jsonProp.id);
             jsonProp.type = "string";
@@ -64,7 +64,7 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
         else {
             jsonProp.type = jsonProp.type.toLowerCase();
         }
-        
+
         jsonProp.prefix = jsonProp.prefix || "wapama";
         jsonProp.title = jsonProp.title || "";
         jsonProp.value = jsonProp.value || "";
@@ -72,7 +72,7 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
         jsonProp.readonly = jsonProp.readonly || false;
         if(jsonProp.optional != false)
         	jsonProp.optional = true;
-        
+
         //init refToView
         if (this._jsonProp.refToView) {
             if (!(this._jsonProp.refToView instanceof Array)) {
@@ -82,59 +82,59 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
         else {
             this._jsonProp.refToView = [];
         }
-        
+
         if (jsonProp.min === undefined || jsonProp.min === null) {
             jsonProp.min = Number.MIN_VALUE;
         }
-        
+
         if (jsonProp.max === undefined || jsonProp.max === null) {
             jsonProp.max = Number.MAX_VALUE;
         }
-        
+
         if (!jsonProp.fillOpacity) {
             jsonProp.fillOpacity = false;
         }
-        
+
         if (!jsonProp.strokeOpacity) {
             jsonProp.strokeOpacity = false;
         }
-        
+
         if (jsonProp.length === undefined || jsonProp.length === null) {
             jsonProp.length = Number.MAX_VALUE;
         }
-        
+
         if (!jsonProp.wrapLines) {
             jsonProp.wrapLines = false;
         }
-        
+
         if (!jsonProp.dateFormat) {
             jsonProp.dataFormat = "m/d/y";
         }
-        
+
         if (!jsonProp.fill) {
             jsonProp.fill = false;
         }
-        
+
         if (!jsonProp.stroke) {
             jsonProp.stroke = false;
         }
-        
+
         if(!jsonProp.inverseBoolean) {
         	jsonProp.inverseBoolean = false;
         }
-		
+
 		if(!jsonProp.directlyEditable && jsonProp.directlyEditable != false) {
         	jsonProp.directlyEditable = true;
         }
-		
+
 		if(jsonProp.visible !== false) {
 			jsonProp.visible = true;
 		}
-		
+
 		if(!jsonProp.popular) {
 			jsonProp.popular = false;
 		}
-        
+
         if (jsonProp.complexItems && jsonProp.complexItems instanceof Array) {
             jsonProp.complexItems.each((function(jsonComplexItem){
                try {
@@ -158,13 +158,13 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
         }
         if (jsonProp.type === WAPAMA.CONFIG.TYPE_COMPLEX && jsonProp.complexItems === undefined) {
             throw "WAPAMA.Core.StencilSet.Property(construct): No complex property items defined."
-        }    
-        
+        }
+
         if (jsonProp.labelProvider) {
             this._labelProvider = jsonProp.labelProvider.transform;
         }
     },
-    
+
     /**
      * @param {WAPAMA.Core.StencilSet.Property} property
      * @return {Boolean} True, if property has the same namespace and id.
@@ -173,67 +173,67 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
         return (this._namespace === property.namespace() &&
         this.id() === property.id()) ? true : false;
     },
-    
+
     namespace: function(){
         return this._namespace;
     },
-    
+
     stencil: function(){
         return this._stencil;
     },
-    
+
     id: function(){
         return this._jsonProp.id;
     },
-    
+
     prefix: function(){
         return this._jsonProp.prefix;
     },
-    
+
     type: function(){
         return this._jsonProp.type;
     },
-    
+
     inverseBoolean: function() {
     	return this._jsonProp.inverseBoolean;
     },
-	
+
 	popular: function() {
 		return this._jsonProp.popular;
 	},
-	
+
 	setPopular: function() {
 		this._jsonProp.popular = true;
 	},
-	
+
 	directlyEditable: function() {
 		return this._jsonProp.directlyEditable;
 	},
-	
+
 	visible: function() {
 		return this._jsonProp.visible;
 	},
-    
+
     title: function(){
         return WAPAMA.Core.StencilSet.getTranslation(this._jsonProp, "title");
     },
-    
+
     value: function(){
         return this._jsonProp.value;
     },
-    
+
     readonly: function(){
         return this._jsonProp.readonly;
     },
-    
+
     optional: function(){
         return this._jsonProp.optional;
     },
-    
+
     description: function(){
         return WAPAMA.Core.StencilSet.getTranslation(this._jsonProp, "description");
     },
-    
+
     /**
      * An optional link to a SVG element so that the property affects the
      * graphical representation of the stencil.
@@ -241,21 +241,21 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     refToView: function(){
         return this._jsonProp.refToView;
     },
-    
+
     /**
      * If type is integer or float, min is the lower bounds of value.
      */
     min: function(){
         return this._jsonProp.min;
     },
-    
+
     /**
      * If type ist integer or float, max is the upper bounds of value.
      */
     max: function(){
         return this._jsonProp.max;
     },
-    
+
     /**
      * If type is float, this method returns if the fill-opacity property should
      *  be set.
@@ -264,7 +264,7 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     fillOpacity: function(){
         return this._jsonProp.fillOpacity;
     },
-    
+
     /**
      * If type is float, this method returns if the stroke-opacity property should
      *  be set.
@@ -273,7 +273,7 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     strokeOpacity: function(){
         return this._jsonProp.strokeOpacity;
     },
-    
+
     /**
      * If type is string or richtext, length is the maximum length of the text.
      * TODO how long can a string be.
@@ -281,11 +281,11 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     length: function(){
         return this._jsonProp.length ? this._jsonProp.length : Number.MAX_VALUE;
     },
-    
+
     wrapLines: function(){
         return this._jsonProp.wrapLines;
     },
-    
+
     /**
      * If type is date, dateFormat specifies the format of the date. The format
      * specification of the ext library is used:
@@ -326,7 +326,7 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     dateFormat: function(){
         return this._jsonProp.dateFormat;
     },
-    
+
     /**
      * If type is color, this method returns if the fill property should
      *  be set.
@@ -335,7 +335,7 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     fill: function(){
         return this._jsonProp.fill;
     },
-    
+
     /**
      * If type is color, this method returns if the stroke property should
      *  be set.
@@ -344,7 +344,7 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     stroke: function(){
         return this._jsonProp.stroke;
     },
-    
+
     /**
      * If type is choice, items is a hash map with all alternative values
      * (PropertyItem objects) with id as keys.
@@ -352,33 +352,33 @@ WAPAMA.Core.StencilSet.Property = Clazz.extend({
     items: function(){
         return this._items.values();
     },
-    
+
     item: function(value){
         return this._items[value];
     },
-    
+
     toString: function(){
         return "Property " + this.title() + " (" + this.id() + ")";
     },
-    
+
     // extended by Kerstin (start)
     complexItems: function(){
         return this._complexItems.values();
     },
-    
+
     complexItem: function(id){
         return this._complexItems[id];
     },
     // extended by Kerstin (end)
-    
+
     complexAttributeToView: function(){
         return this._jsonProp.complexAttributeToView || "";
     },
-    
+
     labelProvider: function() {
         return this._labelProvider;
     },
-    
+
     // add display order
     displayOrder: function() {
     	return this._jsonProp.displayorder;

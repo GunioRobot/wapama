@@ -26,18 +26,18 @@ import javax.servlet.ServletException;
 
 /**
  * @author Antoine Toulme
- * 
+ *
  * A factory to create IUUIDBasedRepository objects.
  *
  */
 public interface IUUIDBasedRepositoryService {
-    
+
     /**
      * @param config
      *   the servlet config to help create the repository
      * @return a new IUUIDBasedRepository object
      */
-    public IUUIDBasedRepository createRepository(ServletConfig config) 
+    public IUUIDBasedRepository createRepository(ServletConfig config)
     throws ServletException;
 
 }

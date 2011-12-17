@@ -26,9 +26,9 @@
 					"refToView"	: "",
 					"length"	: "",
 					"wrapLines"	: true
-				}			
+				}
 			]
-		},		
+		},
 		{
 			"type"		: "node",
 			"id"		: "Node",
@@ -37,11 +37,11 @@
 			"description":"A node.",
 			"view"		:"node.place.svg",
 			"icon"		:"new_place.png",
-			"intersectionType":"ellipse",			
+			"intersectionType":"ellipse",
 			"roles"		: [
 							"node"
 							],
-			"properties": [		
+			"properties": [
 				{
 					"id"		: "title",
 					"type"		: "String",
@@ -53,7 +53,7 @@
 					"optional"	: true,
 					"refToView"	: "text",
 					"length"	: ""
-				}							
+				}
 			]
 		},
 		{
@@ -67,7 +67,7 @@
 			"roles": [
 						"edge"
 						],
-			"properties": [				
+			"properties": [
 				{
 					"id"		: "label",
 					"type"		: "String",
@@ -79,26 +79,26 @@
 					"optional"	: true,
 					"refToView"	: "text",
 					"length"	: ""
-				}							
+				}
 			]
 		}
-	],	
+	],
 	"rules": {
-			"cardinalityRules": [ 
-				{ 
-					"role"		: "node", 
-					"outgoingEdges": [ 
-										{ 
-											"role":"edge", 
-											"maximum":2 
-										} 
-									],					
-					"incomingEdges": [ 
-										{ 
-											"role":"edge", 
-											"maximum":1 
-										} 
-									] 
+			"cardinalityRules": [
+				{
+					"role"		: "node",
+					"outgoingEdges": [
+										{
+											"role":"edge",
+											"maximum":2
+										}
+									],
+					"incomingEdges": [
+										{
+											"role":"edge",
+											"maximum":1
+										}
+									]
 				}
 			],
 			"connectionRules": [
@@ -110,7 +110,7 @@
 							"to":["node"]
 						}
 					]
-				}	
+				}
 			],
 			"containmentRules": [
 				{

@@ -43,22 +43,22 @@ import org.wapama.web.plugin.IDiagramPluginService;
 
 /**
  * This servlet exposes the plugins registered against the platforms.
- * 
+ *
  * The servlet has this contract:
  * /plugins will return the information about the registered plugins in json format:
  *  [{"name":WAPAMA.Save, "core":false}]
  * /plugin?name=WAPAMA.Save
- * will return the contents of the WAPAMA.Save plugin. 
- * 
+ * will return the contents of the WAPAMA.Save plugin.
+ *
  * @author Antoine Toulme
  */
 public class PluginServiceServlet extends HttpServlet {
-    
+
     private static final Logger _logger = LoggerFactory.getLogger(
             PluginServiceServlet.class);
-    
+
     private static final long serialVersionUID = -2024110864538877629L;
-    
+
     private IDiagramPluginService _pluginService;
 
     public void init(ServletConfig config) throws ServletException {
@@ -66,9 +66,9 @@ public class PluginServiceServlet extends HttpServlet {
         _pluginService = PluginServiceImpl.getInstance(
                 config.getServletContext());
     }
-    
-    protected void doGet(HttpServletRequest req, 
-            HttpServletResponse resp) 
+
+    protected void doGet(HttpServletRequest req,
+            HttpServletResponse resp)
     throws ServletException, IOException {
         try {
         if ((EditorHandler.wapama_path +  "plugins").equals(req.getRequestURI())) {
@@ -81,7 +81,7 @@ public class PluginServiceServlet extends HttpServlet {
         }
     }
 
-    private void retrievePluginContents(HttpServletRequest req, 
+    private void retrievePluginContents(HttpServletRequest req,
             HttpServletResponse resp) {
         String name = req.getParameter("name");
         if (name == null) {
@@ -114,25 +114,25 @@ public class PluginServiceServlet extends HttpServlet {
         } catch (IOException e) {
             _logger.error(e.getMessage(), e);
         } finally {
-            if (input != null) { 
+            if (input != null) {
                 try { input.close(); } catch(IOException e) {}
             }
         }
-        
+
     }
 
-    private void listAllPlugins(HttpServletRequest req, 
-            HttpServletResponse resp) 
+    private void listAllPlugins(HttpServletRequest req,
+            HttpServletResponse resp)
             throws IOException, JSONException {
         JSONArray plugins = new JSONArray();
-        for (IDiagramPlugin p : 
+        for (IDiagramPlugin p :
                 _pluginService.getRegisteredPlugins(req)) {
             JSONObject obj = new JSONObject();
             obj.put("name", p.getName());
             obj.put("core", p.isCore());
             JSONArray properties = new JSONArray();
             if (p.getProperties() != null) {
-                for (Entry<String, Object> entry : 
+                for (Entry<String, Object> entry :
                         p.getProperties().entrySet()) {
                     JSONObject propObj = new JSONObject();
                     propObj.put(entry.getKey(), entry.getValue());

@@ -150,7 +150,7 @@
 					"wrapLines":true
 				}
 			]
-		},			
+		},
  		{
 			"type": "node",
 			"id":"Task",
@@ -238,7 +238,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -398,7 +398,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"SeparatedTasks",
@@ -429,7 +429,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"BoundTasks",
@@ -460,7 +460,7 @@
 							"type":"Choice",
 							"value":"",
 							"width":100,
-							"optional":false, 
+							"optional":false,
 							"items": [
 								{
 									"id":"directAllocation",
@@ -516,7 +516,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"type",
@@ -1000,7 +1000,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1013,7 +1013,7 @@
 					"refToView":"taskrect",
 					"fill":true,
 					"stroke":false
-				}		
+				}
 			]
 		},
  		{
@@ -1103,7 +1103,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -1263,7 +1263,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"type",
@@ -1658,7 +1658,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"entry",
 					"prefix":"raziel",
@@ -1714,7 +1714,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1818,7 +1818,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -1978,7 +1978,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"type",
@@ -2373,7 +2373,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"entry",
 					"prefix":"raziel",
@@ -2429,7 +2429,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2526,7 +2526,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -2787,7 +2787,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -2914,7 +2914,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3011,7 +3011,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -3116,7 +3116,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3213,7 +3213,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -3356,7 +3356,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3453,7 +3453,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -3582,7 +3582,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3614,18 +3614,18 @@
 				"to_task_event",
 				"from_task_event",
 				"fromtoall",
-				"canContainArtifacts"				
+				"canContainArtifacts"
 			],
-			"layout":function(shape) {		
+			"layout":function(shape) {
 				var lanes = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn1.1#Lane");
 				});
 
 				if(lanes.length > 0) {
-					
+
 					// only one lane in pool
 					if(lanes.length == 1) {
-						
+
 						// test whether the sole lane has child lanes
 						var childLanes = lanes.first().getChildNodes(false).findAll(function(node) {
 							return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn1.1#Lane");
@@ -3639,44 +3639,44 @@
 								lanes.first().setProperty("wapama-showcaption", false);
 							}
 						}
-						
+
 					} else {
 						lanes.each(function(lane) {
 							lane.setProperty("wapama-showcaption", true);
 						});
 					}
-					
+
 					lanes = lanes.sortBy(function(lane) {
 						return lane.bounds.upperLeft().y;
 					});
-					
-					
+
+
 					var shapeWidth = shape.bounds.width();
 
 					lanes.each(function(lane) {
 						if(lane.isChanged)
 							shapeWidth = lane.bounds.width() + 30;
 					});
-					
-					
+
+
 					// get deepest childs in each branch
 					var firstLanes = lanes.clone();
 					var turn = 1;
 						do {
-							
+
 							var allChildLanes = new Array();
 							var parentLanes = lanes.findAll(function(lane) {
-							
+
 								var childLanes = lane.getChildNodes(false).findAll(function(node) {
 									return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn1.1#Lane");
 									});
-							
+
 									if(childLanes.length > 0) {
 										allChildLanes = allChildLanes.concat(childLanes);
 										return true;
 									}
 									});
-								
+
 								// set bounds of deepest child lanes
 								var shapeUpperLeft = shape.bounds.upperLeft();
 								allChildLanes.each(function(lane) {
@@ -3685,12 +3685,12 @@
 									lowerRight.x = shapeWidth-30*turn;
 									lane.bounds.set(upperLeft, lowerRight);
 								});
-							
+
 							lanes = allChildLanes.clone();
 							turn++;
-							
+
 						} while(parentLanes.length > 0);
-					
+
 					var shapeHeight = 0;
 					var topBound = 0;
 					firstLanes.each(function(lane) {
@@ -3703,7 +3703,7 @@
 						lr.x = shapeWidth;
 						lane.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, upl.x + shapeWidth, upl.y + shapeHeight);
 				}
@@ -4030,7 +4030,7 @@
 				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
-				"fromtoall"				
+				"fromtoall"
 			],
 			"properties": [
 				{
@@ -4339,7 +4339,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4370,26 +4370,26 @@
 				"messageflow_end",
 				"PoolChild",
 				"fromtoall",
-				"canContainArtifacts"				
-			],	
-			"layout":function(shape) {		
+				"canContainArtifacts"
+			],
+			"layout":function(shape) {
 				var lanes = shape.getChildNodes(false).findAll(function(node) {
 					return (node.getStencil().id() === "http://b3mn.org/stencilset/bpmn1.1#Lane");
 				});
-				
+
 				if(lanes.length > 0) {
 					lanes = lanes.sortBy(function(lane) {
 						return lane.bounds.upperLeft().y;
 					});
-					
+
 					var shapeWidth = shape.bounds.width();
-					
+
 					lanes.each(function(lane) {
 						if(lane.isChanged) {
 							shapeWidth = lane.bounds.width()+30;
 						}
 					});
-					
+
 					var shapeHeight = 0;
 					var topBound = 0;
 					lanes.each(function(lane) {
@@ -4402,11 +4402,11 @@
 						lr.x = shapeWidth;
 						lane.bounds.set(ul, lr);
 					});
-					
+
 					var upl = shape.bounds.upperLeft();
 					shape.bounds.set(upl.x, upl.y, upl.x + shapeWidth, upl.y + shapeHeight);
 				}
- 			},			
+ 			},
 			"properties": [
 				{
 					"id":"id",
@@ -4813,7 +4813,7 @@
 						"type":"String",
 						"value":"",
 						"width":100,
-						"optional":false 
+						"optional":false
 					},
 					{
 						"id":"type",
@@ -4860,7 +4860,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4886,7 +4886,7 @@
 			"description":"Untyped events, typically starts or ends.",
 			"description_de":"Untypisierte Ereignisse, i. d. R. am Start oder Ende eines Prozesses.",
 			"view":"startevent/node.event.start.svg",
-			"icon":"startevent/node.event.start.png",		
+			"icon":"startevent/node.event.start.png",
 			"roles": [
 				"sequence_start",
 				"to_task_event",
@@ -4960,7 +4960,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -5039,7 +5039,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -5140,7 +5140,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -5262,7 +5262,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -5362,7 +5362,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -5464,7 +5464,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -5564,7 +5564,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -5655,7 +5655,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -5743,7 +5743,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -5847,7 +5847,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},	
+				},
 				{
 					"id":"signalRef",
 					"type":"String",
@@ -5856,7 +5856,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-				},			
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -5957,7 +5957,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -6049,7 +6049,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -6152,7 +6152,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -6243,7 +6243,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -6281,7 +6281,7 @@
 				"IntermediateEventOnActivityBoundary",
 				"IntermediateEventOnSubprocessBoundary",
 				"FromEventbasedGateway"
-				
+
 			],
 			"properties": [
 				{
@@ -6348,7 +6348,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -6482,7 +6482,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -6583,7 +6583,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -6717,7 +6717,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -6820,7 +6820,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -6934,7 +6934,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -7035,7 +7035,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -7138,7 +7138,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -7238,7 +7238,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -7329,7 +7329,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -7428,7 +7428,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -7531,7 +7531,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -7631,7 +7631,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -7734,7 +7734,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -7836,7 +7836,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -7939,7 +7939,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -8042,7 +8042,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -8146,7 +8146,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},	
+				},
 				{
 					"id":"signalRef",
 					"type":"String",
@@ -8258,7 +8258,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -8362,7 +8362,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},	
+				},
 				{
 					"id":"signalRef",
 					"type":"String",
@@ -8476,7 +8476,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -8580,7 +8580,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -8681,7 +8681,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -8785,7 +8785,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -8884,7 +8884,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -8998,7 +8998,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -9097,7 +9097,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -9211,7 +9211,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -9311,7 +9311,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -9422,7 +9422,7 @@
 				"from_task_event",
 				"tc",
 				"fromtoall",
-				"Endevents_all"				
+				"Endevents_all"
 			],
 			"properties": [
 				{
@@ -9489,7 +9489,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -9709,7 +9709,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -9896,7 +9896,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -10073,7 +10073,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -10262,7 +10262,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -10450,7 +10450,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -10627,7 +10627,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -11256,7 +11256,7 @@
 			]
 		}
 	],
-	
+
 	"rules": {
 		"connectionRules": [
 			{
@@ -11371,14 +11371,14 @@
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
 						maximum:0,
-						
+
 					}
 				]
 			},
@@ -11389,14 +11389,14 @@
 					{
 						role:"SequenceFlow",
 						maximum:0,
-						
+
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				]
 			}
@@ -11437,7 +11437,7 @@
 				"contains": [
 					"TextAnnotation"
 				]
-			}, 
+			},
 			{
 				"role": "Subprocess",
 				"contains": [

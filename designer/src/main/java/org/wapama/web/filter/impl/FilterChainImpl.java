@@ -32,16 +32,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * 
+ *
  * @author Antoine Toulme
  * An implementation of filter chain to delegate to a series of stored filters.
  *
  */
 public class FilterChainImpl implements FilterChain {
-    
+
     private LinkedList<Filter> _filters = new LinkedList<Filter>();
     private FilterChain _chain;
-    
+
     public FilterChainImpl(Collection<Filter> filters, FilterChain chain) {
         _filters.addAll(filters);
         _chain = chain;

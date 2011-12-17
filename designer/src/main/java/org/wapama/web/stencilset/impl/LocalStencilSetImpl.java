@@ -52,5 +52,5 @@ public class LocalStencilSetImpl extends LocalResource implements IDiagramStenci
             throw new IllegalArgumentException(e);
         }
     }
-    
+
 }

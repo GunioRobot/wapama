@@ -38,7 +38,7 @@ import org.wapama.web.plugin.IDiagramPlugin;
 
 /**
  * A utility class to read plugins.xml files.
- * 
+ *
  * @author Antoine Toulme
  *
  */
@@ -46,7 +46,7 @@ public class DiagramPluginReader {
 
 	private static Logger _logger = LoggerFactory.getLogger(DiagramPluginReader.class);
 	/**
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */

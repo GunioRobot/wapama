@@ -9,7 +9,7 @@
 			"roles": [
 					"DataObject"
 			],
-			"properties": [ 
+			"properties": [
 				{
 					"id":"targetofcopy",
 					"type":"String",
@@ -84,20 +84,20 @@
 							"id":"token",
 							"name":"Token",
 							"type":"String",
-							"value":"123456" 
+							"value":"123456"
 						},
 						{
 							"id":"reportingServiceUrl",
 							"name":"Reporting Service Url",
 							"type":"String",
-							"value":"http://report.service" 
+							"value":"http://report.service"
 						}
-					
+
 					]
 				}
 			]
 		}
-		
+
 	],
 	"rules": {
 		"connectionRules": [],

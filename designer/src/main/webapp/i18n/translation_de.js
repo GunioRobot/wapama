@@ -1,6 +1,6 @@
 /**
  * @author nicolas.peters
- * 
+ *
  * Contains all strings for German language.
  * Version 1 - 08/29/08
  */
@@ -268,7 +268,7 @@ WAPAMA.I18N.jPDLSupport.impDesc = "jPDL Datei importieren";
 WAPAMA.I18N.jPDLSupport.impFailedReq = "Anfrage für den Import der jPDL Datei ist fehlgeschlagen.";
 WAPAMA.I18N.jPDLSupport.impFailedJson = "Transformation der jPDL Datei ist fehlgeschlagen.";
 WAPAMA.I18N.jPDLSupport.impFailedJsonAbort = "Import abgebrochen.";
-WAPAMA.I18N.jPDLSupport.loadSseQuestionTitle = "Stencil Set Erweiterung für jBPM muss geladen werden"; 
+WAPAMA.I18N.jPDLSupport.loadSseQuestionTitle = "Stencil Set Erweiterung für jBPM muss geladen werden";
 WAPAMA.I18N.jPDLSupport.loadSseQuestionBody = "Um jPDL importieren zu können, muss die Stencil Set Erweiterung für jBPM geladen werden. Möchten Sie fortfahren?";
 WAPAMA.I18N.jPDLSupport.expFailedReq = "Anfrage für den Export des Models ist fehlgeschlagen.";
 WAPAMA.I18N.jPDLSupport.expFailedXml = "Export nach jPDL ist fehlgeschlagen. Exporter meldet: ";
@@ -636,7 +636,7 @@ WAPAMA.I18N.Validator.bpmnLeadsToNoEnd = "Dieser Prozess wird niemals einen Endz
 
 WAPAMA.I18N.Validator.syntaxErrorsTitle = "Syntaxfehler";
 WAPAMA.I18N.Validator.syntaxErrorsMsg = "Das Modell kann nicht validiert werden, weil es Syntaxfehler enthält.";
-	
+
 WAPAMA.I18N.Validator.error = "Validierung fehlgeschlagen";
 WAPAMA.I18N.Validator.errorDesc = 'Es tut uns leid, aber die Valdierung konnte nicht durchgeführt werden. Wenn Sie uns über die Supportanfrage-Funktion Ihr Modell zuschicken, hilft es uns, den Fehler zu identifizieren und zu beheben.';
 

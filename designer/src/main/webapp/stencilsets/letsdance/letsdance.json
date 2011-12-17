@@ -6,7 +6,7 @@
 		{
 			"type":			"node",
 			"id":			"Diagram",
-			"title":		"Diagram",	
+			"title":		"Diagram",
 			"groups":		["Diagram"],
 			"description":	"Let's Dance Diagram",
 			"view":			"node.diagram.svg",
@@ -16,7 +16,7 @@
 		{
 			"type":			"node",
 			"id":			"complexInteraction",
-			"title":		"Complex Interaction",	
+			"title":		"Complex Interaction",
 			"groups":		["Interaction"],
 			"description":	"Representation of a complex Interaction in Let's Dance",
 			"view":			"node.complexinteraction.svg",
@@ -52,7 +52,7 @@
 		{
 			"type":			"node",
 			"id":			"simpleInteraction",
-			"title":		"Elementary Interaction",	
+			"title":		"Elementary Interaction",
 			"groups":		["Interaction"],
 			"description":	"",
 			"view":			"node.elementaryinteraction.svg",
@@ -124,7 +124,7 @@
 		{
 			"type":			"edge",
 			"id":			"Precedes",
-			"title":		"Precedes",	
+			"title":		"Precedes",
 			"groups":		["Relationship"],
 			"description":	"A precedes edges",
 			"view":			"edge.precedes.svg",
@@ -134,7 +134,7 @@
 		{
 			"type":			"edge",
 			"id":			"Inhibits",
-			"title":		"Inhibits",	
+			"title":		"Inhibits",
 			"groups":		["Relationship"],
 			"description":	"An inhibits edges",
 			"view":			"edge.inhibits.svg",
@@ -144,16 +144,16 @@
 		{
 			"type":			"edge",
 			"id":			"WeakPrecedes",
-			"title":		"WeakPrecedes",	
+			"title":		"WeakPrecedes",
 			"groups":		["Relationship"],
 			"description":	"A weak precedes edges",
 			"view":			"edge.weakprecedes.svg",
 			"icon":			"edge.weakprecedes.png",
 			"roles":		["controlflow"]
 		}
-		
-		
-		
+
+
+
 	],
 	"rules":{
 		"connectionRules": [
@@ -181,6 +181,6 @@
 				]
 			}
 		]
-		
+
 	}
 }

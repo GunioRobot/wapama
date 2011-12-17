@@ -6,7 +6,7 @@
 		{
 			"type":		"node",
 			"id":			"Diagram",
-			"title":		"Diagram",	
+			"title":		"Diagram",
 			"groups":		["Interaction Petri Nets"],
 			"description":	"An interaction Petri net",
 			"view":		"node.diagram.svg",
@@ -16,7 +16,7 @@
 		{
 			"type":		"node",
 			"id":			"Place",
-			"title":		"Place",	
+			"title":		"Place",
 			"groups":		["Interaction Petri Nets"],
 			"description":	"A place",
 			"view":		"node.place.svg",
@@ -51,7 +51,7 @@
 		{
 			"type":		"node",
 			"id":			"Interaction",
-			"title":		"Interaction",	
+			"title":		"Interaction",
 			"groups":		["Interaction Petri Nets"],
 			"description":	"",
 			"view":		"node.interaction.svg",
@@ -123,7 +123,7 @@
 		{
 			"type":		"node",
 			"id":			"ControlledSilentTransition",
-			"title":		"Controlled Silent Transition",	
+			"title":		"Controlled Silent Transition",
 			"groups":		["Interaction Petri Nets"],
 			"description":	"",
 			"view":		"node.controlledsilenttransition.svg",
@@ -159,7 +159,7 @@
 		{
 			"type":		"node",
 			"id":			"SilentTransition",
-			"title":		"Silent Transition",	
+			"title":		"Silent Transition",
 			"groups":		["Interaction Petri Nets"],
 			"description":	"",
 			"view":		"node.silenttransition.svg",
@@ -183,16 +183,16 @@
 		{
 			"type":		"edge",
 			"id":			"Arc",
-			"title":		"Arc",	
+			"title":		"Arc",
 			"groups":		["Interaction Petri Nets"],
 			"description":	"An arc",
 			"view":		"edge.arc.svg",
 			"icon":		"edge.arc.png",
 			"roles":		["arc"]
 		}
-		
-		
-		
+
+
+
 	],
 	"rules":{
 		"connectionRules": [
@@ -218,6 +218,6 @@
 				]
 			}
 		]
-		
+
 	}
 }

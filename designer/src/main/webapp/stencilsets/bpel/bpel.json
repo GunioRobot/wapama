@@ -75,7 +75,7 @@
 					"value":"http://bpel.com/process",
 					"readonly":false,
 					"optional":false
-				},			
+				},
 				{
 					"id":"abstractProcessProfile",
 					"type":"Choice",
@@ -131,7 +131,7 @@
 							]
 						}
 					]
-					
+
 				},
 				{
 					"id":"appURI",
@@ -234,7 +234,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true 
+							"optional":true
 						},
 						{
 							"id":"namespace",
@@ -242,7 +242,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true 
+							"optional":true
 						}
 					]
 				},
@@ -286,10 +286,10 @@
 									"value":"no",
 									"tooltip":""
 								}
-							]							
+							]
 						}
 					]
-				},					
+				},
 				{
 					"id":"import",
 					"type":"Complex",
@@ -306,7 +306,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true 
+							"optional":true
 						},
 						{
 							"id":"location",
@@ -314,7 +314,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":true 
+							"optional":true
 						},
 						{
 							"id":"importType",
@@ -322,10 +322,10 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						}
 					]
-				},	
+				},
 				{
 					"id":"variables",
 					"type":"Complex",
@@ -342,7 +342,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"messageType",
@@ -449,7 +449,7 @@
 									"items": [
 										"fromspecpart",
 										"fromspecquerylanguage",
-										"fromspecquery",							
+										"fromspecquery",
 										"fromspecexpressionlanguage",
 										"fromspecexpression",
 										"fromspecliteral",
@@ -467,7 +467,7 @@
 										"fromspecquery",
 										"fromspecliteral",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"							
+										"fromspecendpointReference"
 									]
 								},
 								{
@@ -481,7 +481,7 @@
 										"fromspecexpressionlanguage",
 										"fromspecexpression",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"							
+										"fromspecendpointReference"
 									]
 								},
 								{
@@ -496,7 +496,7 @@
 										"fromspecexpression",
 										"fromspecliteral",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"						
+										"fromspecendpointReference"
 									]
 								},
 								{
@@ -511,7 +511,7 @@
 										"fromspecexpression",
 										"fromspecliteral",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"						
+										"fromspecendpointReference"
 									]
 								}
 							]
@@ -553,7 +553,7 @@
 							"value":"",
 							"width":100,
 							"optional":false
-						},			
+						},
 						{
 							"id":"fromspecquerylanguage",
 							"name":"FS_QueryLanguage",
@@ -602,8 +602,8 @@
 							"width":100,
 							"optional":true
 						}
-					]			
-				},	
+					]
+				},
 				{
 					"id":"PartnerLinks",
 					"type":"Complex",
@@ -620,7 +620,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"PartnerLinkType",
@@ -669,12 +669,12 @@
 									"tooltip":""
 								}
 							]
-								
+
 						}
 
-						
+
 					]
-				},	
+				},
 				{
 					"id":"CorrelationSets",
 					"type":"Complex",
@@ -691,7 +691,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"properties",
@@ -719,7 +719,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						}
 					]
 				},
@@ -762,7 +762,7 @@
 			"view":"action(ws)/node.action.invoke.svg",
 			"icon":"invoke.png",
 			"roles": ["activity","receiveActivity","sendActivity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL,shape:shape});
  			},*/
@@ -1046,7 +1046,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"fromVariable",
@@ -1077,7 +1077,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"toVariable",
@@ -1411,7 +1411,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"reply",
 			"title":"reply",
@@ -1718,7 +1718,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"fromVariable",
@@ -1760,9 +1760,9 @@
 			"view":"pick/node.pick.svg",
 			"icon":"task.png",
 			"roles": ["activity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});	
+				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});
  			},*/
  			"layout":[{"type":"layout.BPEL.horizontal"}],
 			"properties": [
@@ -1924,7 +1924,7 @@
 					"stroke":false
 				}
 			]
-		},	
+		},
 		{
 			"type": "node",
 			"id":"onMessage",
@@ -1937,7 +1937,7 @@
 			"view":"pick/node.handler.onMessage.svg",
 			"icon":"onMessage.png",
 			"roles": ["singleActivityContainer","receiveActivity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -2035,7 +2035,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"toVariable",
@@ -2159,9 +2159,9 @@
 			"view":"flow and sequence/node.sequence.svg",
 			"icon":"sequence.png",
 			"roles": ["activity", "multiActivitiesContainer"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});	
+				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});
  			},*/
  			"layout":[{"type":"layout.BPEL.horizontal"}],
 			"properties": [
@@ -2306,7 +2306,7 @@
 			"view":"flow and sequence/node.flow.svg",
 			"icon":"flow.png",
 			"roles": ["activity","multiActivitiesContainer"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_AUTORESIZE,shape:shape});
  			},*/
@@ -2482,7 +2482,7 @@
 					"refToView":"",
 					"length":undefined,
 					"wrapLines":false
-				},				
+				},
 				{
 					"id":"transition_expression",
 					"prefix":"wapama",
@@ -2524,9 +2524,9 @@
 			"view":"if/node.if_container.svg",
 			"icon":"if_container.png",
 			"roles": ["activity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});	
+				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_HORIZONTAL,shape:shape});
  			},*/
  			"layout":[{"type":"layout.BPEL.horizontal"}],
 			"properties": [
@@ -2671,7 +2671,7 @@
 			"view":"if/node.if_branch.svg",
 			"icon":"if_branch.png",
 			"roles": ["singleActivityContainer"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -2758,7 +2758,7 @@
 			"view":"if/node.else_branch.svg",
 			"icon":"else_branch.png",
 			"roles": ["singleActivityContainer", "lastChild"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -2803,7 +2803,7 @@
 			"view":"loop/loop.while.svg",
 			"icon":"while.png",
 			"roles": ["singleActivityContainer","activity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -2977,7 +2977,7 @@
 					"refToView":"mainBody",
 					"fill":true,
 					"stroke":false
-				}				
+				}
 			]
 		},
 		{
@@ -2992,7 +2992,7 @@
 			"view":"loop/loop.repeatUntil.svg",
 			"icon":"repeatUntil.png",
 			"roles": ["singleActivityContainer","activity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -3181,7 +3181,7 @@
 			"view":"loop/loop.foreach.svg",
 			"icon":"forEach.png",
 			"roles": ["activity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -3288,7 +3288,7 @@
 							"refToView":"none"
 						}
 					]
-				},	
+				},
 				{
 					"id":"counterName",
 					"prefix":"wapama",
@@ -3478,10 +3478,10 @@
 					"refToView":"mainBody",
 					"fill":true,
 					"stroke":false
-				}				
+				}
 			]
 		},
-		{		
+		{
 			"type": "node",
 			"id":"assign",
 			"title":"assign",
@@ -3493,9 +3493,9 @@
 			"view":"assignment/node.action.assign.svg",
 			"icon":"assign.png",
 			"roles": ["activity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
-				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});	
+				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
  			},*/
  			"layout":[{"type":"layout.BPEL.vertical"}],
 			"properties": [
@@ -3655,7 +3655,7 @@
 					"refToView":"mainBody",
 					"fill":true,
 					"stroke":false
-				}				
+				}
 			]
 		},
 		{
@@ -3670,7 +3670,7 @@
 			"view":"assignment/node.action.copy.svg",
 			"icon":"copy.png",
 			"roles": [],
-			"properties": [	
+			"properties": [
 				{
 					"id":"keepSrcElementName",
 					"prefix":"wapama",
@@ -3700,7 +3700,7 @@
 							"refToView":""
 						}
 					]
-				},		
+				},
 				{
 					"id":"ignoreMissingFromData",
 					"prefix":"wapama",
@@ -3827,7 +3827,7 @@
 							"items": [
 								"fromspecpart",
 								"fromspecquerylanguage",
-								"fromspecquery",							
+								"fromspecquery",
 								"fromspecexpressionlanguage",
 								"fromspecexpression",
 								"fromspecliteral",
@@ -3845,7 +3845,7 @@
 								"fromspecquery",
 								"fromspecliteral",
 								"fromspecpartnerLink",
-								"fromspecendpointReference"							
+								"fromspecendpointReference"
 							]
 						},
 						{
@@ -3859,7 +3859,7 @@
 								"fromspecexpressionlanguage",
 								"fromspecexpression",
 								"fromspecpartnerLink",
-								"fromspecendpointReference"							
+								"fromspecendpointReference"
 							]
 						},
 						{
@@ -3874,7 +3874,7 @@
 								"fromspecexpression",
 								"fromspecliteral",
 								"fromspecpartnerLink",
-								"fromspecendpointReference"						
+								"fromspecendpointReference"
 							]
 						},
 						{
@@ -3889,7 +3889,7 @@
 								"fromspecexpression",
 								"fromspecliteral",
 								"fromspecpartnerLink",
-								"fromspecendpointReference"						
+								"fromspecendpointReference"
 							]
 						}
 					]
@@ -3953,7 +3953,7 @@
 					"refToView":"",
 					"length":undefined,
 					"wrapLines":false
-				},			
+				},
 				{
 					"id":"fromspecquerylanguage",
 					"prefix":"wapama",
@@ -4108,7 +4108,7 @@
 								"tospecproperty",
 								"tospecexpressionlanguage",
 								"tospecexpression",
-								"tospecpartnerLink"										
+								"tospecpartnerLink"
 							]
 						},
 						{
@@ -4128,11 +4128,11 @@
 							"items": [
 								"tospecpart",
 								"tospecquerylanguage",
-								"tospecquery",							
+								"tospecquery",
 								"tospecexpressionlanguage",
 								"tospecexpression",
 								"tospecpartnerLink"
-								
+
 							]
 						},
 						{
@@ -4295,9 +4295,9 @@
 					"refToView":"mainBody",
 					"fill":true,
 					"stroke":false
-				}			
+				}
 			]
-		},		
+		},
 		{
 			"type": "node",
 			"id":"scope",
@@ -4309,7 +4309,7 @@
 			"view":"scope/node.scope.svg",
 			"icon":"scope.png",
 			"roles": ["singleActivityContainer","activity"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL,shape:shape});
  			},*/
@@ -4445,7 +4445,7 @@
 							"tooltip":"",
 							"refToView":"none"
 						}
-						
+
 					]
 				},
 				{
@@ -4464,7 +4464,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"messageType",
@@ -4571,7 +4571,7 @@
 									"items": [
 										"fromspecpart",
 										"fromspecquerylanguage",
-										"fromspecquery",							
+										"fromspecquery",
 										"fromspecexpressionlanguage",
 										"fromspecexpression",
 										"fromspecliteral",
@@ -4589,7 +4589,7 @@
 										"fromspecquery",
 										"fromspecliteral",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"							
+										"fromspecendpointReference"
 									]
 								},
 								{
@@ -4603,7 +4603,7 @@
 										"fromspecexpressionlanguage",
 										"fromspecexpression",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"							
+										"fromspecendpointReference"
 									]
 								},
 								{
@@ -4618,7 +4618,7 @@
 										"fromspecexpression",
 										"fromspecliteral",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"						
+										"fromspecendpointReference"
 									]
 								},
 								{
@@ -4633,7 +4633,7 @@
 										"fromspecexpression",
 										"fromspecliteral",
 										"fromspecpartnerLink",
-										"fromspecendpointReference"						
+										"fromspecendpointReference"
 									]
 								}
 							]
@@ -4675,7 +4675,7 @@
 							"value":"",
 							"width":100,
 							"optional":false
-						},			
+						},
 						{
 							"id":"fromspecquerylanguage",
 							"name":"FS_QueryLanguage",
@@ -4724,7 +4724,7 @@
 							"width":100,
 							"optional":true
 						}
-				]			
+				]
 				},
 				{
 					"id":"PartnerLinks",
@@ -4742,7 +4742,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"PartnerLinkType",
@@ -4794,12 +4794,12 @@
 									"refToView":"none"
 								}
 							]
-								
+
 						}
 
-						
+
 					]
-				},	
+				},
 				{
 					"id":"CorrelationSets",
 					"type":"Complex",
@@ -4816,7 +4816,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"properties",
@@ -4844,7 +4844,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						}
 					]
 				},
@@ -4876,7 +4876,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"eventHandlers",
 			"title":"eventHandlers",
@@ -4887,7 +4887,7 @@
 			"view":"scope/node.handler.eventHandlers.svg",
 			"icon":"handler.png",
 			"roles": ["handler"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
  			},*/
@@ -4947,7 +4947,7 @@
 			"view":"others/node.shared.onAlarm.svg",
 			"icon":"onAlarm.png",
 			"roles": ["singleActivityContainer"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -5107,7 +5107,7 @@
 					"fill":true,
 					"stroke":false
 				}
-				
+
 			]
 		},
 		{
@@ -5121,7 +5121,7 @@
 			"view":"scope/node.handler.onEvent.svg",
 			"icon":"onEvent.png",
 			"roles": [],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -5271,7 +5271,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"toVariable",
@@ -5384,7 +5384,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"faultHandlers",
 			"title":"faultHandlers",
@@ -5395,7 +5395,7 @@
 			"view":"scope/node.handler.faultHandlers.svg",
 			"icon":"handler.png",
 			"roles": ["handler"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
  			},*/
@@ -5442,9 +5442,9 @@
 					"stroke":false
 				}
 			]
-		},	
+		},
 		{
-		
+
 			"type": "node",
 			"id":"compensationHandler",
 			"title":"compensationHandler",
@@ -5455,7 +5455,7 @@
 			"view":"scope/node.compensate.compensateHandler.svg",
 			"icon":"handler.png",
 			"roles": ["singleActivityContainer","handler"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
  			},*/
@@ -5504,7 +5504,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"terminationHandler",
 			"title":"terminationHandler",
@@ -5515,7 +5515,7 @@
 			"view":"scope/node.handler.terminationHandler.svg",
 			"icon":"handler.png",
 			"roles": ["singleActivityContainer","handler"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_VERTICAL,shape:shape});
  			},*/
@@ -5564,7 +5564,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"catch",
 			"title":"catch",
@@ -5575,7 +5575,7 @@
 			"view":"scope/node.handler.catch.svg",
 			"icon":"catch.png",
 			"roles": ["singleActivityContainer"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -5682,7 +5682,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"catchAll",
 			"title":"catchAll",
@@ -5693,7 +5693,7 @@
 			"view":"scope/node.handler.catchAll.svg",
 			"icon":"catchAll.png",
 			"roles": ["singleActivityContainer", "lastChild"],
-			/*"layout":function(shape) {		
+			/*"layout":function(shape) {
 				var raiseEvent = shape._delegateEvent.bind(shape);
 				raiseEvent({type:WAPAMA.CONFIG.EVENT_LAYOUT_BPEL_SINGLECHILD,shape:shape});
  			},*/
@@ -6029,7 +6029,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"compensate",
 			"title":"compensate",
@@ -6159,7 +6159,7 @@
 			]
 		},
 		{
-		
+
 			"type": "node",
 			"id":"compensateScope",
 			"title":"compensateScope",
@@ -6634,7 +6634,7 @@
 					"fill":true,
 					"stroke":false
 				}
-				
+
 			]
 		},
 		{
@@ -7206,34 +7206,34 @@
 					"role":"activity"
 				}
 			},
-			{	
+			{
 				"role":"process",
 				"maximumOccurrence":1
 			},
-			{	
+			{
 				"role":"eventHandlers",
 				"maximumOccurrence":1
 			},
-			{	
+			{
 				"role":"faultHandlers",
 				"maximumOccurrence":1
 			},
-			{	
+			{
 				"role":"compensationHandler",
 				"maximumOccurrence":1
 			},
-			{	
+			{
 				"role":"terminationHandler",
 				"maximumOccurrence":1
 			},
-			{	
+			{
 				"role":"catchAll",
 				"maximumOccurrence":1
 			},
-			{	
+			{
 				"role":"else_branch",
 				"maximumOccurrence":1
-			}		
+			}
 		],
 		"containmentRules": [
 			// real roles
@@ -7245,7 +7245,7 @@
 				"role":"multiActivitiesContainer",
 				"contains": ["activity"]
 			},
-			
+
 			// nodes
 			{
 				"role":"worksheet",
@@ -7265,9 +7265,9 @@
 			},
 			{
 				"role":"if",
-				"contains": ["if_branch", "else_branch"]			
+				"contains": ["if_branch", "else_branch"]
 			},
-			{ 
+			{
 			    "role":"forEach",
 				"contains": ["scope"]
 			},
@@ -7283,7 +7283,7 @@
 			{
 				"role":"onAlarm",
 				"contains":["scope"]
-			},*/			
+			},*/
 			{
 				"role":"scope",
 				"contains": ["eventHandlers","faultHandlers","terminationHandler","compensationHandler"]

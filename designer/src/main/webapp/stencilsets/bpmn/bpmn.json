@@ -130,7 +130,7 @@
 					"wrapLines":true
 				}
 			]
-		},			
+		},
  		{
 			"type": "node",
 			"id":"Task",
@@ -725,7 +725,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -746,7 +746,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false
-				}				
+				}
 			]
 		},
  		{
@@ -1258,7 +1258,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"entry",
 					"prefix":"raziel",
@@ -1269,7 +1269,7 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"u"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1419,7 +1419,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1604,7 +1604,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1824,7 +1824,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1984,7 +1984,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2156,7 +2156,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2184,7 +2184,7 @@
 				"messageflow_end",
 				"to_task_event",
 				"from_task_event",
-				"fromtoall"				
+				"fromtoall"
 			],
 			"layout": [{"type" : "layout.bpmn.pool"}],
 			"properties": [
@@ -2469,7 +2469,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2496,8 +2496,8 @@
 				"messageflow_start",
 				"messageflow_end",
 				"PoolChild",
-				"fromtoall"				
-			],				
+				"fromtoall"
+			],
 			"properties": [
 				{
 					"id":"id",
@@ -2565,7 +2565,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"30"
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2890,7 +2890,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":false,
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2912,7 +2912,7 @@
 			"groups":["Start Events"],
 			"description":"An event without incoming edges.",
 			"view":"startevent/node.event.start.svg",
-			"icon":"new_startevent.png",		
+			"icon":"new_startevent.png",
 			"roles": [
 				"sequence_start",
 				"messageflow_end",
@@ -3017,7 +3017,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3185,7 +3185,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3333,7 +3333,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3471,7 +3471,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3620,7 +3620,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3759,7 +3759,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3897,7 +3897,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4076,7 +4076,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4235,7 +4235,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4384,7 +4384,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4522,7 +4522,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4671,7 +4671,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4820,7 +4820,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -4980,7 +4980,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -5130,7 +5130,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -6065,7 +6065,7 @@
 			]
 		}
 	],
-	
+
 	"rules": {
 		"connectionRules": [
 			{
@@ -6259,14 +6259,14 @@
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
 						maximum:0,
-						
+
 					}
 				]
 			},
@@ -6277,14 +6277,14 @@
 					{
 						role:"SequenceFlow",
 						maximum:0,
-						
+
 					}
 				],
 				incomingEdges: [
 					{
 						role:"SequenceFlow",
 						maximum:1,
-						
+
 					}
 				]
 			}
@@ -6313,13 +6313,13 @@
 				contains: ["tc"]
 			}
 		],
-//		canConnect: function(args) { 
+//		canConnect: function(args) {
 //			if(args.result) {
 //				if(args.sourceShape.parent.parent.id == args.targetShape.parent.parent.id) {
 //						args.result = false;
 //				}
 //			}
-//			return args.result; 
+//			return args.result;
 //		}
 	}
 }

@@ -55,61 +55,61 @@ WAPAMA.Core.Edge = {
      */
     construct: function(options, stencil, resourceId) {
         arguments.callee.$.construct.apply(this, arguments, resourceId);
-        
+
         this.isMovable = true;
         this.isSelectable = true;
 
         this._dockerUpdated = false;
-        
+
         this._markers = new Hash(); //a hash map of SVGMarker objects where keys are the marker ids
         this._paths = [];
         this._interactionPaths = [];
         this._dockersByPath = new Hash();
         this._markersByPath = new Hash();
-		
-		/* Data structures to store positioning information of attached child nodes */ 
+
+		/* Data structures to store positioning information of attached child nodes */
 		this.attachedNodePositionData = new Hash();
-        
+
         //TODO was muss hier initial erzeugt werden?
         var stencilNode = this.node.childNodes[0].childNodes[0];
         stencilNode = WAPAMA.Editor.graft("http://www.w3.org/2000/svg", stencilNode, ['g', {
             "pointer-events": "painted"
         }]);
-        
+
         //Add to the EventHandler
         this.addEventHandlers(stencilNode);
-        
-        
+
+
         this._oldBounds = this.bounds.clone();
-        
+
         //load stencil
         this._init(this._stencil.view());
-        
+
         if (stencil instanceof Array) {
             this.deserialize(stencil);
         }
-        
+
     },
-    
+
     _update: function(force){
 		if(this._dockerUpdated || this.isChanged || force) {
-			
+
 			this.dockers.invoke("update");
-			
+
 	        if (this.bounds.width() === 0 || this.bounds.height() === 0) {
-	        
+
 	            this.bounds.moveBy({
 	                x: this.bounds.width() === 0 ? -1 : 0,
 	                y: this.bounds.height() === 0 ? -1 : 0
 	            });
-	            
+
 	            this.bounds.extend({
 	                x: this.bounds.width() === 0 ? 2 : 0,
 	                y: this.bounds.height() === 0 ? 2 : 0
 	            });
-	            
+
 	        }
-	        
+
 	        // TODO: Bounds muss abhaengig des Eltern-Shapes gesetzt werden
 	        var upL = this.bounds.upperLeft();
 	        var oldUpL = this._oldBounds.upperLeft();
@@ -119,33 +119,33 @@ WAPAMA.Core.Edge = {
 	        var diffY = upL.y - oldUpL.y;
 	        var diffWidth = this.bounds.width() / oldWidth;
 	        var diffHeight = this.bounds.height() / oldHeight;
-	        
+
 	        this.dockers.each((function(docker){
 	            // Unregister on BoundsChangedCallback
 	            docker.bounds.unregisterCallback(this._dockerChangedCallback);
-	            
+
 	            // If there is any changes at the edge and is there is not an DockersUpdate
 	            // set the new bounds to the docker
 	            if (!this._dockerUpdated) {
 	                docker.bounds.moveBy(diffX, diffY);
-	                
+
 	                if (diffWidth !== 1 || diffHeight !== 1) {
 	                    var relX = docker.bounds.upperLeft().x - upL.x;
 	                    var relY = docker.bounds.upperLeft().y - upL.y;
-	                    
+
 	                    docker.bounds.moveTo(upL.x + relX * diffWidth, upL.y + relY * diffHeight);
 	                }
 	            }
 	            // Do Docker update and register on DockersBoundChange
 	            docker.update();
 	            docker.bounds.registerCallback(this._dockerChangedCallback);
-	            
+
 	        }).bind(this));
-	        
+
 	        if (this._dockerUpdated) {
 	            var a = this.dockers.first().bounds.center();
 	            var b = this.dockers.first().bounds.center();
-	            
+
 	            this.dockers.each((function(docker){
 	                var center = docker.bounds.center();
 	                a.x = Math.min(a.x, center.x);
@@ -153,11 +153,11 @@ WAPAMA.Core.Edge = {
 	                b.x = Math.max(b.x, center.x);
 	                b.y = Math.max(b.y, center.y);
 	            }).bind(this));
-	            
+
 	            //set the bounds of the the association
 	            this.bounds.set(Object.clone(a), Object.clone(b));
 	        }
-			
+
 
 
 			//reposition labels
@@ -165,12 +165,12 @@ WAPAMA.Core.Edge = {
 				switch (label.edgePosition) {
 					case "freeMoved" :
 			        	label.x=label.x;
-			        	label.y=label.y;	
+			        	label.y=label.y;
 			        	break;
 					case "starttop":
 						var angle = this._getAngle(this.dockers[0], this.dockers[1]);
 						var pos = this.dockers.first().bounds.center();
-						
+
 						if (angle <= 90 || angle > 270) {
 							label.horizontalAlign("left");
 							label.verticalAlign("bottom");
@@ -184,12 +184,12 @@ WAPAMA.Core.Edge = {
 							label.y = pos.y - label.getOffsetTop();
 							label.rotate(180 - angle, pos);
 						}
-						
+
 						break;
 					case "startbottom":
 						var angle = this._getAngle(this.dockers[0], this.dockers[1]);
 						var pos = this.dockers.first().bounds.center();
-						
+
 						if (angle <= 90 || angle > 270) {
 							label.horizontalAlign("left");
 							label.verticalAlign("top");
@@ -203,7 +203,7 @@ WAPAMA.Core.Edge = {
 							label.y = pos.y + label.getOffsetBottom();
 							label.rotate(180 - angle, pos);
 						}
-						
+
 						break;
 					case "midtop":
 						var numOfDockers = this.dockers.length;
@@ -212,12 +212,12 @@ WAPAMA.Core.Edge = {
 							var pos1 = this.dockers[numOfDockers/2-1].bounds.center();
 							var pos2 = this.dockers[numOfDockers/2].bounds.center();
 							var pos = {x:(pos1.x + pos2.x)/2.0, y:(pos1.y+pos2.y)/2.0};
-							
+
 							label.horizontalAlign("center");
 							label.verticalAlign("bottom");
 							label.x = pos.x;
 							label.y = pos.y - label.getOffsetTop();
-								
+
 							if (angle <= 90 || angle > 270) {
 								label.rotate(360 - angle, pos);
 							} else {
@@ -227,7 +227,7 @@ WAPAMA.Core.Edge = {
 							var index = parseInt(numOfDockers/2);
 							var angle = this._getAngle(this.dockers[index], this.dockers[index+1])
 							var pos = this.dockers[index].bounds.center();
-							
+
 							if (angle <= 90 || angle > 270) {
 								label.horizontalAlign("left");
 								label.verticalAlign("bottom");
@@ -242,7 +242,7 @@ WAPAMA.Core.Edge = {
 								label.rotate(180 - angle, pos);
 							}
 						}
-						
+
 						break;
 					case "midbottom":
 						var numOfDockers = this.dockers.length;
@@ -251,12 +251,12 @@ WAPAMA.Core.Edge = {
 							var pos1 = this.dockers[numOfDockers/2-1].bounds.center();
 							var pos2 = this.dockers[numOfDockers/2].bounds.center();
 							var pos = {x:(pos1.x + pos2.x)/2.0, y:(pos1.y+pos2.y)/2.0};
-							
+
 							label.horizontalAlign("center");
 							label.verticalAlign("top");
 							label.x = pos.x;
 							label.y = pos.y + label.getOffsetTop();
-							
+
 							if (angle <= 90 || angle > 270) {
 								label.rotate(360 - angle, pos);
 							} else {
@@ -266,7 +266,7 @@ WAPAMA.Core.Edge = {
 							var index = parseInt(numOfDockers/2);
 							var angle = this._getAngle(this.dockers[index], this.dockers[index+1])
 							var pos = this.dockers[index].bounds.center();
-							
+
 							if (angle <= 90 || angle > 270) {
 								label.horizontalAlign("left");
 								label.verticalAlign("top");
@@ -281,13 +281,13 @@ WAPAMA.Core.Edge = {
 								label.rotate(180 - angle, pos);
 							}
 						}
-						
+
 						break;
 					case "endtop":
 						var length = this.dockers.length;
 						var angle = this._getAngle(this.dockers[length-2], this.dockers[length-1]);
 						var pos = this.dockers.last().bounds.center();
-						
+
 						if (angle <= 90 || angle > 270) {
 							label.horizontalAlign("right");
 							label.verticalAlign("bottom");
@@ -301,13 +301,13 @@ WAPAMA.Core.Edge = {
 							label.y = pos.y - label.getOffsetTop();
 							label.rotate(180 - angle, pos);
 						}
-						
+
 						break;
 					case "endbottom":
 						var length = this.dockers.length;
 						var angle = this._getAngle(this.dockers[length-2], this.dockers[length-1]);
 						var pos = this.dockers.last().bounds.center();
-						
+
 						if (angle <= 90 || angle > 270) {
 							label.horizontalAlign("right");
 							label.verticalAlign("top");
@@ -321,7 +321,7 @@ WAPAMA.Core.Edge = {
 							label.y = pos.y + label.getOffsetBottom();
 							label.rotate(180 - angle, pos);
 						}
-						
+
 						break;
 			}
 			}.bind(this));
@@ -331,22 +331,22 @@ WAPAMA.Core.Edge = {
 					this.calculatePositionOfAttachedChildNode.call(this, value);
 				}
 			}.bind(this));
-			
+
 			this.refreshAttachedNodes();
 			this.refresh();
-			
+
 			this.isChanged = false;
 			this._dockerUpdated = false;
-			
+
 			this._oldBounds = this.bounds.clone();
         }
-		
+
 
     },
-	
+
 	/**
 	 *  Moves a point to the upperLeft of a node's bounds.
-	 *  
+	 *
 	 *  @param {point} point
 	 *  	The point to move
 	 *  @param {WAPAMA.Core.Bounds} bounds
@@ -356,43 +356,43 @@ WAPAMA.Core.Edge = {
 		point.x -= bounds.width()/2;
 		point.y -= bounds.height()/2;
 	},
-	
+
 	/**
 	 * Refreshes the visual representation of edge's attached nodes.
-	 */	
+	 */
 	refreshAttachedNodes: function() {
 		this.attachedNodePositionData.values().each(function(nodeData) {
 			var startPoint = nodeData.segment.docker1.bounds.center();
 			var endPoint = nodeData.segment.docker2.bounds.center();
 			this.relativizePoint(startPoint);
 			this.relativizePoint(endPoint);
-			
+
 			var newNodePosition = new Object();
-			
+
 			/* Calculate new x-coordinate */
-			newNodePosition.x = startPoint.x 
+			newNodePosition.x = startPoint.x
 								+ nodeData.relativDistanceFromDocker1
 									* (endPoint.x - startPoint.x);
-			
+
 			/* Calculate new y-coordinate */
-			newNodePosition.y = startPoint.y 
+			newNodePosition.y = startPoint.y
 								+ nodeData.relativDistanceFromDocker1
 									* (endPoint.y - startPoint.y);
-			
+
 			/* Convert new position to the upper left of the node */
 			this.movePointToUpperLeftOfNode(newNodePosition, nodeData.node.bounds);
-			
+
 			/* Move node to its new position */
 			nodeData.node.bounds.moveTo(newNodePosition);
-			nodeData.node._update();					
-			
+			nodeData.node._update();
+
 		}.bind(this));
 	},
-	
+
 	/**
-	 * Calculates the position of an edge's child node. The node is placed on 
+	 * Calculates the position of an edge's child node. The node is placed on
 	 * the path of the edge.
-	 * 
+	 *
 	 * @param {node}
 	 * 		The node to calculate the new position
 	 * @return {Point}
@@ -403,7 +403,7 @@ WAPAMA.Core.Edge = {
 		var position = new Object();
 		position.x = 0;
 		position.y = 0;
-		
+
 		/* Case: Node was just added */
 		if(!this.attachedNodePositionData[node.getId()]) {
 			this.attachedNodePositionData[node.getId()] = new Object();
@@ -415,22 +415,22 @@ WAPAMA.Core.Edge = {
 		}else if(node.isChanged) {
 			this.findEdgeSegmentForNode(node);
 		}
-		
-		
-		
+
+
+
 	},
-	
+
 	/**
 	 * Finds the appropriate edge segement for a node.
 	 * The segment is choosen, which has the smallest distance to the node.
-	 * 
+	 *
 	 * @param {WAPAMA.Core.Node} node
 	 * 		The concerning node
 	 */
 	findEdgeSegmentForNode: function(node) {
 		var length = this.dockers.length;
 		var smallestDistance = undefined;
-		
+
 		for(i=1;i<length;i++) {
 			var lineP1 = this.dockers[i-1].bounds.center();
 			var lineP2 = this.dockers[i].bounds.center();
@@ -440,40 +440,40 @@ WAPAMA.Core.Edge = {
 			var nodeCenterPoint = node.bounds.center();
 			var distance = WAPAMA.Core.Math.distancePointLinie(
 															lineP1,
-															lineP2, 
-															nodeCenterPoint, 
+															lineP2,
+															nodeCenterPoint,
 															true);
-			
-			if((distance || distance == 0) && ((!smallestDistance && smallestDistance != 0) 
+
+			if((distance || distance == 0) && ((!smallestDistance && smallestDistance != 0)
 						|| distance < smallestDistance)) {
-				
+
 				smallestDistance = distance;
-				
-				this.attachedNodePositionData[node.getId()].segment.docker1 = 
+
+				this.attachedNodePositionData[node.getId()].segment.docker1 =
 													this.dockers[i-1];
-				this.attachedNodePositionData[node.getId()].segment.docker2 = 
+				this.attachedNodePositionData[node.getId()].segment.docker2 =
 													this.dockers[i];
-	
+
 			}
-			
+
 			/* Either the distance does not match the segment or the distance
 			 * between docker1 and docker2 is 0
-			 * 
+			 *
 			 * In this case choose the nearest docker as attaching point.
-			 * 
+			 *
 			 */
 			if(!distance && !smallestDistance && smallestDistance != 0) {
 				(WAPAMA.Core.Math.getDistancePointToPoint(nodeCenterPoint, lineP1)
 					< WAPAMA.Core.Math.getDistancePointToPoint(nodeCenterPoint, lineP2)) ?
 					this.attachedNodePositionData[node.getId()].relativDistanceFromDocker1 = 0 :
 					this.attachedNodePositionData[node.getId()].relativDistanceFromDocker1 = 1;
-				this.attachedNodePositionData[node.getId()].segment.docker1 = 
+				this.attachedNodePositionData[node.getId()].segment.docker1 =
 													this.dockers[i-1];
-				this.attachedNodePositionData[node.getId()].segment.docker2 = 
+				this.attachedNodePositionData[node.getId()].segment.docker2 =
 													this.dockers[i];
 			}
 		}
-		
+
 		/* Calculate position on edge segment for the node */
 		if(smallestDistance || smallestDistance == 0) {
 			this.attachedNodePositionData[node.getId()].relativDistanceFromDocker1 =
@@ -483,18 +483,18 @@ WAPAMA.Core.Edge = {
 					node);
 		}
 	},
-	
+
 	/**
-	 * Returns the value of the scalar to determine the position of the node on 
+	 * Returns the value of the scalar to determine the position of the node on
 	 * line defined by docker1 and docker2.
-	 * 
+	 *
 	 * @param {point} docker1
 	 * 		The docker that defines the start of the line segment
 	 * @param {point} docker2
 	 * 		The docker that defines the end of the line segment
 	 * @param {WAPAMA.Core.Node} node
 	 * 		The concerning node
-	 * 
+	 *
 	 * @return {float} positionParameter
 	 * 		The scalar value to determine the position on the line
 	 */
@@ -503,7 +503,7 @@ WAPAMA.Core.Edge = {
 		var dockerPoint2 = docker2.bounds.center();
 		this.relativizePoint(dockerPoint1);
 		this.relativizePoint(dockerPoint2);
-		
+
 		var intersectionPoint = WAPAMA.Core.Math.getPointOfIntersectionPointLine(
 									dockerPoint1,
 									dockerPoint2,
@@ -511,28 +511,28 @@ WAPAMA.Core.Edge = {
 		if(!intersectionPoint) {
 			return 0;
 		}
-		
-		var relativeDistance = 
+
+		var relativeDistance =
 			WAPAMA.Core.Math.getDistancePointToPoint(intersectionPoint, dockerPoint1) /
 			WAPAMA.Core.Math.getDistancePointToPoint(dockerPoint1, dockerPoint2);
-		
+
 		return relativeDistance;
 	},
 	/**
 	 * Makes point relative to the upper left of the edge's bound.
-	 * 
+	 *
 	 * @param {point} point
 	 * 		The point to relativize
 	 */
 	relativizePoint: function(point) {
 		point.x -= this.bounds.upperLeft().x;
-		point.y -= this.bounds.upperLeft().y;		
+		point.y -= this.bounds.upperLeft().y;
 	},
-    
+
     refresh: function(){
         //call base class refresh method
         arguments.callee.$.refresh.apply(this, arguments);
-        
+
         //TODO consider points for marker mids
         var lastPoint;
         this._paths.each((function(path, index){
@@ -545,83 +545,83 @@ WAPAMA.Core.Edge = {
             else {
                 c = dockers[0].bounds.center();
                 lastPoint = c;
-                
+
                 d = "M" + c.x + " " + c.y;
             }
-            
+
             for (var i = 1; i < dockers.length; i++) {
                 // for each docker, draw a line to the center
                 c = dockers[i].bounds.center();
                 d = d + "L" + c.x + " " + c.y + " ";
                 lastPoint = c;
             }
-            
+
             path.setAttributeNS(null, "d", d);
             this._interactionPaths[index].setAttributeNS(null, "d", d);
-            
+
         }).bind(this));
-		
-		
+
+
 		/* move child shapes of an edge */
 		if(this.getChildNodes().length > 0) {
 	        var x = this.bounds.upperLeft().x;
 	        var y = this.bounds.upperLeft().y;
-	        
+
 			this.node.firstChild.childNodes[1].setAttributeNS(null, "transform", "translate(" + x + ", " + y + ")");
 		}
-		
+
     },
-    
+
     /**
      * Calculate the Border Intersection Point between two points
      * @param {PointA}
      * @param {PointB}
      */
     getIntersectionPoint: function(){
-    
+
         var length = Math.floor(this.dockers.length / 2)
-        
+
         return WAPAMA.Core.Math.midPoint(this.dockers[length - 1].bounds.center(), this.dockers[length].bounds.center())
     },
-    
-    
+
+
     /**
      * Calculate if the point is inside the Shape
      * @param {PointX}
-     * @param {PointY} 
+     * @param {PointY}
      */
     isPointIncluded: function(pointX, pointY){
-    
-        var isbetweenAB = this.absoluteBounds().isIncluded(pointX, pointY, 
+
+        var isbetweenAB = this.absoluteBounds().isIncluded(pointX, pointY,
 												WAPAMA.CONFIG.OFFSET_EDGE_BOUNDS);
-        
+
 		var isPointIncluded = undefined;
-		
+
         if (isbetweenAB && this.dockers.length > 0) {
-		
+
 			var i = 0;
 			var point1, point2;
-			
-			
+
+
 			do {
-			
+
 				point1 = this.dockers[i].bounds.center();
 				point2 = this.dockers[++i].bounds.center();
-				
-				isPointIncluded = WAPAMA.Core.Math.isPointInLine(pointX, pointY, 
-											point1.x, point1.y, 
-											point2.x, point2.y, 
+
+				isPointIncluded = WAPAMA.Core.Math.isPointInLine(pointX, pointY,
+											point1.x, point1.y,
+											point2.x, point2.y,
 											WAPAMA.CONFIG.OFFSET_EDGE_BOUNDS);
-				
+
 			} while (!isPointIncluded && i < this.dockers.length - 1)
-			
+
 		}
-		
+
 		return isPointIncluded;
 
     },
-  
-    
+
+
     /**
      * Calculate if the point is over an special offset area
      * @param {Point}
@@ -629,7 +629,7 @@ WAPAMA.Core.Edge = {
     isPointOverOffset: function(){
 		return  false
 	},
-	
+
 	/**
 	* Returns the angle of the line between two dockers
 	* (0 - 359.99999999)
@@ -637,14 +637,14 @@ WAPAMA.Core.Edge = {
 	_getAngle: function(docker1, docker2) {
 		var p1 = docker1.absoluteCenterXY();
 		var p2 = docker2.absoluteCenterXY();
-		
+
 		if(p1.x == p2.x && p1.y == p2.y)
 			return 0;
 
 		var angle = Math.asin(Math.sqrt(Math.pow(p1.y-p2.y, 2))
 					/(Math.sqrt(Math.pow(p2.x-p1.x, 2)+Math.pow(p1.y-p2.y, 2))))
 					*180/Math.PI;
-		
+
 		if(p2.x >= p1.x && p2.y <= p1.y)
 			return angle;
 		else if(p2.x < p1.x && p2.y <= p1.y)
@@ -654,169 +654,169 @@ WAPAMA.Core.Edge = {
 		else
 			return 360 - angle;
 	},
-	    
+
     alignDockers: function(){
         this._update(true);
-        
+
         var firstPoint = this.dockers.first().bounds.center();
         var lastPoint = this.dockers.last().bounds.center();
-        
+
         var deltaX = lastPoint.x - firstPoint.x;
         var deltaY = lastPoint.y - firstPoint.y;
-        
+
         var numOfDockers = this.dockers.length - 1;
-        
+
         this.dockers.each((function(docker, index){
             var part = index / numOfDockers;
             docker.bounds.unregisterCallback(this._dockerChangedCallback);
             docker.bounds.moveTo(firstPoint.x + part * deltaX, firstPoint.y + part * deltaY);
             docker.bounds.registerCallback(this._dockerChangedCallback);
         }).bind(this));
-        
+
         this._dockerChanged();
     },
-    
+
 	add: function(shape){
         arguments.callee.$.add.apply(this, arguments);
-		
+
 		// If the new shape is a Docker which is not contained
 		if (shape instanceof WAPAMA.Core.Controls.Docker && this.dockers.include(shape)){
-			// Add it to the dockers list ordered by paths		
+			// Add it to the dockers list ordered by paths
 			var pathArray = this._dockersByPath.values()[0];
 			if (pathArray) {
 				pathArray.splice(this.dockers.indexOf(shape), 0, shape);
 			}
-			
+
 			/* Perform nessary adjustments on the edge's child shapes */
 			this.handleChildShapesAfterAddDocker(shape);
 		}
 	},
-	
+
 	/**
 	 * Performs nessary adjustments on the edge's child shapes.
-	 * 
+	 *
 	 * @param {WAPAMA.Core.Controls.Docker} docker
 	 * 		The added docker
 	 */
 	handleChildShapesAfterAddDocker: function(docker) {
 		/* Ensure type of Docker */
 		if(!docker instanceof WAPAMA.Core.Controls.Docker) {return undefined;}
-		
+
 		var index = this.dockers.indexOf(docker);
 		if(!(0 < index && index < this.dockers.length - 1)) {
 		/* Exception: Expect added docker between first and last node of the edge */
 			return undefined;
-		} 
-			
+		}
+
 		/* Get child nodes concerning the segment of the new docker */
 		var startDocker = this.dockers[index-1];
 		var endDocker = this.dockers[index+1];
-		
+
 		/* Adjust the position of edge's child nodes */
-		var segmentElements = 
+		var segmentElements =
 			this.getAttachedNodePositionDataForSegment(startDocker, endDocker);
-		
+
 		var lengthSegmentPart1 = WAPAMA.Core.Math.getDistancePointToPoint(
 										startDocker.bounds.center(),
 										docker.bounds.center());
 		var lengthSegmentPart2 = WAPAMA.Core.Math.getDistancePointToPoint(
 										endDocker.bounds.center(),
 										docker.bounds.center());
-										
+
 		if(!(lengthSegmentPart1 + lengthSegmentPart2)) {return;}
-		
+
 		var relativDockerPosition = lengthSegmentPart1 / (lengthSegmentPart1 + lengthSegmentPart2);
-			
+
 		segmentElements.each(function(nodePositionData) {
 			/* Assign child node to the new segment */
 			if(nodePositionData.value.relativDistanceFromDocker1 < relativDockerPosition) {
 				/* Case: before added Docker */
 				nodePositionData.value.segment.docker2 = docker;
-				nodePositionData.value.relativDistanceFromDocker1 = 
+				nodePositionData.value.relativDistanceFromDocker1 =
 					nodePositionData.value.relativDistanceFromDocker1 / relativDockerPosition;
 			} else {
 				/* Case: after added Docker */
 				nodePositionData.value.segment.docker1 = docker;
 				var newFullDistance = 1 - relativDockerPosition;
-				var relativPartOfSegment = 
+				var relativPartOfSegment =
 							nodePositionData.value.relativDistanceFromDocker1
 							- relativDockerPosition;
-				
-				nodePositionData.value.relativDistanceFromDocker1 = 
+
+				nodePositionData.value.relativDistanceFromDocker1 =
 										relativPartOfSegment / newFullDistance;
-				
+
 			}
 		})
-		
+
 		/* Update attached nodes visual representation */
 		this.refreshAttachedNodes();
 	},
-	
+
 	/**
 	 *	Returns elements from {@link attachedNodePositiondata} that match the
 	 *  segement defined by startDocker and endDocker.
-	 *  
+	 *
 	 *  @param {WAPAMA.Core.Controls.Docker} startDocker
 	 *  	The docker defining the begin of the segment.
 	 *  @param {WAPAMA.Core.Controls.Docker} endDocker
 	 *  	The docker defining the begin of the segment.
-	 *  
+	 *
 	 *  @return {Hash} attachedNodePositionData
 	 *  	Child elements matching the segment
 	 */
 	getAttachedNodePositionDataForSegment: function(startDocker, endDocker) {
 		/* Ensure that the segment is defined correctly */
-		if(!((startDocker instanceof WAPAMA.Core.Controls.Docker) 
+		if(!((startDocker instanceof WAPAMA.Core.Controls.Docker)
 			&& (endDocker instanceof WAPAMA.Core.Controls.Docker))) {
 				return [];
 			}
-			
+
 		/* Get elements of the segment */
-		var elementsOfSegment = 
+		var elementsOfSegment =
 			this.attachedNodePositionData.findAll(function(nodePositionData) {
 				return nodePositionData.value.segment.docker1 === startDocker &&
 						nodePositionData.value.segment.docker2 === endDocker;
 			});
-		
+
 		/* Return a Hash in each case */
 		if(!elementsOfSegment) {return [];}
-		
+
 		return elementsOfSegment;
 	},
-	
+
 	/**
 	 * Removes an edge's child shape
 	 */
 	remove: function(shape) {
 		arguments.callee.$.remove.apply(this, arguments);
-		
+
 		if(this.attachedNodePositionData[shape.getId()]) {
 			delete this.attachedNodePositionData[shape.getId()];
 		}
-		
+
 		/* Adjust child shapes if neccessary */
 		if(shape instanceof WAPAMA.Core.Controls.Docker) {
 			this.handleChildShapesAfterRemoveDocker(shape);
 		}
 	},
-	
+
 	/**
 	 * 	Adjusts the child shapes of an edges after a docker was removed.
-	 * 	
+	 *
 	 *  @param{WAPAMA.Core.Controls.Docker} docker
 	 *  	The removed docker.
 	 */
 	handleChildShapesAfterRemoveDocker: function(docker) {
 		/* Ensure docker type */
 		if(!(docker instanceof WAPAMA.Core.Controls.Docker)) {return;}
-		
+
 		this.attachedNodePositionData.each(function(nodePositionData) {
 			if(nodePositionData.value.segment.docker1 === docker) {
 				/* The new start of the segment is the predecessor of docker2. */
 				var index = this.dockers.indexOf(nodePositionData.value.segment.docker2);
 				if(index == -1) {return;}
 				nodePositionData.value.segment.docker1 = this.dockers[index - 1];
-			} 
+			}
 			else if(nodePositionData.value.segment.docker2 === docker) {
 				/* The new end of the segment is the successor of docker1. */
 				var index = this.dockers.indexOf(nodePositionData.value.segment.docker1);
@@ -824,11 +824,11 @@ WAPAMA.Core.Edge = {
 				nodePositionData.value.segment.docker2 = this.dockers[index + 1];
 			}
 		}.bind(this));
-		
+
 		/* Update attached nodes visual representation */
 		this.refreshAttachedNodes();
 	},
-	
+
 	/**
      *@deprecated Use the .createDocker() Method and set the point via the bounds
      */
@@ -844,7 +844,7 @@ WAPAMA.Core.Edge = {
                 else {
                     var point1 = lastDocker.bounds.center();
                     var point2 = docker.bounds.center();
-                    
+
                     if (WAPAMA.Core.Math.isPointInLine(position.x, position.y, point1.x, point1.y, point2.x, point2.y, 10)) {
                         var path = this._paths.find(function(path){
                             return path.id === pair.key;
@@ -878,7 +878,7 @@ WAPAMA.Core.Edge = {
         }).bind(this));
 		return result;
     },
-    
+
     removeDocker: function(docker){
         if (this.dockers.length > 2 && !(this.dockers.first() === docker)) {
             this._dockersByPath.any((function(pair){
@@ -898,55 +898,55 @@ WAPAMA.Core.Edge = {
             }).bind(this));
         }
     },
-	
+
 	/**
-	 * Removes all dockers from the edge which are on 
+	 * Removes all dockers from the edge which are on
 	 * the line between two dockers
-	 * @return {Object} Removed dockers in an indicied array 
+	 * @return {Object} Removed dockers in an indicied array
 	 * (key is the removed position of the docker, value is docker themselve)
 	 */
 	removeUnusedDockers:function(){
 		var marked = $H({});
-		
+
 		this.dockers.each(function(docker, i){
 			if (i==0||i==this.dockers.length-1){ return }
 			var previous = this.dockers[i-1];
-			
+
 			/* Do not consider already removed dockers */
 			if(marked.values().indexOf(previous) != -1 && this.dockers[i-2]) {
 				previous = this.dockers[i-2];
 			}
 			var next = this.dockers[i+1];
-			
+
 			var cp = previous.getDockedShape() && previous.referencePoint ? previous.getAbsoluteReferencePoint() : previous.bounds.center();
 			var cn = next.getDockedShape() && next.referencePoint ? next.getAbsoluteReferencePoint() : next.bounds.center();
 			var cd = docker.bounds.center();
-			
+
 			if (WAPAMA.Core.Math.isPointInLine(cd.x, cd.y, cp.x, cp.y, cn.x, cn.y, 1)){
 				marked[i] = docker;
 			}
 		}.bind(this))
-		
+
 		marked.each(function(docker){
 			this.removeDocker(docker.value);
 		}.bind(this))
-		
+
 		if (marked.values().length > 0){
 			this._update(true);
 		}
-		
+
 		return marked;
 	},
-    
+
     /**
      * Initializes the Edge after loading the SVG representation of the edge.
      * @param {SVGDocument} svgDocument
      */
     _init: function(svgDocument){
         arguments.callee.$._init.apply(this, arguments);
-        
+
         var minPointX, minPointY, maxPointX, maxPointY;
-        
+
         //init markers
         var defs = svgDocument.getElementsByTagNameNS(NAMESPACE_SVG, "defs");
         if (defs.length > 0) {
@@ -967,81 +967,81 @@ WAPAMA.Core.Edge = {
                         });
                         me._labels[label.id] = label;
                     });
-                } 
+                }
                 catch (e) {
                 }
             });
         }
-        
-        
+
+
         var gs = svgDocument.getElementsByTagNameNS(NAMESPACE_SVG, "g");
         if (gs.length <= 0) {
             throw "Edge: No g element found.";
         }
         var g = gs[0];
-        
-        
+
+
         g.setAttributeNS(null, "id", null);
-        
+
         var isFirst = true;
-        
+
         $A(g.childNodes).each((function(path, index){
             if (WAPAMA.Editor.checkClassType(path, SVGPathElement)) {
                 path = path.cloneNode(false);
-                
+
                 var pathId = this.id + "_" + index;
                 path.setAttributeNS(null, "id", pathId);
                 this._paths.push(path);
-                
+
                 //check, if markers are set and update the id
                 var markersByThisPath = [];
                 var markerUrl = path.getAttributeNS(null, "marker-start");
-                
+
                 if (markerUrl && markerUrl !== "") {
                     markerUrl = markerUrl.strip();
                     markerUrl = markerUrl.replace(/^url\(#/, '');
                     var markerStartId = this.id.concat(markerUrl.replace(/\)$/, ''));
                     path.setAttributeNS(null, "marker-start", "url(#" + markerStartId + ")");
-                    
+
                     markersByThisPath.push(this._markers[markerStartId]);
                 }
-                
+
                 markerUrl = path.getAttributeNS(null, "marker-mid");
-                
+
                 if (markerUrl && markerUrl !== "") {
                     markerUrl = markerUrl.strip();
                     markerUrl = markerUrl.replace(/^url\(#/, '');
                     var markerMidId = this.id.concat(markerUrl.replace(/\)$/, ''));
                     path.setAttributeNS(null, "marker-mid", "url(#" + markerMidId + ")");
-                    
+
                     markersByThisPath.push(this._markers[markerMidId]);
                 }
-                
+
                 markerUrl = path.getAttributeNS(null, "marker-end");
-                
+
                 if (markerUrl && markerUrl !== "") {
                     markerUrl = markerUrl.strip();
                     markerUrl = markerUrl.replace(/^url\(#/, '');
                     var markerEndId = this.id.concat(markerUrl.replace(/\)$/, ''));
                     path.setAttributeNS(null, "marker-end", "url(#" + markerEndId + ")");
-                    
+
                     markersByThisPath.push(this._markers[markerEndId]);
                 }
-                
+
                 this._markersByPath[pathId] = markersByThisPath;
-                
+
                 //init dockers
                 var parser = new PathParser();
                 var handler = new WAPAMA.Core.SVG.PointsPathHandler();
                 parser.setHandler(handler);
                 parser.parsePath(path);
-                
+
                 if (handler.points.length < 4) {
                     throw "Edge: Path has to have two or more points specified.";
                 }
-                
+
                 this._dockersByPath[pathId] = [];
-                
+
 				for (var i = 0; i < handler.points.length; i += 2) {
 					//handler.points.each((function(point, pIndex){
 					var x = handler.points[i];
@@ -1053,9 +1053,9 @@ WAPAMA.Core.Edge = {
 						docker.bounds.centerMoveTo(x,y);
 						docker.bounds.registerCallback(this._dockerChangedCallback);
 						this.add(docker, this.dockers.length);
-						
+
 						//this._dockersByPath[pathId].push(docker);
-						
+
 						//calculate minPoint and maxPoint
 						if (minPointX) {
 							minPointX = Math.min(x, minPointX);
@@ -1065,7 +1065,7 @@ WAPAMA.Core.Edge = {
 							minPointX = x;
 							minPointY = y;
 						}
-						
+
 						if (maxPointX) {
 							maxPointX = Math.max(x, maxPointX);
 							maxPointY = Math.max(y, maxPointY);
@@ -1080,33 +1080,33 @@ WAPAMA.Core.Edge = {
                 isFirst = false;
             }
         }).bind(this));
-        
+
         this.bounds.set(minPointX, minPointY, maxPointX, maxPointY);
-        
+
         if (this.bounds.width() === 0 || this.bounds.height() === 0) {
             this.bounds.extend({
                 x: this.bounds.width() === 0 ? 2 : 0,
                 y: this.bounds.height() === 0 ? 2 : 0
             });
-            
+
             this.bounds.moveBy({
                 x: this.bounds.width() === 0 ? -1 : 0,
                 y: this.bounds.height() === 0 ? -1 : 0
             });
-            
+
         }
-        
+
         this._oldBounds = this.bounds.clone();
-        
+
         //add paths to this.node
         this._paths.reverse();
         var paths = [];
         this._paths.each((function(path){
             paths.push(this.node.childNodes[0].childNodes[0].childNodes[0].appendChild(path));
         }).bind(this));
-        
+
         this._paths = paths;
-        
+
         //init interaction path
         this._paths.each((function(path){
             var iPath = path.cloneNode(false);
@@ -1118,13 +1118,13 @@ WAPAMA.Core.Edge = {
             iPath.setAttributeNS(null, "fill", "none");
             this._interactionPaths.push(this.node.childNodes[0].childNodes[0].childNodes[0].appendChild(iPath));
         }).bind(this));
-        
+
         this._paths.reverse();
         this._interactionPaths.reverse();
-		
+
 		/**initialize labels*/
         var textElems = svgDocument.getElementsByTagNameNS(WAPAMA.CONFIG.NAMESPACE_SVG, 'text');
-        
+
 		$A(textElems).each((function(textElem){
             var label = new WAPAMA.Core.SVG.Label({
                 textElement: textElem,
@@ -1132,18 +1132,18 @@ WAPAMA.Core.Edge = {
             });
             this.node.childNodes[0].childNodes[0].appendChild(label.node);
             this._labels[label.id] = label;
-        }).bind(this)); 
-		
+        }).bind(this));
+
         //set title
         this.node.childNodes[0].childNodes[0].setAttributeNS(null, "title", this.getStencil().title());
-        
+
         this.propertiesChanged.each(function(pair){
             pair.value = true;
         });
-		
+
         //this._update(true);
     },
-    
+
     /**
      * Adds all necessary markers of this Edge to the SVG document.
      * Has to be called, while this.node is part of DOM.
@@ -1155,7 +1155,7 @@ WAPAMA.Core.Edge = {
             }
         });
     },
-    
+
     /**
      * Removes all necessary markers of this Edge from the SVG document.
      * Has to be called, while this.node is part of DOM.
@@ -1175,20 +1175,20 @@ WAPAMA.Core.Edge = {
             }
         }
     },
-    
+
     /**
      * Calls when a docker has changed
      */
     _dockerChanged: function(){
-    
+
         //this._update(true);
 		this._dockerUpdated = true;
-        
+
     },
-    
+
     serialize: function(){
         var result = arguments.callee.$.serialize.apply(this);
-        
+
         //add dockers triple
         var value = "";
         this._dockersByPath.each((function(pair){
@@ -1196,7 +1196,7 @@ WAPAMA.Core.Edge = {
                 var position = docker.getDockedShape() && docker.referencePoint ? docker.referencePoint : docker.bounds.center();
                 value = value.concat(position.x + " " + position.y + " ");
             });
-            
+
             value += " # ";
         }).bind(this));
         result.push({
@@ -1205,7 +1205,7 @@ WAPAMA.Core.Edge = {
             value: value,
             type: 'literal'
         });
-        
+
         //add parent triple dependant on the dockedShapes
         //TODO change this when canvas becomes a resource
 /*        var source = this.dockers.first().getDockedShape();
@@ -1238,15 +1238,15 @@ WAPAMA.Core.Edge = {
                 }
             }
         }
-        else 
+        else
             if (source) {
                 sharedParent = source.parent;
             }
-            else 
+            else
                 if (target) {
                     sharedParent = target.parent;
                 }
-*/        
+*/
         //if (sharedParent) {
 /*            result.push({
                 name: 'parent',
@@ -1256,12 +1256,12 @@ WAPAMA.Core.Edge = {
                 type: 'resource'
             });*/
         //}
-		
+
 		//serialize target and source
 		var lastDocker = this.dockers.last();
-		
+
 		var target = lastDocker.getDockedShape();
-		
+
 		if(target) {
 			result.push({
 				name: 'target',
@@ -1270,11 +1270,11 @@ WAPAMA.Core.Edge = {
 				type: 'resource'
 			});
 		}
-        
+
         try {
             //result = this.getStencil().serialize(this, result);
 			var serializeEvent = this.getStencil().serialize();
-			
+
 			/*
 			 * call serialize callback by reference, result should be found
 			 * in serializeEvent.result
@@ -1284,25 +1284,25 @@ WAPAMA.Core.Edge = {
 				serializeEvent.data = result;
 				serializeEvent.result = undefined;
 				serializeEvent.forceExecution = true;
-				
+
 				this._delegateEvent(serializeEvent);
-				
+
 				if(serializeEvent.result) {
 					result = serializeEvent.result;
 				}
 			}
-        } 
+        }
         catch (e) {
         }
         return result;
     },
-    
+
     deserialize: function(data){
         try {
             //data = this.getStencil().deserialize(this, data);
-			
+
 			var deserializeEvent = this.getStencil().deserialize();
-			
+
 			/*
 			 * call serialize callback by reference, result should be found
 			 * in serializeEventInfo.result
@@ -1312,31 +1312,31 @@ WAPAMA.Core.Edge = {
 				deserializeEvent.data = data;
 				deserializeEvent.result = undefined;
 				deserializeEvent.forceExecution = true;
-				
+
 				this._delegateEvent(deserializeEvent);
 				if(deserializeEvent.result) {
 					data = deserializeEvent.result;
 				}
 			}
-        } 
+        }
         catch (e) {
         }
-        
+
 		// Set the outgoing shapes
 		var target = data.find(function(ser) {return (ser.prefix+"-"+ser.name) == 'raziel-target'});
 		var targetShape;
 		if(target) {
 			targetShape = this.getCanvas().getChildShapeByResourceId(target.value);
 		}
-		
+
 		var outgoing = data.findAll(function(ser){ return (ser.prefix+"-"+ser.name) == 'raziel-outgoing'});
 		outgoing.each((function(obj){
 			// TODO: Look at Canvas
 			if(!this.parent) {return};
-								
+
 			// Set outgoing Shape
 			var next = this.getCanvas().getChildShapeByResourceId(obj.value);
-															
+
 			if(next){
 				if(next == targetShape) {
 					// If this is an edge, set the last docker to the next shape
@@ -1350,27 +1350,27 @@ WAPAMA.Core.Edge = {
 					next.dockers.first().setDockedShape(this);
 					next.dockers.first().setReferencePoint({x: this.bounds.width() / 2.0, y: this.bounds.height() / 2.0});
 				}*/
-			}	
-			
+			}
+
 		}).bind(this));
-		
+
         arguments.callee.$.deserialize.apply(this, [data]);
-        
+
         var wapamaDockers = data.find(function(obj){
             return (obj.prefix === "wapama" &&
             obj.name === "dockers");
         });
-		
+
         if (wapamaDockers) {
             var dataByPath = wapamaDockers.value.split("#").without("").without(" ");
-            
+
             dataByPath.each((function(data, index){
                 var values = data.replace(/,/g, " ").split(" ").without("");
-                
+
                 //for each docker two values must be defined
                 if (values.length % 2 === 0) {
                     var path = this._paths[index];
-                    
+
                     if (path) {
                         if (index === 0) {
                             while (this._dockersByPath[path.id].length > 2) {
@@ -1382,14 +1382,14 @@ WAPAMA.Core.Edge = {
                                 this.removeDocker(this._dockersByPath[path.id][0]);
                             }
                         }
-                        
+
                         var dockersByPath = this._dockersByPath[path.id];
-                        
+
                         if (index === 0) {
                             //set position of first docker
                             var x = parseFloat(values.shift());
                             var y = parseFloat(values.shift());
-                            
+
                             if (dockersByPath.first().getDockedShape()) {
                                 dockersByPath.first().setReferencePoint({
                                     x: x,
@@ -1400,11 +1400,11 @@ WAPAMA.Core.Edge = {
                                 dockersByPath.first().bounds.centerMoveTo(x, y);
                             }
                         }
-                        
+
                         //set position of last docker
                         y = parseFloat(values.pop());
                         x = parseFloat(values.pop());
-                        
+
                         if (dockersByPath.last().getDockedShape()) {
                             dockersByPath.last().setReferencePoint({
                                 x: x,
@@ -1414,15 +1414,15 @@ WAPAMA.Core.Edge = {
                         else {
                             dockersByPath.last().bounds.centerMoveTo(x, y);
                         }
-                        
+
                         //add additional dockers
                         for (var i = 0; i < values.length; i++) {
                             x = parseFloat(values[i]);
                             y = parseFloat(values[++i]);
-                            
+
                             var newDocker = this.createDocker();
                             newDocker.bounds.centerMoveTo(x, y);
-                            
+
                             //this.dockers = this.dockers.without(newDocker);
                             //this.dockers.splice(this.dockers.indexOf(dockersByPath.last()), 0, newDocker);
                             //dockersByPath.splice(this.dockers.indexOf(dockersByPath.last()), 0, newDocker);
@@ -1436,28 +1436,28 @@ WAPAMA.Core.Edge = {
         }
 		this._changed();
     },
-    
+
     toString: function(){
         return this.getStencil().title() + " " + this.id;
     },
-    
+
     /**
      * @return {WAPAMA.Core.Shape} Returns last docked shape or null.
      */
     getTarget: function(){
         return this.dockers.last() ? this.dockers.last().getDockedShape() : null;
     },
-	
+
 	/**
 	 * @return {WAPAMA.Core.Shape} Returns the first docked shape or null
 	 */
 	getSource: function() {
 		return this.dockers.first() ? this.dockers.first().getDockedShape() : null;
 	},
-	
+
 	/**
 	 * Checks whether the edge is at least docked to one shape.
-	 * 
+	 *
 	 * @return {boolean} True if edge is docked
 	 */
 	isDocked: function() {
@@ -1470,19 +1470,19 @@ WAPAMA.Core.Edge = {
 		});
 		return isDocked;
 	},
-    
+
     /**
      * Calls {@link WAPAMA.Core.AbstractShape#toJSON} and add a some stencil set information.
      */
     toJSON: function() {
         var json = arguments.callee.$.toJSON.apply(this, arguments);
-        
+
         if(this.getTarget()) {
             json.target = {
                 resourceId: this.getTarget().resourceId
             };
         }
-        
+
         return json;
     }
 };

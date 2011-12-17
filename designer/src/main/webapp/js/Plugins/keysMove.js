@@ -21,18 +21,18 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  **/
-if (!WAPAMA.Plugins) 
+if (!WAPAMA.Plugins)
     WAPAMA.Plugins = new Object();
 
 WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 
     facade: undefined,
-    
+
     construct: function(facade){
-    
+
         this.facade = facade;
         this.copyElements = [];
-        
+
         //this.facade.registerOnEvent(WAPAMA.CONFIG.EVENT_KEYDOWN, this.keyHandler.bind(this));
 
 		// SELECT ALL
@@ -40,99 +40,99 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 		keyCodes: [{
 		 		metaKeys: [WAPAMA.CONFIG.META_KEY_META_CTRL],
 				keyCode: 65,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.selectAll.bind(this)
          });
-		 
-		// MOVE LEFT SMALL		
+
+		// MOVE LEFT SMALL
 		this.facade.offer({
 		keyCodes: [{
 		 		metaKeys: [WAPAMA.CONFIG.META_KEY_META_CTRL],
 				keyCode: WAPAMA.CONFIG.KEY_CODE_LEFT,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_LEFT, false)
          });
-		 
+
 		 // MOVE LEFT
 		 this.facade.offer({
 		 keyCodes: [{
 				keyCode: WAPAMA.CONFIG.KEY_CODE_LEFT,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_LEFT, true)
          });
-		 
-		// MOVE RIGHT SMALL	
+
+		// MOVE RIGHT SMALL
 		 this.facade.offer({
 		 keyCodes: [{
 		 		metaKeys: [WAPAMA.CONFIG.META_KEY_META_CTRL],
 				keyCode: WAPAMA.CONFIG.KEY_CODE_RIGHT,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_RIGHT, false)
          });
-		 
-		// MOVE RIGHT	
+
+		// MOVE RIGHT
 		 this.facade.offer({
 		 keyCodes: [{
 				keyCode: WAPAMA.CONFIG.KEY_CODE_RIGHT,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_RIGHT, true)
          });
-		 
-		// MOVE UP SMALL	
+
+		// MOVE UP SMALL
 		 this.facade.offer({
 		 keyCodes: [{
 		 		metaKeys: [WAPAMA.CONFIG.META_KEY_META_CTRL],
 				keyCode: WAPAMA.CONFIG.KEY_CODE_UP,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_UP, false)
          });
-		 
-		// MOVE UP	
+
+		// MOVE UP
 		 this.facade.offer({
 		 keyCodes: [{
 				keyCode: WAPAMA.CONFIG.KEY_CODE_UP,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_UP, true)
          });
-		 
-		// MOVE DOWN SMALL	
+
+		// MOVE DOWN SMALL
 		 this.facade.offer({
 		 keyCodes: [{
 		 		metaKeys: [WAPAMA.CONFIG.META_KEY_META_CTRL],
 				keyCode: WAPAMA.CONFIG.KEY_CODE_DOWN,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_DOWN, false)
          });
-		 
-		// MOVE DOWN	
+
+		// MOVE DOWN
 		 this.facade.offer({
 		 keyCodes: [{
 				keyCode: WAPAMA.CONFIG.KEY_CODE_DOWN,
-				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN 
+				keyAction: WAPAMA.CONFIG.KEY_ACTION_DOWN
 			}
 		 ],
          functionality: this.move.bind(this, WAPAMA.CONFIG.KEY_CODE_DOWN, true)
          });
-		 
-         
+
+
     },
-    
+
 	/**
 	 * Select all shapes in the editor
 	 *
@@ -141,9 +141,9 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
     	Event.stop(e.event);
 		this.facade.setSelection(this.facade.getCanvas().getChildShapes(true))
 	},
-	
+
 	move: function(key, far, e) {
-		
+
     	Event.stop(e.event);
 
 		// calculate the distance to move the objects and get the selection.
@@ -151,7 +151,7 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 		var selection = this.facade.getSelection();
 		var currentSelection = this.facade.getSelection();
 		var p = {x: 0, y: 0};
-		
+
 		// switch on the key pressed and populate the point to move by.
 		switch(key) {
 
@@ -168,28 +168,28 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 				p.y = distance;
 				break;
 		}
-		
+
 		// move each shape in the selection by the point calculated and update it.
-		selection = selection.findAll(function(shape){ 
-			// Check if this shape is docked to an shape in the selection			
-			if(shape instanceof WAPAMA.Core.Node && shape.dockers.length == 1 && selection.include( shape.dockers.first().getDockedShape() )){ 
-				return false 
-			} 
-			
+		selection = selection.findAll(function(shape){
+			// Check if this shape is docked to an shape in the selection
+			if(shape instanceof WAPAMA.Core.Node && shape.dockers.length == 1 && selection.include( shape.dockers.first().getDockedShape() )){
+				return false
+			}
+
 			// Check if any of the parent shape is included in the selection
-			var s = shape.parent; 
-			do{ 
-				if(selection.include(s)){ 
+			var s = shape.parent;
+			do{
+				if(selection.include(s)){
 					return false
 				}
-			}while(s = s.parent); 
-			
+			}while(s = s.parent);
+
 			// Otherwise, return true
 			return true;
-			
+
 		});
-		
-		/* Edges must not be movable, if only edges are selected and at least 
+
+		/* Edges must not be movable, if only edges are selected and at least
 		 * one of them is docked.
 		 */
 		var edgesMovable = true;
@@ -198,17 +198,17 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 				if(shape.isDocked()) {
 					edgesMovable = false;
 				}
-				return true;	
+				return true;
 			}
 			return false;
 		});
-		
+
 		if(onlyEdgesSelected && !edgesMovable) {
 			/* Abort moving shapes */
 			return;
 		}
-		
-		selection = selection.map(function(shape){ 
+
+		selection = selection.map(function(shape){
 			if( shape instanceof WAPAMA.Core.Node ){
 				/*if( shape.dockers.length == 1 ){
 					return shape.dockers.first()
@@ -216,9 +216,9 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 					return shape
 				//}
 			} else if( shape instanceof WAPAMA.Core.Edge ) {
-				
+
 				var dockers = shape.dockers;
-				
+
 				if( selection.include( shape.dockers.first().getDockedShape() ) ){
 					dockers = dockers.without( shape.dockers.first() )
 				}
@@ -226,17 +226,17 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 				if( selection.include( shape.dockers.last().getDockedShape() ) ){
 					dockers = dockers.without( shape.dockers.last() )
 				}
-				
-				return dockers	
-							
+
+				return dockers
+
 			} else {
 				return null
 			}
-		
+
 		}).flatten().compact();
-		
+
 		if (selection.size() > 0) {
-			
+
 			//Stop moving at canvas borders
 			var selectionBounds = [ this.facade.getCanvas().bounds.lowerRight().x,
 			                        this.facade.getCanvas().bounds.lowerRight().y,
@@ -256,23 +256,23 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 				p.x = this.facade.getCanvas().bounds.lowerRight().x - selectionBounds[2];
 			if(selectionBounds[3]+p.y > this.facade.getCanvas().bounds.lowerRight().y)
 				p.y = this.facade.getCanvas().bounds.lowerRight().y - selectionBounds[3];
-			
+
 			if(p.x!=0 || p.y!=0) {
 				// Instantiate the moveCommand
 				var commands = [new WAPAMA.Core.Command.Move(selection, p, null, currentSelection, this)];
-				// Execute the commands			
+				// Execute the commands
 				this.facade.executeCommands(commands);
 			}
-			
+
 		}
 	},
-	
+
 	getUndockedCommant: function(shapes){
 
 		var undockEdgeCommand = WAPAMA.Core.Command.extend({
 			construct: function(moveShapes){
 				this.dockers = moveShapes.collect(function(shape){ return shape instanceof WAPAMA.Core.Controls.Docker ? {docker:shape, dockedShape:shape.getDockedShape(), refPoint:shape.referencePoint} : undefined }).compact();
-			},			
+			},
 			execute: function(){
 				this.dockers.each(function(el){
 					el.docker.setDockedShape(undefined);
@@ -286,12 +286,12 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 				})
 			}
 		});
-		
+
 		command = new undockEdgeCommand( shapes );
-		command.execute();	
+		command.execute();
 		return command;
 	},
-	
+
 //    /**
 //     * The key handler for this plugin. Every action from the set of cut, copy,
 //     * paste and delete should be accessible trough simple keyboard shortcuts.
@@ -302,13 +302,13 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 //     */
 //    keyHandler: function(event){
 //        //TODO document what event.which is.
-//        
+//
 //        WAPAMA.Log.debug("keysMove.js handles a keyEvent.");
-//        
+//
 //        // assure we have the current event.
-//        if (!event) 
+//        if (!event)
 //            event = window.event;
-//        
+//
 //        // get the currently pressed key and state of control key.
 //        var pressedKey = event.which || event.keyCode;
 //        var ctrlPressed = event.ctrlKey;
@@ -316,11 +316,11 @@ WAPAMA.Plugins.KeysMove = WAPAMA.Plugins.AbstractPlugin.extend({
 //		// if the key is one of the arrow keys, forward to move and return.
 //		if ([WAPAMA.CONFIG.KEY_CODE_LEFT, WAPAMA.CONFIG.KEY_CODE_RIGHT,
 //			WAPAMA.CONFIG.KEY_CODE_UP, WAPAMA.CONFIG.KEY_CODE_DOWN].include(pressedKey)) {
-//			
+//
 //			this.move(pressedKey, !ctrlPressed);
 //			return;
 //		}
-//		
+//
 //    }
-	
+
 });

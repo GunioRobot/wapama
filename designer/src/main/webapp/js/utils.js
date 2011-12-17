@@ -9,7 +9,7 @@ WAPAMA.Utils = {
      * General helper method for parsing a param out of current location url
      * @example
      * // Current url in Browser => "http://wapama.org?param=value"
-     * WAPAMA.Utils.getParamFromUrl("param") // => "value" 
+     * WAPAMA.Utils.getParamFromUrl("param") // => "value"
      * @param {Object} name
      */
     getParamFromUrl: function(name){
@@ -24,13 +24,13 @@ WAPAMA.Utils = {
             return results[1];
         }
     },
-	
+
 	adjustGradient: function(gradient, reference){
-		
+
 		if (WAPAMA.CONFIG.DISABLE_GRADIENT && gradient){
-		
+
 			var col = reference.getAttributeNS(null, "stop-color") || "#ffffff";
-			
+
 			$A(gradient.getElementsByTagName("stop")).each(function(stop){
 				if (stop == reference){ return; }
 				stop.setAttributeNS(null, "stop-color", col);

@@ -256,9 +256,9 @@
 			{
 				"role":"diagram",
 				"contains":[
-					"activity", 
-					"condition", 
-					"inputcondition", 
+					"activity",
+					"condition",
+					"inputcondition",
 					"outputcondition"
 				]
 			}

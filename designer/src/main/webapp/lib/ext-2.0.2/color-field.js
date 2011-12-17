@@ -41,9 +41,9 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
 
     // Limit input to hex values
 	maskRe: /[#a-f0-9]/i,
-	
+
 	facade: undefined,
-	
+
     // private
     validateValue : function(value){
         if(!Ext.ux.ColorField.superclass.validateValue.call(this, value)){
@@ -61,7 +61,7 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
             return false;
         }
 		this.setColor(value);
-		
+
         return true;
     },
 
@@ -87,7 +87,7 @@ Ext.ux.ColorField = Ext.extend(Ext.form.TriggerField,  {
 			this.on('render',function(){this.setColor(color)},this);
 		}
 	},
-	
+
     // private
     // Provides logic to override the default TriggerField.validateBlur which just returns true
     validateBlur : function(){

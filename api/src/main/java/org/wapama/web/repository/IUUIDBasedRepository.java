@@ -29,18 +29,18 @@ import org.wapama.web.profile.IDiagramProfile;
 
 /**
  * @author Antoine Toulme
- * 
+ *
  * This interface defines the way the models should be saved and loaded.
  *
  */
 public interface IUUIDBasedRepository {
-    
+
     /**
      * Configure the repository in the context of the servlet
      * @param servlet the servlet which will use this repository.
      */
     public void configure(HttpServlet servlet);
-    
+
     /**
      * @param req the request from the user.
      * @param uuid the id of the model.
@@ -48,7 +48,7 @@ public interface IUUIDBasedRepository {
      * @return the model as a set of bytes.
      */
     public byte[] load(HttpServletRequest req, String uuid, String ext);
-    
+
     /**
      * Saves the model inside the repository.
      * @param req the request from the user.
@@ -56,7 +56,7 @@ public interface IUUIDBasedRepository {
      * @param json the json model
      * @param svg the svg representation of the model
      * @param profile the profile
-     * @throws DiagramValidationException 
+     * @throws DiagramValidationException
      */
     public void save(HttpServletRequest req, String uuid, String json, String svg, IDiagramProfile profile, Boolean autosave) throws DiagramValidationException;
 

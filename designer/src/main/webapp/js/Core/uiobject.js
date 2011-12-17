@@ -50,21 +50,21 @@ WAPAMA.Core.UIObject = {
 		this.isSelectable = false;		//Flag, if UIObject is selectable.
 		this.isResizable = false;		//Flag, if UIObject is resizable.
 		this.isMovable = false;			//Flag, if UIObject is movable.
-		
+
 		this.parent = undefined;		//parent is defined, if this object is added to another uiObject.
 		this.node = undefined;			//this is a reference to the SVG representation, either locally or in DOM.
 		this.children = [];				//array for all add uiObjects
-		
+
 		this.bounds = new WAPAMA.Core.Bounds();		//bounds with undefined values
 
 		this._changedCallback = this._changed.bind(this);	//callback reference for calling _changed
 		this.bounds.registerCallback(this._changedCallback);	//set callback in bounds
-		
+
 		if(options && options.eventHandlerCallback) {
 			this.eventHandlerCallback = options.eventHandlerCallback;
 		}
 	},
-	
+
 	/**
 	 * Sets isChanged flag to true. Callback for the bounds object.
 	 */
@@ -73,7 +73,7 @@ WAPAMA.Core.UIObject = {
 		if(this.bounds == bounds)
 			this.isResized = isResized || this.isResized;
 	},
-	
+
 	/**
 	 * If something changed, this method calls the refresh method that must be implemented by subclasses.
 	 */
@@ -81,28 +81,28 @@ WAPAMA.Core.UIObject = {
 		if(this.isChanged) {
 			this.refresh();
 			this.isChanged = false;
-			
+
 			//call update of all children
 			this.children.each(function(value) {
 				value.update();
 			});
 		}
 	},
-	
+
 	/**
 	 * Is called in update method, if isChanged is set to true. Sub classes should call the super class method.
 	 */
 	refresh: function() {
-		
+
 	},
-	
+
 	/**
 	 * @return {Array} Array of all child UIObjects.
 	 */
 	getChildren: function() {
 		return this.children.clone();
 	},
-	
+
 	/**
 	 * @return {Array} Array of all parent UIObjects.
 	 */
@@ -115,11 +115,11 @@ WAPAMA.Core.UIObject = {
 		}
 		return parents;
 	},
-	
+
 	/**
 	 * Returns TRUE if the given parent is one of the UIObjects parents or the UIObject themselves, otherwise FALSE.
 	 * @param {UIObject} parent
-	 * @return {Boolean} 
+	 * @return {Boolean}
 	 */
 	isParent: function(parent){
 		var cparent = this;
@@ -131,19 +131,19 @@ WAPAMA.Core.UIObject = {
 		}
 		return false;
 	},
-	
+
 	/**
 	 * @return {String} Id of this UIObject
 	 */
 	getId: function() {
 		return this.resourceId;
 	},
-	
+
 	/**
 	 * Method for accessing child uiObjects by id.
 	 * @param {String} id
 	 * @param {Boolean} deep
-	 * 
+	 *
 	 * @return {UIObject} If found, it returns the UIObject with id.
 	 */
 	getChildById: function(id, deep) {
@@ -160,7 +160,7 @@ WAPAMA.Core.UIObject = {
 			}
 		});
 	},
-	
+
 	/**
 	 * Adds an UIObject to this UIObject and sets the parent of the
 	 * added UIObject. It is also added to the SVG representation of this
@@ -174,20 +174,20 @@ WAPAMA.Core.UIObject = {
 			if(uiObject.parent) {
 				uiObject.remove(uiObject);
 			}
-			
+
 			//add uiObject to children
 			this.children.push(uiObject);
-			
+
 			//set parent reference
 			uiObject.parent = this;
-			
+
 			//add uiObject.node to this.node
 			uiObject.node = this.node.appendChild(uiObject.node);
-			
+
 			//register callback to get informed, if child is changed
 			uiObject.bounds.registerCallback(this._changedCallback);
-			
-		
+
+
 			if(this.eventHandlerCallback)
 				this.eventHandlerCallback({type:WAPAMA.CONFIG.EVENT_SHAPEADDED,shape:uiObject})
 			//uiObject.update();
@@ -195,7 +195,7 @@ WAPAMA.Core.UIObject = {
 			WAPAMA.Log.info("add: WAPAMA.Core.UIObject is already a child of this object.");
 		}
 	},
-	
+
 	/**
 	 * Removes UIObject from this UIObject. The SVG representation will also
 	 * be removed from this UIObject's SVG representation.
@@ -206,21 +206,21 @@ WAPAMA.Core.UIObject = {
 		if (this.children.member(uiObject)) {
 			//remove uiObject from children
 			this.children = this._uiObjects.without(uiObject);
-			
+
 			//delete parent reference of uiObject
 			uiObject.parent = undefined;
-			
+
 			//delete uiObject.node from this.node
 			uiObject.node = this.node.removeChild(uiObject.node);
-			
+
 			//unregister callback to get informed, if child is changed
 			uiObject.bounds.unregisterCallback(this._changedCallback);
 		} else {
 			WAPAMA.Log.info("remove: WAPAMA.Core.UIObject is not a child of this object.");
 		}
-		
+
 	},
-	
+
 	/**
 	 * Calculates absolute bounds of this UIObject.
 	 */
@@ -240,9 +240,9 @@ WAPAMA.Core.UIObject = {
 	 */
 	absoluteXY: function() {
 		if(this.parent) {
-			var pXY = this.parent.absoluteXY();		
+			var pXY = this.parent.absoluteXY();
 			return {x: pXY.x + this.bounds.upperLeft().x , y: pXY.y + this.bounds.upperLeft().y};
-			
+
 		} else {
 			return {x: this.bounds.upperLeft().x , y: this.bounds.upperLeft().y};
 		}
@@ -253,14 +253,14 @@ WAPAMA.Core.UIObject = {
 	 */
 	absoluteCenterXY: function() {
 		if(this.parent) {
-			var pXY = this.parent.absoluteXY();		
+			var pXY = this.parent.absoluteXY();
 			return {x: pXY.x + this.bounds.center().x , y: pXY.y + this.bounds.center().y};
-			
+
 		} else {
 			return {x: this.bounds.center().x , y: this.bounds.center().y};
 		}
 	},
-	
+
 	/**
 	 * Hides this UIObject and all its children.
 	 */
@@ -268,10 +268,10 @@ WAPAMA.Core.UIObject = {
 		this.node.setAttributeNS(null, 'display', 'none');
 		this.isVisible = false;
 		this.children.each(function(uiObj) {
-			uiObj.hide();	
+			uiObj.hide();
 		});
 	},
-	
+
 	/**
 	 * Enables visibility of this UIObject and all its children.
 	 */
@@ -279,28 +279,28 @@ WAPAMA.Core.UIObject = {
 		this.node.setAttributeNS(null, 'display', 'inherit');
 		this.isVisible = true;
 		this.children.each(function(uiObj) {
-			uiObj.show();	
-		});		
+			uiObj.show();
+		});
 	},
-	
+
 	addEventHandlers: function(node) {
-		
+
 		node.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEDOWN, this._delegateEvent.bind(this), false);
-		node.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEMOVE, this._delegateEvent.bind(this), false);	
+		node.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEMOVE, this._delegateEvent.bind(this), false);
 		node.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEUP, this._delegateEvent.bind(this), false);
 		node.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEOVER, this._delegateEvent.bind(this), false);
 		node.addEventListener(WAPAMA.CONFIG.EVENT_MOUSEOUT, this._delegateEvent.bind(this), false);
 		node.addEventListener('click', this._delegateEvent.bind(this), false);
 		node.addEventListener(WAPAMA.CONFIG.EVENT_DBLCLICK, this._delegateEvent.bind(this), false);
-			
+
 	},
-		
+
 	_delegateEvent: function(event) {
 		if(this.eventHandlerCallback) {
 			this.eventHandlerCallback(event, this);
 		}
 	},
-	
+
 	toString: function() { return "UIObject " + this.resourceId }
  };
  WAPAMA.Core.UIObject = Clazz.extend(WAPAMA.Core.UIObject);

@@ -9,10 +9,10 @@
 </td>
 <td>
 <x:group ref="instance('ui_settings')/delegategroup">
-    <x:select1 class="delegator" ref="instance('output-token')/places/metadata/delegate" style="width:142;">  
+    <x:select1 class="delegator" ref="instance('output-token')/places/metadata/delegate" style="width:142;">
             <x:item>
                 <x:label>Adam</x:label>
-                <x:value>Adam</x:value> 
+                <x:value>Adam</x:value>
             </x:item>
 
             <x:item>
@@ -27,14 +27,14 @@
             <x:item>
                 <x:label>Rudi</x:label>
                 <x:value>Rudi</x:value>
-            </x:item>           
+            </x:item>
 </x:select1>
 </x:group>
 </td><td width="10" /><td /></tr>
 <tr><td><x:group bind="fade.delegatedFrom">Delegated from:</x:group></td>
 	<td>
 		<x:group bind="fade.delegatedFrom"><x:output class="delegator" ref="instance('output-token')/places/metadata/delegatedFrom">
-		</x:output></x:group>	
+		</x:output></x:group>
 	</td><td /><td style="font-weight:bold; color:red;"><x:group ref="instance('ui_settings')/executionstate">Fill in the Form and Submit!</x:group><x:group ref="instance('ui_settings')/reviewstate">Review the form and submit!</x:group></td><td /></tr>
 	<tr><td>
 		<x:group bind="fade.message">Message:</x:group>

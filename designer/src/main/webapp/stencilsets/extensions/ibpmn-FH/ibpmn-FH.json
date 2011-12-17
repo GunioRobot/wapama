@@ -22,7 +22,7 @@
 				"tc",
 				"fromtoall"
 			],
-			
+
 			"properties": [
 
 				{
@@ -62,7 +62,7 @@
 					"id":"activitytype",
 					"type":"Choice",
 					"title":"Type",
-					"value":"silentAction",			
+					"value":"silentAction",
 					"description":"The Type of Acitivity.",
 					"readonly":false,
 					"optional":false,
@@ -110,7 +110,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -219,7 +219,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"propertyType",
@@ -300,7 +300,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":"50"
-				},				
+				},
 				{
 					"id":"st_testtime",
 					"type":"Choice",
@@ -324,7 +324,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"mi_Ordering",
 					"type":"Choice",
@@ -437,7 +437,7 @@
 					"description":"",
 					"readonly":false,
 					"optional":true
-				},	
+				},
 				{
 					"id":"tasktype",
 					"type":"String",
@@ -461,7 +461,7 @@
 					"stroke":false
 				}
 			]
-		},	
+		},
 //************************* Activities::Scope             *************************/
  		{
 			"type": "node",
@@ -478,7 +478,7 @@
 				"fromtoall",
 				"subProcess",
 				"cp_scope"
-			],		
+			],
             "properties": [
 				{
 					"id":"id",
@@ -551,7 +551,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"propertyType",
@@ -587,7 +587,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"properties",
@@ -666,10 +666,10 @@
 			"icon":"../../extensions/ibpmn-FH/icon/extension/new_handler.png",
 			"roles": [
 				"sequence_start",
-				"subProcess",						
-				"to_task_event"							
+				"subProcess",
+				"to_task_event"
 			],
-			
+
             "properties": [
 				{
 					"id":"id",
@@ -731,7 +731,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"properties",
@@ -756,9 +756,9 @@
 					"stroke":false
 				}
             ]
-		},		
+		},
 // ******************************* START EVENTS *****************************
-// ******************************* START EVENTS::Start Event *****************************		
+// ******************************* START EVENTS::Start Event *****************************
 		{
 			"type": "node",
 			"id":"StartEvent",
@@ -766,7 +766,7 @@
 			"groups":["Startevents"],
 			"description":"An event without incoming edges.",
 			"view":"startevent/node.event.start.svg",
-			"icon":"new_startevent.png",		
+			"icon":"new_startevent.png",
 			"roles": [
 				"sequence_start",
 				"to_task_event",
@@ -832,7 +832,7 @@
 			"groups":["Startevents"],
 			"description":"A non-interrupting event without incoming edges.",
 			"view":"../../extensions/ibpmn-FH/view/extension/startevent/node.event.ni.start.svg",
-			"icon":"../../extensions/ibpmn-FH/icon/extension/new_ni_start.png",		
+			"icon":"../../extensions/ibpmn-FH/icon/extension/new_ni_start.png",
 			"roles": [
 				"NIStartevent",
 				"to_task_event",
@@ -889,8 +889,8 @@
 					"stroke":false
 				}
 			]
-		},		
-// ******************************* START EVENTS::Start Interaction *****************************		
+		},
+// ******************************* START EVENTS::Start Interaction *****************************
 		{
 			"type": "node",
 			"id":"StartInteraction",
@@ -970,7 +970,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1066,7 +1066,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1080,8 +1080,8 @@
 					"stroke":false
 				}
 			]
-		},		
-// ******************************* START EVENTS::Start Timer *****************************				
+		},
+// ******************************* START EVENTS::Start Timer *****************************
 		{
 			"type": "node",
 			"id":"StartTimerEvent",
@@ -1152,7 +1152,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1239,7 +1239,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1372,7 +1372,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -1420,7 +1420,7 @@
 							"refToView":""
 						}
 					]
-				}	
+				}
 			]
 		},
 //************************* START EVENTS::Start Compensation Event *************************/
@@ -1541,7 +1541,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -1674,7 +1674,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -1690,7 +1690,7 @@
 			]
 		},
 // ******************************* INTERMEDIATE EVENTS *****************************
-// ******************************* INTERMEDIATE EVENTS::Intermediate Interaction *****************************		
+// ******************************* INTERMEDIATE EVENTS::Intermediate Interaction *****************************
 		{
 			"type": "node",
 			"id":"IntermediateInteraction",
@@ -1771,7 +1771,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1868,7 +1868,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -1882,8 +1882,8 @@
 					"stroke":false
 				}
 			]
-		},		
-// ******************************* INTERMEDIATE EVENTS::Intermediate Timer *****************************		
+		},
+// ******************************* INTERMEDIATE EVENTS::Intermediate Timer *****************************
 		{
 			"type": "node",
 			"id":"IntermediateTimerEvent",
@@ -1955,7 +1955,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2043,7 +2043,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -2176,7 +2176,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2188,7 +2188,7 @@
 					"refToView":"frame",
 					"fill":true,
 					"stroke":false
-				},	
+				},
 				{
 					"id":"implementation",
 					"type":"Choice",
@@ -2345,7 +2345,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2478,7 +2478,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2611,7 +2611,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2744,7 +2744,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2877,7 +2877,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -2892,8 +2892,8 @@
 				}
 			]
 		},
-// ******************************* END EVENTS *****************************								
-// ******************************* END EVENTS::End Event *****************************		
+// ******************************* END EVENTS *****************************
+// ******************************* END EVENTS::End Event *****************************
 		{
 			"type": "node",
 			"id":"EndEvent",
@@ -2955,7 +2955,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3033,7 +3033,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3100,7 +3100,7 @@
 					"refToView":"text_name",
 					"length":""
 				},
-				
+
 				{
 					"id":"implementation",
 					"type":"Choice",
@@ -3130,7 +3130,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3226,7 +3226,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3241,7 +3241,7 @@
 				}
 			]
 		},
-// ******************************* END EVENTS::End Timer *****************************		
+// ******************************* END EVENTS::End Timer *****************************
 		{
 			"type": "node",
 			"id":"EndTimerEvent",
@@ -3314,7 +3314,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3402,7 +3402,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgColor",
 					"type":"Color",
@@ -3416,7 +3416,7 @@
 					"stroke":false
 				}
 			]
-		},		
+		},
 //************************* ENDEVENTS::End Error Event *************************/
 		{
 			"type": "node",
@@ -3534,7 +3534,7 @@
 					"optional":true,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3666,7 +3666,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3798,7 +3798,7 @@
 					"optional":false,
 					"refToView":"",
 					"length":""
-				},				
+				},
 				{
 					"id":"bgcolor",
 					"type":"Color",
@@ -3812,7 +3812,7 @@
 					"stroke":false
 				}
 			]
-		}	
+		}
 	],
 	"properties":[],
 	"rules": {
@@ -3825,14 +3825,14 @@
 					"Startevents_all",
 					"Endevents_all",
 					"silentActivity",
-					"intermediateEvents_all",				
+					"intermediateEvents_all",
 				]
 			},
 			{
 				"role":"Scope",
 				"contains": [
 					"StartEvent",
-					"sequence_start",					
+					"sequence_start",
 					"subProcess",
 					"Endevent",
 					"silentActivity"

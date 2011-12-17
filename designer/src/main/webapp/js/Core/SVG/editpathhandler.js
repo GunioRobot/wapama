@@ -32,31 +32,31 @@ if(!WAPAMA.Core.SVG) {WAPAMA.Core.SVG = {};}
 
 /**
  * EditPathHandler
- * 
+ *
  * Edit SVG paths' coordinates according to specified from-to movement and
- * horizontal and vertical scaling factors. 
+ * horizontal and vertical scaling factors.
  * The resulting path's d attribute is stored in instance variable d.
- * 
+ *
  * @constructor
  */
 WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
-	
+
 	construct: function() {
 		arguments.callee.$.construct.apply(this, arguments);
-		
+
 		this.x = 0;
 		this.y = 0;
 		this.oldX = 0;
 		this.oldY = 0;
 		this.deltaWidth = 1;
 		this.deltaHeight = 1;
-		
+
 		this.d = "";
 	},
-	
+
 	/**
 	 * init
-	 * 
+	 *
 	 * @param {float} x Target point's x-coordinate
 	 * @param {float} y Target point's y-coordinate
 	 * @param {float} oldX Reference point's x-coordinate
@@ -71,13 +71,13 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 		this.oldY = oldY;
 		this.deltaWidth = deltaWidth;
 		this.deltaHeight = deltaHeight;
-		
+
 		this.d = "";
 	},
 
 	/**
 	 * editPointsAbs
-	 * 
+	 *
 	 * @param {Array} points Array of absolutePoints
 	 */
 	editPointsAbs: function(points) {
@@ -91,16 +91,16 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 				newPoints.push(x);
 				newPoints.push(y);
 			}
-			
+
 			return newPoints;
 		} else {
 			//TODO error
 		}
 	},
-	
+
 	/**
 	 * editPointsRel
-	 * 
+	 *
 	 * @param {Array} points Array of absolutePoints
 	 */
 	editPointsRel: function(points) {
@@ -114,7 +114,7 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 				newPoints.push(x);
 				newPoints.push(y);
 			}
-			
+
 			return newPoints;
 		} else {
 			//TODO error
@@ -123,7 +123,7 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 
 	/**
 	 * arcAbs - A
-	 * 
+	 *
 	 * @param {Number} rx
 	 * @param {Number} ry
 	 * @param {Number} xAxisRotation
@@ -135,16 +135,16 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	arcAbs: function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
 	    var pointsAbs = this.editPointsAbs([x, y]);
 		var pointsRel = this.editPointsRel([rx, ry]);
-		
-		this.d = this.d.concat(" A" + pointsRel[0] + " " + pointsRel[1] + 
-								" " + xAxisRotation + " " + largeArcFlag + 
+
+		this.d = this.d.concat(" A" + pointsRel[0] + " " + pointsRel[1] +
+								" " + xAxisRotation + " " + largeArcFlag +
 								" " + sweepFlag + " " + pointsAbs[0] + " " +
-								pointsAbs[1] + " ");					
+								pointsAbs[1] + " ");
 	},
 
 	/**
 	 * arcRel - a
-	 * 
+	 *
 	 * @param {Number} rx
 	 * @param {Number} ry
 	 * @param {Number} xAxisRotation
@@ -155,16 +155,16 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	 */
 	arcRel: function(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y) {
 		var pointsRel = this.editPointsRel([rx, ry, x, y]);
-		
-		this.d = this.d.concat(" a" + pointsRel[0] + " " + pointsRel[1] + 
-								" " + xAxisRotation + " " + largeArcFlag + 
+
+		this.d = this.d.concat(" a" + pointsRel[0] + " " + pointsRel[1] +
+								" " + xAxisRotation + " " + largeArcFlag +
 								" " + sweepFlag + " " + pointsRel[2] + " " +
-								pointsRel[3] + " ");	
+								pointsRel[3] + " ");
 	},
 
 	/**
 	 * curvetoCubicAbs - C
-	 * 
+	 *
 	 * @param {Number} x1
 	 * @param {Number} y1
 	 * @param {Number} x2
@@ -174,15 +174,15 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	 */
 	curvetoCubicAbs: function(x1, y1, x2, y2, x, y) {
 	    var pointsAbs = this.editPointsAbs([x1, y1, x2, y2, x, y]);
-		
-		this.d = this.d.concat(" C" + pointsAbs[0] + " " + pointsAbs[1] + 
-								" " + pointsAbs[2] + " " + pointsAbs[3] + 
-								" " + pointsAbs[4] + " " + pointsAbs[5] + " ");	
+
+		this.d = this.d.concat(" C" + pointsAbs[0] + " " + pointsAbs[1] +
+								" " + pointsAbs[2] + " " + pointsAbs[3] +
+								" " + pointsAbs[4] + " " + pointsAbs[5] + " ");
 	},
 
 	/**
 	 * curvetoCubicRel - c
-	 * 
+	 *
 	 * @param {Number} x1
 	 * @param {Number} y1
 	 * @param {Number} x2
@@ -192,73 +192,73 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	 */
 	curvetoCubicRel: function(x1, y1, x2, y2, x, y) {
 	    var pointsRel = this.editPointsRel([x1, y1, x2, y2, x, y]);
-		
-		this.d = this.d.concat(" c" + pointsRel[0] + " " + pointsRel[1] + 
-								" " + pointsRel[2] + " " + pointsRel[3] + 
-								" " + pointsRel[4] + " " + pointsRel[5] + " ");	
+
+		this.d = this.d.concat(" c" + pointsRel[0] + " " + pointsRel[1] +
+								" " + pointsRel[2] + " " + pointsRel[3] +
+								" " + pointsRel[4] + " " + pointsRel[5] + " ");
 	},
 
 	/**
 	 * linetoHorizontalAbs - H
-	 * 
+	 *
 	 * @param {Number} x
 	 */
 	linetoHorizontalAbs: function(x) {
 	    var pointsAbs = this.editPointsAbs([x, 0]);
-		
-		this.d = this.d.concat(" H" + pointsAbs[0] + " ");	
+
+		this.d = this.d.concat(" H" + pointsAbs[0] + " ");
 	},
 
 	/**
 	 * linetoHorizontalRel - h
-	 * 
+	 *
 	 * @param {Number} x
 	 */
 	linetoHorizontalRel: function(x) {
 	    var pointsRel = this.editPointsRel([x, 0]);
-		
-		this.d = this.d.concat(" h" + pointsRel[0] + " ");	
+
+		this.d = this.d.concat(" h" + pointsRel[0] + " ");
 	},
 
 	/**
 	 * linetoAbs - L
-	 * 
+	 *
 	 * @param {Number} x
 	 * @param {Number} y
 	 */
 	linetoAbs: function(x, y) {
 	    var pointsAbs = this.editPointsAbs([x, y]);
-		
+
 		this.d = this.d.concat(" L" + pointsAbs[0] + " " + pointsAbs[1] + " ");
 	},
 
 	/**
 	 * linetoRel - l
-	 * 
+	 *
 	 * @param {Number} x
 	 * @param {Number} y
 	 */
 	linetoRel: function(x, y) {
 	    var pointsRel = this.editPointsRel([x, y]);
-		
+
 		this.d = this.d.concat(" l" + pointsRel[0] + " " + pointsRel[1] + " ");
 	},
 
 	/**
 	 * movetoAbs - M
-	 * 
+	 *
 	 * @param {Number} x
 	 * @param {Number} y
 	 */
 	movetoAbs: function(x, y) {
 	    var pointsAbs = this.editPointsAbs([x, y]);
-		
+
 		this.d = this.d.concat(" M" + pointsAbs[0] + " " + pointsAbs[1] + " ");
 	},
 
 	/**
 	 * movetoRel - m
-	 * 
+	 *
 	 * @param {Number} x
 	 * @param {Number} y
 	 */
@@ -269,13 +269,13 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 		} else {
 			pointsRel = this.editPointsRel([x, y]);
 		}
-		
+
 		this.d = this.d.concat(" m" + pointsRel[0] + " " + pointsRel[1] + " ");
 	},
 
 	/**
 	 * curvetoQuadraticAbs - Q
-	 * 
+	 *
 	 * @param {Number} x1
 	 * @param {Number} y1
 	 * @param {Number} x
@@ -283,14 +283,14 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	 */
 	curvetoQuadraticAbs: function(x1, y1, x, y) {
 	    var pointsAbs = this.editPointsAbs([x1, y1, x, y]);
-		
+
 		this.d = this.d.concat(" Q" + pointsAbs[0] + " " + pointsAbs[1] + " " +
 								pointsAbs[2] + " " + pointsAbs[3] + " ");
 	},
 
 	/**
 	 * curvetoQuadraticRel - q
-	 * 
+	 *
 	 * @param {Number} x1
 	 * @param {Number} y1
 	 * @param {Number} x
@@ -298,14 +298,14 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	 */
 	curvetoQuadraticRel: function(x1, y1, x, y) {
 	    var pointsRel = this.editPointsRel([x1, y1, x, y]);
-		
+
 		this.d = this.d.concat(" q" + pointsRel[0] + " " + pointsRel[1] + " " +
 								pointsRel[2] + " " + pointsRel[3] + " ");
 	},
 
 	/**
 	 * curvetoCubicSmoothAbs - S
-	 * 
+	 *
 	 * @param {Number} x2
 	 * @param {Number} y2
 	 * @param {Number} x
@@ -313,14 +313,14 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	 */
 	curvetoCubicSmoothAbs: function(x2, y2, x, y) {
 	    var pointsAbs = this.editPointsAbs([x2, y2, x, y]);
-		
+
 		this.d = this.d.concat(" S" + pointsAbs[0] + " " + pointsAbs[1] + " " +
 								pointsAbs[2] + " " + pointsAbs[3] + " ");
 	},
 
 	/**
 	 * curvetoCubicSmoothRel - s
-	 * 
+	 *
 	 * @param {Number} x2
 	 * @param {Number} y2
 	 * @param {Number} x
@@ -328,54 +328,54 @@ WAPAMA.Core.SVG.EditPathHandler = Clazz.extend({
 	 */
 	curvetoCubicSmoothRel: function(x2, y2, x, y) {
 	    var pointsRel = this.editPointsRel([x2, y2, x, y]);
-		
+
 		this.d = this.d.concat(" s" + pointsRel[0] + " " + pointsRel[1] + " " +
 								pointsRel[2] + " " + pointsRel[3] + " ");
 	},
 
 	/**
 	 * curvetoQuadraticSmoothAbs - T
-	 * 
+	 *
 	 * @param {Number} x
 	 * @param {Number} y
 	 */
 	curvetoQuadraticSmoothAbs: function(x, y) {
 	    var pointsAbs = this.editPointsAbs([x, y]);
-		
+
 		this.d = this.d.concat(" T" + pointsAbs[0] + " " + pointsAbs[1] + " ");
 	},
 
 	/**
 	 * curvetoQuadraticSmoothRel - t
-	 * 
+	 *
 	 * @param {Number} x
 	 * @param {Number} y
 	 */
 	curvetoQuadraticSmoothRel: function(x, y) {
 	    var pointsRel = this.editPointsRel([x, y]);
-		
+
 		this.d = this.d.concat(" t" + pointsRel[0] + " " + pointsRel[1] + " ");
 	},
 
 	/**
 	 * linetoVerticalAbs - V
-	 * 
+	 *
 	 * @param {Number} y
 	 */
 	linetoVerticalAbs: function(y) {
 	    var pointsAbs = this.editPointsAbs([0, y]);
-		
+
 		this.d = this.d.concat(" V" + pointsAbs[1] + " ");
 	},
 
 	/**
 	 * linetoVerticalRel - v
-	 * 
+	 *
 	 * @param {Number} y
 	 */
 	linetoVerticalRel: function(y) {
 	    var pointsRel = this.editPointsRel([0, y]);
-		
+
 		this.d = this.d.concat(" v" + pointsRel[1] + " ");
 	},
 

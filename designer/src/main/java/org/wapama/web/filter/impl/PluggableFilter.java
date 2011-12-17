@@ -40,19 +40,19 @@ import org.wapama.web.filter.IFilterFactory;
 
 /**
  * @author Antoine Toulme
- * 
+ *
  * a filter that can delegate to other filters detected via an OSGi declarative service.
  *
  */
 public class PluggableFilter implements Filter {
-    
+
     private static final Logger _logger = LoggerFactory.getLogger(PluggableFilter.class);
-    
+
     private static List<IFilterFactory> _registeredFilters = new ArrayList<IFilterFactory>();
     private List<Filter> _filters = new ArrayList<Filter>();
     private FilterConfig _filterConfig;
-    
-    
+
+
     public static void registerFilter(IFilterFactory filter) {
         _logger.debug("Registering new filter factory {}", filter);
         _registeredFilters.add(filter);

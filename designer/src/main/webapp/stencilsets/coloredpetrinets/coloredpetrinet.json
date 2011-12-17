@@ -99,7 +99,7 @@
 					"length":"",
 					"wrapLines":true
 				},
-				{					
+				{
 					"id":"declarations",
 					"type":"Complex",
 					"title":"Declarations",
@@ -109,7 +109,7 @@
 					"description_de":"Lokale Eigenschaften können der Aktivität hinzugefügt werden. Diese werden ausschließlich während der Abarbeitung der Aktivität angewendet.",
 					"readonly": 	false,
 					"optional": 	true,
-					"complexItems": 
+					"complexItems":
 					[
 						{
 							"id":"name",
@@ -117,7 +117,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"type",
@@ -147,11 +147,11 @@
 									"title":"Variable",
 									"value":"Variable",
 									"refToView":"None"
-								}								
+								}
 							]
 						}
-					]				
-				}				
+					]
+				}
 			]
 		},
  		{
@@ -177,7 +177,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},			
+				},
 				{
 					"id":"title",
 					"type":"String",
@@ -264,7 +264,7 @@
 					"refToView":"guardtext",
 					"optional":true,
 					"length":""
-				}															
+				}
 			]
 		},
  		{
@@ -290,7 +290,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},			
+				},
 				{
 					"id":"title",
 					"type":"String",
@@ -313,7 +313,7 @@
 					"readonly":true,
 					"optional":false,
 					"refToView":"",
-				},			
+				},
 				{
 					"id":"href",
 					"type":"String",
@@ -363,9 +363,9 @@
 					"refToView":"guardtext",
 					"optional":true,
 					"length":""
-				}						
-			]			
-		},		
+				}
+			]
+		},
 		{
 			"type": "node",
 			"id":"Place",
@@ -374,8 +374,8 @@
 			"description":"A place.",
 			"view":"node.place.svg",
 			"icon":"new_place.png",
-			"intersectionType":"ellipse",	
-			"fixedAspectRatio":true,		
+			"intersectionType":"ellipse",
+			"fixedAspectRatio":true,
 			"roles": [
 				"place",
 				"fromtoall",
@@ -391,7 +391,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},			
+				},
 				{
 					"id":"title",
 					"type":"String",
@@ -438,7 +438,7 @@
 							"refToView":""
 						}
 					]
-				},				
+				},
 				{
 					"id":"href",
 					"type":"String",
@@ -515,7 +515,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},					
+				},
 				{
 					"id":"label",
 					"type":"String",
@@ -539,7 +539,7 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				}								
+				}
 			]
 		},
 		{
@@ -596,9 +596,9 @@
 					"fill":true,
 					"stroke": false
 				}
-			]		
+			]
 		}
-	],	
+	],
 	"rules": {
 		"connectionRules": [
 			{
@@ -613,13 +613,13 @@
 						"to":["transition"]
 					}
 				]
-			}	
+			}
 		],
-		"containmentRules": 
+		"containmentRules":
 		[
 			{
 				"role":"Diagram",
-				"contains": 
+				"contains":
 				[
 					"fromtoall"
 				]
@@ -632,7 +632,7 @@
 				]
 			}
 		],
-		"morphingRules": 
+		"morphingRules":
 		[
 			{
 				"role": "TransitionMorph",

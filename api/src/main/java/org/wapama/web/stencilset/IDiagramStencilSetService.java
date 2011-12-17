@@ -27,18 +27,18 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * A service to access registered StencilSets.
- * 
+ *
  * @author Antoine Toulme
  *
  */
 public interface IDiagramStencilSetService {
-    
+
     /**
      * @param request the request as context.
      * @return the registered stencilsets.
      */
     public Collection<IDiagramStencilSet> getRegisteredStencilSets(HttpServletRequest request);
-    
+
     /**
      * Finds a stencilset by name in the context of the request.
      * @param request the request as context.

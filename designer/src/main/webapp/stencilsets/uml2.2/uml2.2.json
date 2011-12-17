@@ -102,11 +102,11 @@
 		}
 	],
 	"stencils": [
-		
+
 		{
 			"type":        "node",
 			"id":          "Diagram",
-			"title":       "Diagram",	
+			"title":       "Diagram",
 			"title":       "Diagramm",
 			"groups":      ["Diagram"],
 			"description": "UML Class Diagram",
@@ -131,11 +131,11 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "SimpleClass",
-			"title":       "Class",	
+			"title":       "Class",
 			"title_de":    "Klasse",
 			"groups":      ["Structure"],
 			"groups_de":   ["Struktur"],
@@ -167,11 +167,11 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "ComplexClass",
-			"title":       "Class",	
+			"title":       "Class",
 			"title_de":    "Klasse",
 			"groups":      ["Structure"],
 			"groups_de":   ["Struktur"],
@@ -221,7 +221,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "Note",
@@ -245,11 +245,11 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "Interface",
-			"title":       "Interface",	
+			"title":       "Interface",
 			"title_de":    "Schnittstelle",
 			"groups":      ["Structure"],
 			"groups_de":   ["Struktur"],
@@ -282,7 +282,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "Enumeration",
@@ -319,7 +319,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type":        "node",
 			"id":          "naryAssociation",
@@ -333,8 +333,8 @@
 			"icon":        "misc/nary.png",
 			"roles":       ["nary-association"],
 			"properties" : []
-		},		
-		
+		},
+
 		{
 			"type" : "edge",
 			"id" : "UndirectedAssociation",
@@ -359,7 +359,7 @@
 				"directionProperty"
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "DirectedAssociation",
@@ -384,7 +384,7 @@
 				"directionProperty"
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "UnnavigableDirectedAssociation",
@@ -409,7 +409,7 @@
 				"directionProperty"
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "QualifiedAssociation",
@@ -447,7 +447,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Generalization",
@@ -496,7 +496,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Realization",
@@ -513,7 +513,7 @@
 				"edgeProperties"
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Dependency",
@@ -577,7 +577,7 @@
 				}
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Aggregation",
@@ -601,7 +601,7 @@
 				"roleProperties"
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Composition",
@@ -625,7 +625,7 @@
 				"roleProperties"
 			]
 		},
-		
+
 		{
 			"type" : "edge",
 			"id" : "Annotation Edge",
@@ -640,9 +640,9 @@
 			"roles" : ["annotationEdge", "associationClassEdge", "annotatable"]
 		}
 	],
-	
+
 	"rules": {
-		
+
 		"morphingRules": [
 			{
 				"role" : "ClassMorph",
@@ -661,7 +661,7 @@
 				"baseMorphs" : ["Realization", "Dependency"]
 			}
 		],
-		
+
 		"connectionRules": [
 			{
 				"role" : "edge",
@@ -723,15 +723,15 @@
 					    "to" : "annotatable" }
 				]
 			}
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
  		],
-		
+
 		"containmentRules":	[
 			{
 				"role" : "Diagram",

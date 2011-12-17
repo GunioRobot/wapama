@@ -6,7 +6,7 @@
 		{
 			"type":		"node",
 			"id":			"Diagram",
-			"title":		"Diagram",	
+			"title":		"Diagram",
 			"groups":		[],
 			"description":	"",
 			"view":		"node.diagram.svg",
@@ -16,7 +16,7 @@
 		{
 			"type":		"node",
 			"id":			"rule",
-			"title":		"rule",	
+			"title":		"rule",
 			"groups":		[],
 			"description":	"",
 			"view":		"node.rule.svg",
@@ -40,7 +40,7 @@
 		{
 			"type":		"node",
 			"id":			"class",
-			"title":		"Class",	
+			"title":		"Class",
 			"groups":		[],
 			"description":	"",
 			"view":		"node.class.svg",
@@ -88,7 +88,7 @@
 		{
 			"type":		"edge",
 			"id":			"arc",
-			"title":		"Arc",	
+			"title":		"Arc",
 			"groups":		[],
 			"description":	"",
 			"view":		"edge.arc.svg",
@@ -109,9 +109,9 @@
 				}
 			]
 		}
-		
-		
-		
+
+
+
 	],
 	"rules":{
 		"connectionRules": [
@@ -137,6 +137,6 @@
 				]
 			}
 		]
-		
+
 	}
 }

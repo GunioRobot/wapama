@@ -28,7 +28,7 @@
 if(!WAPAMA) {var WAPAMA= {};}
 if(!WAPAMA.Core) {WAPAMA.Core = {};}
 if(!WAPAMA.Core.Math) {WAPAMA.Core.Math = {};}
-	
+
 /**
  * Calculate the middle point between two given points
  * @param {x:double, y:double} point1
@@ -41,12 +41,12 @@ WAPAMA.Core.Math.midPoint = function(point1, point2) {
 				y: (point1.y + point2.y) / 2.0
 			}
 }
-			
+
 /**
  * Returns a TRUE if the point is over a line (defined by
  * point1 and point 2). In Addition a threshold can be set,
  * which defines the weight of those line.
- * 
+ *
  * @param {int} pointX - Point X
  * @param {int} pointY - Point Y
  * @param {int} lPoint1X - Line first Point X
@@ -59,7 +59,7 @@ WAPAMA.Core.Math.midPoint = function(point1, point2) {
 WAPAMA.Core.Math.isPointInLine = function (pointX, pointY, lPoint1X, lPoint1Y, lPoint2X, lPoint2Y, offset) {
 
 	offset = offset ? Math.abs(offset) : 1;
-	
+
 	// Check if the edge is vertical
 	if(Math.abs(lPoint1X-lPoint2X)<=offset && Math.abs(pointX-lPoint1X)<=offset && pointY-Math.max(lPoint1Y, lPoint2Y)<=offset && Math.min(lPoint1Y, lPoint2Y)-pointY<=offset) {
 		return true
@@ -77,28 +77,28 @@ WAPAMA.Core.Math.isPointInLine = function (pointX, pointY, lPoint1X, lPoint1Y, l
 	if(pointY > Math.max(lPoint1Y, lPoint2Y) || pointY < Math.min(lPoint1Y, lPoint2Y)) {
 		return false
 	}
-			
+
 	var s = (lPoint1Y - lPoint2Y) / (lPoint1X - lPoint2X);
-	
+
 	return 	Math.abs(pointY - ((s * pointX) + lPoint1Y - s * lPoint1X)) < offset
 }
 
 /**
  * Get a boolean if the point is in the polygone
- * 
+ *
  */
 WAPAMA.Core.Math.isPointInEllipse = function (pointX, pointY, cx, cy, rx, ry) {
 
 	if(cx === undefined || cy === undefined || rx === undefined || ry === undefined) {
 		throw "WAPAMA.Core.Math.isPointInEllipse needs a ellipse with these properties: x, y, radiusX, radiusY"
-	} 
-	
+	}
+
     var tx = (pointX - cx) / rx;
     var ty = (pointY - cy) / ry;
-	
+
     return tx * tx + ty * ty < 1.0;
 }
-	
+
 /**
  * Get a boolean if the point is in the polygone
  * @param {int} pointX
@@ -110,18 +110,18 @@ WAPAMA.Core.Math.isPointInPolygone = function(pointX, pointY, polygone){
 	if (arguments.length < 3) {
 		throw "WAPAMA.Core.Math.isPointInPolygone needs two arguments"
 	}
-	
+
 	var lastIndex = polygone.length-1;
-	
+
 	if (polygone[0] !== polygone[lastIndex - 1] || polygone[1] !== polygone[lastIndex]) {
 		polygone.push(polygone[0]);
 		polygone.push(polygone[1]);
 	}
-	
+
 	var crossings = 0;
 
 	var x1, y1, x2, y2, d;
-	
+
     for (var i = 0; i < polygone.length - 3; ) {
         x1=polygone[i];
         y1=polygone[++i];
@@ -141,9 +141,9 @@ WAPAMA.Core.Math.isPointInPolygone = function(pointX, pointY, polygone){
 }
 
 /**
- *	Calculates the distance between a point and a line. It is also testable, if 
+ *	Calculates the distance between a point and a line. It is also testable, if
  *  the distance orthogonal to the line, matches the segment of the line.
- *  
+ *
  *  @param {float} lineP1
  *  	The starting point of the line segment
  *  @param {float} lineP2
@@ -154,27 +154,27 @@ WAPAMA.Core.Math.isPointInPolygone = function(pointX, pointY, polygone){
  *  	Flag to signal if only the segment of the line shell be evaluated.
  */
 WAPAMA.Core.Math.distancePointLinie = function(
-									lineP1, 
-									lineP2, 
-									point, 
+									lineP1,
+									lineP2,
+									point,
 									toSegmentOnly) {
-	
-	var intersectionPoint = 
-				WAPAMA.Core.Math.getPointOfIntersectionPointLine(lineP1, 
-																lineP2, 
-																point, 
+
+	var intersectionPoint =
+				WAPAMA.Core.Math.getPointOfIntersectionPointLine(lineP1,
+																lineP2,
+																point,
 																toSegmentOnly);
-	
+
 	if(!intersectionPoint) {
 		return null;
 	}
-	
+
 	return WAPAMA.Core.Math.getDistancePointToPoint(point, intersectionPoint);
 };
 
 /**
  * Calculates the distance between two points.
- * 
+ *
  * @param {point} point1
  * @param {point} point2
  */
@@ -185,7 +185,7 @@ WAPAMA.Core.Math.getDistancePointToPoint = function(point1, point2) {
 /**
  * Returns the intersection point of a line and a point that defines a line
  * orthogonal to the given line.
- * 
+ *
  *  @param {float} lineP1
  *  	The starting point of the line segment
  *  @param {float} lineP2
@@ -196,34 +196,34 @@ WAPAMA.Core.Math.getDistancePointToPoint = function(point1, point2) {
  *  	Flag to signal if only the segment of the line shell be evaluated.
  */
 WAPAMA.Core.Math.getPointOfIntersectionPointLine = function(
-													lineP1, 
-													lineP2, 
-													point, 
+													lineP1,
+													lineP2,
+													point,
 													onSegmentOnly) {
 
-	/* 
+	/*
 	 * [P3 - P1 - u(P2 - P1)] dot (P2 - P1) = 0
 	 * u =((x3-x1)(x2-x1)+(y3-y1)(y2-y1))/(p2-p1)²
 	 */
-	var denominator = Math.pow(lineP2.x - lineP1.x, 2) 
+	var denominator = Math.pow(lineP2.x - lineP1.x, 2)
 						+ Math.pow(lineP2.y - lineP1.y, 2);
 	if(denominator == 0) {
 		return undefined;
 	}
-	
-	var u = ((point.x - lineP1.x) * (lineP2.x - lineP1.x)  
+
+	var u = ((point.x - lineP1.x) * (lineP2.x - lineP1.x)
 			+ (point.y - lineP1.y) * (lineP2.y - lineP1.y))
 			/ denominator;
-			
+
 	if(onSegmentOnly) {
 		if (!(0 <= u && u <= 1)) {
 			return undefined;
 		}
 	}
-	
+
 	pointOfIntersection = new Object();
 	pointOfIntersection.x = lineP1.x + u * (lineP2.x - lineP1.x);
-	pointOfIntersection.y = lineP1.y + u * (lineP2.y - lineP1.y);	
-	
-	return pointOfIntersection;												
+	pointOfIntersection.y = lineP1.y + u * (lineP2.y - lineP1.y);
+
+	return pointOfIntersection;
 };

@@ -47,21 +47,21 @@ import org.wapama.web.stencilset.IDiagramStencilSetService;
 
 /**
  * A service to serve stencilsets.
- * 
+ *
  * @author Antoine Toulme
  *
  */
 public class StencilSetServiceImpl implements IDiagramStencilSetService {
 
     private static Logger _logger = LoggerFactory.getLogger(StencilSetServiceImpl.class);
-    
+
     private Map<String, IDiagramStencilSet> _registry = new HashMap<String, IDiagramStencilSet>();
     private Set<IDiagramStencilSetFactory> _factories = new HashSet<IDiagramStencilSetFactory>();
 
     @SuppressWarnings("rawtypes")
 	public StencilSetServiceImpl(ServletContext context) {
         initializeLocalStencilSets(context);
-        
+
         // if we are in the OSGi world:
         if (getClass().getClassLoader() instanceof BundleReference) {
             final BundleContext bundleContext = ((BundleReference) getClass().getClassLoader()).getBundle().getBundleContext();
@@ -106,7 +106,7 @@ public class StencilSetServiceImpl implements IDiagramStencilSetService {
             }
         }
     }
-    
+
     private Map<String, IDiagramStencilSet> assembleStencilSets(HttpServletRequest request) {
         Map<String, IDiagramStencilSet> stencilsets = new HashMap<String, IDiagramStencilSet>(_registry);
         for (IDiagramStencilSetFactory factory : _factories) {
@@ -116,12 +116,12 @@ public class StencilSetServiceImpl implements IDiagramStencilSetService {
         }
         return stencilsets;
     }
-    
-    
+
+
     public Collection<IDiagramStencilSet> getRegisteredStencilSets(HttpServletRequest request) {
         return assembleStencilSets(request).values();
     }
-    
+
     public IDiagramStencilSet findStencilSet(HttpServletRequest request, String name) {
         return assembleStencilSets(request).get(name);
     }

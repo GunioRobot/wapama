@@ -47,13 +47,13 @@ import org.wapama.web.plugin.IDiagramPluginService;
 
 /**
  * A service to manage plugins in the platform.
- * 
+ *
  * @author Antoine Toulme
  */
 public class PluginServiceImpl implements IDiagramPluginService {
-    
+
     private static PluginServiceImpl _instance = null;
-    
+
     /**
      * @param context the context needed for initialization
      * @return the singleton of PluginServiceImpl
@@ -65,22 +65,22 @@ public class PluginServiceImpl implements IDiagramPluginService {
         }
         return _instance;
     }
-    
+
     /**
-     * The default local plugins, available to the webapp 
-     * so that the default profile can provision its plugins. 
+     * The default local plugins, available to the webapp
+     * so that the default profile can provision its plugins.
      * Consumers through OSGi should use the service tracker
      * to get the plugins they need.
      */
     private static Map<String, IDiagramPlugin> LOCAL = null;
-    
+
     /**
      * Initialize the local plugins registry
      * @param context the servlet context necessary to grab
      * the files inside the servlet.
      * @return the set of local plugins organized by name
      */
-    public static Map<String, IDiagramPlugin> 
+    public static Map<String, IDiagramPlugin>
         getLocalPluginsRegistry(ServletContext context) {
         if (LOCAL == null) {
         	File rootFolder = new File(context.getRealPath("/"), "/js/Plugins");
@@ -90,7 +90,7 @@ public class PluginServiceImpl implements IDiagramPluginService {
         return LOCAL;
     }
 
-    
+
 
     private Map<String, IDiagramPlugin> _registry = new HashMap<String, IDiagramPlugin>();
     private Set<IDiagramPluginFactory> _factories = new HashSet<IDiagramPluginFactory>();
@@ -116,7 +116,7 @@ public class PluginServiceImpl implements IDiagramPluginService {
                     IDiagramPluginFactory service = (IDiagramPluginFactory) bundleContext.getService(sRef);
                     _factories.add(service);
                 }
-            } 
+            }
             ServiceTrackerCustomizer cust = new ServiceTrackerCustomizer() {
 
                 public void removedService(ServiceReference reference, Object service) {
@@ -135,11 +135,11 @@ public class PluginServiceImpl implements IDiagramPluginService {
                     IDiagramPluginFactory.class.getName(), cust);
             tracker.open();
             //make the service available to consumers as well.
-            bundleContext.registerService(IDiagramPluginService.class.getName(), this, 
+            bundleContext.registerService(IDiagramPluginService.class.getName(), this,
                     new Hashtable());
         }
     }
-    
+
     private Map<String, IDiagramPlugin> assemblePlugins(HttpServletRequest request) {
         Map<String, IDiagramPlugin> plugins = new HashMap<String, IDiagramPlugin>(_registry);
         for (IDiagramPluginFactory factory : _factories) {
@@ -150,11 +150,11 @@ public class PluginServiceImpl implements IDiagramPluginService {
         return plugins;
     }
 
-    
+
     public Collection<IDiagramPlugin> getRegisteredPlugins(HttpServletRequest request) {
         return assemblePlugins(request).values();
     }
-    
+
     public IDiagramPlugin findPlugin(HttpServletRequest request, String name) {
         return assemblePlugins(request).get(name);
     }

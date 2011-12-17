@@ -27,7 +27,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},					
+				},
 				{
 					"id":"label",
 					"type":"String",
@@ -75,7 +75,7 @@
 					"readonly":false,
 					"optional":false,
 					"length":"50"
-				},					
+				},
 				{
 					"id":"label",
 					"type":"String",
@@ -98,10 +98,10 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				}				
+				}
 			]
 		}
-	],	
+	],
 	"rules": {
 		"connectionRules": [
 			{
@@ -121,7 +121,7 @@
 						"to":["transition"]
 					}
 				]
-			}	
+			}
 		]
 	}
 }

@@ -1,6 +1,6 @@
 /**
  * @author nicolas.peters
- * 
+ *
  * Contains all strings for the default language (en-us).
  * Version 1 - 08/29/08
  */
@@ -282,7 +282,7 @@ WAPAMA.I18N.jPDLSupport.impDesc = "Import jPDL File";
 WAPAMA.I18N.jPDLSupport.impFailedReq = "Request for import of jPDL failed.";
 //WAPAMA.I18N.jPDLSupport.impFailedJson = "Transformation of jPDL failed.";
 WAPAMA.I18N.jPDLSupport.impFailedJsonAbort = "Import aborted.";
-WAPAMA.I18N.jPDLSupport.loadSseQuestionTitle = "jBPM stencil set extension needs to be loaded"; 
+WAPAMA.I18N.jPDLSupport.loadSseQuestionTitle = "jBPM stencil set extension needs to be loaded";
 WAPAMA.I18N.jPDLSupport.loadSseQuestionBody = "In order to import jPDL, the stencil set extension has to be loaded. Do you want to proceed?";
 WAPAMA.I18N.jPDLSupport.expFailedReq = "Request for export of model failed.";
 WAPAMA.I18N.jPDLSupport.expFailedXml = "Export to jPDL failed. Exporter reported: ";
@@ -488,7 +488,7 @@ WAPAMA.I18N.QueryEvaluator.noResult = "Query resulted in no match.";
 WAPAMA.I18N.QueryEvaluator.invalidResponse = "Invalid answer from server.";
 
 // if(!WAPAMA.I18N.QueryResultHighlighter) WAPAMA.I18N.QueryResultHighlighter = {};
-// 
+//
 // WAPAMA.I18N.QueryResultHighlighter.name = "Query Result Highlighter";
 
 /** New Language Properties: 08.12.2008 */
@@ -699,7 +699,7 @@ WAPAMA.I18N.Validator.bpmnLeadsToNoEnd = "The process will never reach a final s
 
 WAPAMA.I18N.Validator.syntaxErrorsTitle = "Syntax Error";
 WAPAMA.I18N.Validator.syntaxErrorsMsg = "The process cannot be validated because it contains syntax errors.";
-	
+
 WAPAMA.I18N.Validator.error = "Validation failed";
 WAPAMA.I18N.Validator.errorDesc = 'We are sorry, but the validation of your process failed. It would help us identifying the problem, if you sent us your process model via the "Send Feedback" function.';
 

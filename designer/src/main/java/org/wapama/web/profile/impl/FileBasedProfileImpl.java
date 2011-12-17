@@ -43,13 +43,13 @@ import org.wapama.web.profile.IDiagramProfile;
 
 /**
  * The implementation of the file-based profile for Wapama.
- * 
+ *
  * @author Antoine Toulme
  */
 public class FileBasedProfileImpl implements IDiagramProfile {
-    
+
     private static Logger _logger = LoggerFactory.getLogger(FileBasedProfileImpl.class);
-    
+
 
     private Map<String, IDiagramPlugin> _plugins = new LinkedHashMap<String, IDiagramPlugin>();
 
@@ -64,13 +64,13 @@ public class FileBasedProfileImpl implements IDiagramProfile {
 
 
     private String _extension;
-    
+
     public FileBasedProfileImpl(ServletContext servletContext, String filename) {
         initializeLocalPlugins(servletContext, filename);
     }
-    
+
     public FileBasedProfileImpl() {
-  
+
     }
 
     public String getTitle() {
@@ -88,7 +88,7 @@ public class FileBasedProfileImpl implements IDiagramProfile {
     public Collection<String> getPlugins() {
         return Collections.unmodifiableCollection(_plugins.keySet());
     }
-    
+
     private void initializeLocalPlugins(ServletContext context, String filename) {
         Map<String, IDiagramPlugin> registry = PluginServiceImpl.getLocalPluginsRegistry(context);
         //we read the default.xml file and make sense of it.
@@ -141,7 +141,7 @@ public class FileBasedProfileImpl implements IDiagramProfile {
     public String getSerializedModelExtension() {
         return _extension;
     }
-    
+
     public IDiagramMarshaller createMarshaller() {
         return null;
     }

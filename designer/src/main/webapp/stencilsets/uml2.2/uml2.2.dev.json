@@ -105,7 +105,7 @@
 		{
 			"type":        "node",
 			"id":          "Diagram",
-			"title":       "Diagram",	
+			"title":       "Diagram",
 			"title":       "Diagramm",
 			"groups":      ["Diagram"],
 			"description": "UML Class Diagram",
@@ -134,7 +134,7 @@
 		{
 			"type":        "node",
 			"id":          "SimpleClass",
-			"title":       "Class",	
+			"title":       "Class",
 			"title_de":    "Klasse",
 			"groups":      ["Structure"],
 			"groups_de":   ["Struktur"],
@@ -170,7 +170,7 @@
 		{
 			"type":        "node",
 			"id":          "ComplexClass",
-			"title":       "Class",	
+			"title":       "Class",
 			"title_de":    "Klasse",
 			"groups":      ["Structure"],
 			"groups_de":   ["Struktur"],
@@ -248,7 +248,7 @@
 		{
 			"type":        "node",
 			"id":          "Interface",
-			"title":       "Interface",	
+			"title":       "Interface",
 			"title_de":    "Schnittstelle",
 			"groups":      ["Structure"],
 			"groups_de":   ["Struktur"],
@@ -332,7 +332,7 @@
 			"icon":        "misc/nary.png",
 			"roles":       ["nary-association"],
 			"properties" : []
-		},		
+		},
 		/* [Edge] Undirected Association */
 		{
 			"type" : "edge",

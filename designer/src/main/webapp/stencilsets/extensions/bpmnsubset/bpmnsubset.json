@@ -75,7 +75,7 @@
 							"type":"String",
 							"value":"",
 							"width":100,
-							"optional":false 
+							"optional":false
 						},
 						{
 							"id":"from",
@@ -172,7 +172,7 @@
 					"refToView":"",
 					"length":"50",
 					"wrapLines":true
-				},	
+				},
 				{
 					"id":"signalRef",
 					"type":"String",

@@ -1,6 +1,6 @@
 ﻿/**
  * @author Garret.Bi
- * 
+ *
  * Contains all strings for the Japanese language.
  * Version 1 - 02/09/11
  */
@@ -282,7 +282,7 @@ WAPAMA.I18N.jPDLSupport.impDesc = "jPDL ファイルのインポート";
 WAPAMA.I18N.jPDLSupport.impFailedReq = "jPDL のインポートへの要求が失敗しました。";
 //WAPAMA.I18N.jPDLSupport.impFailedJson = "JA:Transformation of jPDL failed.";
 WAPAMA.I18N.jPDLSupport.impFailedJsonAbort = "インポートが中断しました。";
-WAPAMA.I18N.jPDLSupport.loadSseQuestionTitle = "jBPM ステンシルセット拡張がロードされなければなりません"; 
+WAPAMA.I18N.jPDLSupport.loadSseQuestionTitle = "jBPM ステンシルセット拡張がロードされなければなりません";
 WAPAMA.I18N.jPDLSupport.loadSseQuestionBody = "jPDL をインポートするためには、ステンシルセット拡張がロードされなけれbあなりません。実行しますか?";
 WAPAMA.I18N.jPDLSupport.expFailedReq = "モデルのエキスポート要求が失敗しました。";
 WAPAMA.I18N.jPDLSupport.expFailedXml = "jPDL へのエキスポートが失敗しました。 エキスポートの報告: ";
@@ -488,7 +488,7 @@ WAPAMA.I18N.QueryEvaluator.noResult = "クエリ―結果がマッチしませ�
 WAPAMA.I18N.QueryEvaluator.invalidResponse = "サーバーからの無効な回答です。";
 
 // if(!WAPAMA.I18N.QueryResultHighlighter) WAPAMA.I18N.QueryResultHighlighter = {};
-// 
+//
 // WAPAMA.I18N.QueryResultHighlighter.name = "JA:Query Result Highlighter";
 
 /** New Language Properties: 08.12.2008 */
@@ -699,7 +699,7 @@ WAPAMA.I18N.Validator.bpmnLeadsToNoEnd = "プロセスは最終状態へ到達�
 
 WAPAMA.I18N.Validator.syntaxErrorsTitle = "シンタックスエラー";
 WAPAMA.I18N.Validator.syntaxErrorsMsg = "シンタックスエラーのため、プロセスは検証できません。";
-    
+
 WAPAMA.I18N.Validator.error = "検証失敗";
 WAPAMA.I18N.Validator.errorDesc = 'プロセスの検証に失敗しました。"Feedbackの送信" 機能からプロセスモデルを送信いたたければ、問題を切り分けることができるかもしれません。';
 

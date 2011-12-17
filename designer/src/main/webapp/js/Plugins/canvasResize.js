@@ -32,7 +32,7 @@ if (!WAPAMA.Plugins) {
 WAPAMA.Plugins.CanvasResize = Clazz.extend({
 
     construct: function(facade){
-		
+
         this.facade = facade;
 
 		new WAPAMA.Plugins.CanvasResizeButton( this.facade.getCanvas(), "N", this.resize.bind(this));
@@ -41,14 +41,14 @@ WAPAMA.Plugins.CanvasResize = Clazz.extend({
 		new WAPAMA.Plugins.CanvasResizeButton( this.facade.getCanvas(), "S", this.resize.bind(this));
 
     },
-    
+
     resize: function( position, shrink ){
-    	
+
     	resizeCanvas = function(position, extentionSize, facade) {
         	var canvas 		= facade.getCanvas();
     		var b 			= canvas.bounds;
     		var scrollNode 	= facade.getCanvas().getHTMLContainer().parentNode.parentNode;
-    		
+
     		if( position == "E" || position == "W"){
     			canvas.setSize({width: (b.width() + extentionSize)*canvas.zoomLevel, height: (b.height())*canvas.zoomLevel})
 
@@ -57,7 +57,7 @@ WAPAMA.Plugins.CanvasResize = Clazz.extend({
     		}
 
     		if( position == "N" || position == "W"){
-    			
+
     			var move = position == "N" ? {x: 0, y: extentionSize}: {x: extentionSize, y: 0 };
 
     			// Move all children
@@ -71,17 +71,17 @@ WAPAMA.Plugins.CanvasResize = Clazz.extend({
     		} else if( position == "E" ){
     			scrollNode.scrollLeft += extentionSize;
     		}
-    		
+
     		canvas.update();
     		facade.updateSelection();
         }
-		
+
 		var commandClass = WAPAMA.Core.Command.extend({
 			construct: function(position, extentionSize, facade){
 				this.position = position;
 				this.extentionSize = extentionSize;
 				this.facade = facade;
-			},			
+			},
 			execute: function(){
 				resizeCanvas(this.position, this.extentionSize, this.facade);
 			},
@@ -91,41 +91,41 @@ WAPAMA.Plugins.CanvasResize = Clazz.extend({
 			update:function(){
 			}
 		});
-		
+
 		var extentionSize = WAPAMA.CONFIG.CANVAS_RESIZE_INTERVAL;
 		if(shrink) extentionSize = -extentionSize;
 		var command = new commandClass(position, extentionSize, this.facade);
-		
+
 		this.facade.executeCommands([command]);
-			
+
     }
-    
+
 });
 
 
 WAPAMA.Plugins.CanvasResizeButton = Clazz.extend({
-	
+
 	construct: function(canvas, position, callback){
 
 		this.canvas = canvas;
 		var parentNode = canvas.getHTMLContainer().parentNode.parentNode.parentNode;
-		
+
 		window.myParent=parentNode
 		var scrollNode 	= parentNode.firstChild;
 		var svgRootNode = scrollNode.firstChild.firstChild;
 		// The buttons
 		var buttonGrow 	= WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", parentNode, ['div', { 'class': 'canvas_resize_indicator canvas_resize_indicator_grow' + ' ' + position ,'title':WAPAMA.I18N.RESIZE.tipGrow+WAPAMA.I18N.RESIZE[position]}]);
 		var buttonShrink 	= WAPAMA.Editor.graft("http://www.w3.org/1999/xhtml", parentNode, ['div', { 'class': 'canvas_resize_indicator canvas_resize_indicator_shrink' + ' ' + position ,'title':WAPAMA.I18N.RESIZE.tipShrink+WAPAMA.I18N.RESIZE[position]}]);
-		
+
 		// Defines a callback which gives back
-		// a boolean if the current mouse event 
+		// a boolean if the current mouse event
 		// is over the particular button area
 		var offSetWidth = 60;
 		var isOverOffset = function(event){
-			
+
 			if(event.target!=parentNode && event.target!=scrollNode&& event.target!=scrollNode.firstChild&& event.target!=svgRootNode&& event.target!=scrollNode)
 				return false;
-			
+
 			//if(inCanvas){offSetWidth=30}else{offSetWidth=30*2}
 			//Safari work around
 			var X=event.layerX
@@ -149,13 +149,13 @@ WAPAMA.Plugins.CanvasResizeButton = Clazz.extend({
 
 				return Y > scrollNode.scrollHeight -offsetDown- offSetWidth;
 			}
-			
+
 			return false;
 		}
-		
+
 		var showButtons = (function() {
-			buttonGrow.show(); 
-			
+			buttonGrow.show();
+
 			var x1, y1, x2, y2;
 			try {
 				var bb = this.canvas.getRootNode().childNodes[1].getBBox();
@@ -181,24 +181,24 @@ WAPAMA.Plugins.CanvasResizeButton = Clazz.extend({
 					}
 				});
 			}
-			
+
 			var w = canvas.bounds.width();
 			var h = canvas.bounds.height();
-			
+
 			var isEmpty = canvas.getChildNodes().size()==0;
-		
+
 			if(position=="N" && (y1>WAPAMA.CONFIG.CANVAS_RESIZE_INTERVAL || (isEmpty && h>WAPAMA.CONFIG.CANVAS_RESIZE_INTERVAL))) buttonShrink.show();
 			else if(position=="E" && (w-x2)>WAPAMA.CONFIG.CANVAS_RESIZE_INTERVAL) buttonShrink.show();
 			else if(position=="S" && (h-y2)>WAPAMA.CONFIG.CANVAS_RESIZE_INTERVAL) buttonShrink.show();
 			else if(position=="W" && (x1>WAPAMA.CONFIG.CANVAS_RESIZE_INTERVAL || (isEmpty && w>WAPAMA.CONFIG.CANVAS_RESIZE_INTERVAL))) buttonShrink.show();
 			else buttonShrink.hide();
 		}).bind(this);
-		
+
 		var hideButtons = function() {
-			buttonGrow.hide(); 
+			buttonGrow.hide();
 			buttonShrink.hide();
-		}	
-		
+		}
+
 		// If the mouse move is over the button area, show the button
 		scrollNode.addEventListener(	WAPAMA.CONFIG.EVENT_MOUSEMOVE, 	function(event){ if( isOverOffset(event) ){showButtons();} else {hideButtons()}} , false );
 		// If the mouse is over the button, show them
@@ -208,15 +208,15 @@ WAPAMA.Plugins.CanvasResizeButton = Clazz.extend({
 		//scrollNode.addEventListener(		WAPAMA.CONFIG.EVENT_MOUSEOUT, 	function(event){button.hide()}, true )
 		parentNode.addEventListener(	WAPAMA.CONFIG.EVENT_MOUSEOUT, 	function(event){hideButtons()} , true );
 		//svgRootNode.addEventListener(	WAPAMA.CONFIG.EVENT_MOUSEOUT, 	function(event){ inCanvas = false } , true );
-		
+
 		// Hide the button initialy
 		hideButtons();
-		
+
 		// Add the callbacks
 		buttonGrow.addEventListener('click', function(){callback( position ); showButtons();}, true);
 		buttonShrink.addEventListener('click', function(){callback( position, true ); showButtons();}, true);
 	}
-	
+
 
 });
 

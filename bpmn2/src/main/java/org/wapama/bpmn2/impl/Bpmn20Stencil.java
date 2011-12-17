@@ -38,12 +38,12 @@ import org.eclipse.emf.ecore.EClass;
  */
 public enum Bpmn20Stencil {
 
-    Task(Bpmn2Package.eINSTANCE.getTask()), 
+    Task(Bpmn2Package.eINSTANCE.getTask()),
     BPMNDiagram(Bpmn2Package.eINSTANCE.getDefinitions()),
-    Pool(Bpmn2Package.eINSTANCE.getProcess()), 
+    Pool(Bpmn2Package.eINSTANCE.getProcess()),
     Lane(Bpmn2Package.eINSTANCE.getLane()),
     SequenceFlow(Bpmn2Package.eINSTANCE.getSequenceFlow()),
-    Task_None(Bpmn2Package.eINSTANCE.getTask()), 
+    Task_None(Bpmn2Package.eINSTANCE.getTask()),
     Task_Script(Bpmn2Package.eINSTANCE.getScriptTask()),
     Task_User(Bpmn2Package.eINSTANCE.getUserTask()),
     Task_Business_Rule(Bpmn2Package.eINSTANCE.getBusinessRuleTask()),
@@ -96,29 +96,29 @@ public enum Bpmn20Stencil {
     Association_Undirected(Bpmn2Package.eINSTANCE.getAssociation(), AssociationDirection.NONE),
     Association_Unidirectional(Bpmn2Package.eINSTANCE.getAssociation(), AssociationDirection.ONE),
     Association_Bidirectional(Bpmn2Package.eINSTANCE.getAssociation(), AssociationDirection.BOTH);
-    
-    
-    
+
+
+
     public String id;
     public EClass className;
     public EClass eventType;
     public AssociationDirection associationDirection;
-    
+
     private Bpmn20Stencil(EClass className) {
         this.className = className;
     }
-    
+
     private Bpmn20Stencil(EClass className, AssociationDirection assocDir) {
         this.className = className;
         this.associationDirection = assocDir;
     }
-    
+
     private Bpmn20Stencil(EClass className, EClass eventType) {
         this.className = className;
         this.eventType = eventType;
     }
-    
-    
+
+
     public static BaseElement createElement(String stencilId, String taskType ) {
         Bpmn20Stencil stencil = Bpmn20Stencil.valueOf(taskType == null ? stencilId : stencilId + "_" + taskType.replaceAll(" ", "_"));
         if (stencil == null) {
